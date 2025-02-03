@@ -22,7 +22,7 @@ namespace KT
         struct iterator;
         struct reverse_iterator;
         using reverse_iterator = reverse_iterator;
-        using const_reverse_iterator = reverse_iterator;
+        using const_reverse_iterator = const reverse_iterator;
         using iterator = iterator;
         using const_iterator = const iterator;
         using value_type = type;
