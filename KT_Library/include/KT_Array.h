@@ -1,4 +1,11 @@
 #pragma once
+/*****************************************************************//**
+ * \file   KT_Array.h
+ * \brief  This file contains the code for KT::Array
+ * 
+ * \author Kroktur
+ * \date   February 2025
+ *********************************************************************/
 //include
 #include <exception>
 #include <initializer_list>
