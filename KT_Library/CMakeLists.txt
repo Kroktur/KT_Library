@@ -9,6 +9,8 @@ set(HEADERS
  ${HEADER_DIR}/KT_Vector.h
  ${HEADER_DIR}/KT_List.h
  ${HEADER_DIR}/KT_Algorithm.h
+ ${HEADER_DIR}/KT_Container.h
+ ${HEADER_DIR}/KT_IntrusiveList.h
 )
 set(SOURCES
 ${SOURCE_DIR}/KT_Algorithm.cpp

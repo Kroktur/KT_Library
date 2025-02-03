@@ -2,8 +2,44 @@
 #include "KT_Array.h"
 #include "KT_List.h"
 #include "KT_Vector.h"
+#include "KT_IntrusiveList.h"
 int main()
 {
+	KT::Node<int> ra(1);
+	KT::Node<int> rb(2);
+	KT::Node<int> rc(3);
+	KT::Node<int> rd(4);
+	KT::Node<int> re(5);
+	KT::Node<int> rf(6);
+	KT::Node<int> rg(7);
+
+
+
+	KT::IntrusiveList<int>tst;
+	tst.pushBack(ra);
+	tst.pushBack(rg);
+	tst.erase(tst.begin());
+	KT::IntrusiveList<int>a;
+	a.pushBack(rb);
+	a.pushBack(rc);
+	std::cout << a.at(0).data << std::endl;
+	std::cout << a.Empty() << std::endl;
+	a.pushBack(rd);
+
+	
+	KT::IntrusiveList<int>b;
+	std::cout << a.Size() << std::endl;
+	b.assign(a.begin(), a.end());
+	auto rr = a.begin();
+	++rr;
+	/*std::cout << rr->data << std::endl;*/
+	std::cout << b.Size() << std::endl;
+	auto it = b.begin();
+	//List<int>::advanceptr(it, 12);
+	b.erase(it);
+	std::cout << b[0].data << std::endl;
+
+
 	//KT::List<int*>tst;
 	//tst.pushBack(new int(5));
 	//delete tst[0];
@@ -34,7 +70,7 @@ int main()
 	////List<int>::advanceptr(it, 12);
 	//b.erase(it);
 	//std::cout << b[0] << std::endl;
-	KT::Vector<int> a;
+	/*KT::Vector<int> a;
 	KT::Vector<int> b{ 1,4,3,2 };
 	KT::Vector<int> c(b);
 	std::cout << c << std::endl;
@@ -71,5 +107,5 @@ int main()
 	std::cout << c << std::endl;
 	std::cout << t << std::endl;
 	c.pushBack(1313);
-	std::cout << t << std::endl;
+	std::cout << t << std::endl;*/
 }

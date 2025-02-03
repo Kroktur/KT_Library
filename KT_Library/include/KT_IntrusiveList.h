@@ -1,37 +1,50 @@
 #pragma once 
 /*****************************************************************//**
  * \file   KT_Array.h
- * \brief  This file contains the code for KT::List
+ * \brief  This file contains the code for KT::IntrusiveList
  *
  * \author Kroktur
  * \date   February 2025
  *********************************************************************/
-//include 
+ //include 
 #include <exception>
 #include <initializer_list>
 #include <sstream>
 //namespace
 namespace KT
 {
+	template <typename type>
+	struct Node
+	{
+		Node() :Next(nullptr), Previous(nullptr)
+		{
+		}
+		Node(const  type& val) :data(val), Next(nullptr), Previous(nullptr)
+		{
+		}
+		type data;
+		Node* Next;
+		Node* Previous;
+	};
+
 	template<typename type>
-	class List
+	class IntrusiveList
 	{
 	public:
-		struct Node;
 		struct iterator;
 		struct reverse_iterator;
 		using reverse_iterator = reverse_iterator;
 		using const_reverse_iterator = reverse_iterator;
 		using iterator = iterator;
 		using const_iterator = const iterator;
-		using value_type = type;
-		using pointer = type*;
-		using const_pointer = const type*;
-		using reference = type&;
-		using const_reference = const type&;
-		~List() { clear(); }
-		List() :size(0) { anchor.Next = &anchor; anchor.Previous = &anchor; }
-		List(const List& tab) :size(0)
+		using value_type = Node<type>;
+		using pointer = Node<type>*;
+		using const_pointer = const Node<type>*;
+		using reference = Node<type>&;
+		using const_reference = const Node<type>&;
+		~IntrusiveList() { clear(); }
+		IntrusiveList() :size(0) { anchor.Next = &anchor; anchor.Previous = &anchor; }
+		IntrusiveList(const IntrusiveList& tab) :size(0)
 		{
 			anchor.Next = &anchor; anchor.Previous = &anchor;
 			for (auto it = tab.begin(); it != tab.end(); ++it)
@@ -39,7 +52,7 @@ namespace KT
 				pushBack(*it);
 			}
 		}
-		List(std::initializer_list<type> list)
+		IntrusiveList(std::initializer_list<Node<type>> list)
 		{
 			anchor.Next = &anchor; anchor.Previous = &anchor;
 			for (size_t idx = 0; idx < list.size(); ++idx)
@@ -61,24 +74,24 @@ namespace KT
 			{
 				for (size_t i = size; i < idx; ++i)
 				{
-					pushBack(type{});
+					pushBack(Node<type>{});
 				}
 			}
 
 		}
-		void swap(List<type>& Newlist)
+		void swap(IntrusiveList<Node<type>>& Newlist)
 		{
-			List<type> tmp = *this;
+			IntrusiveList<type> tmp = *this;
 			*this = Newlist;
 			Newlist = tmp;
 		}
-		void pushBack(const type& val)
+		void pushBack(const Node<type>& val)
 		{
-			Node* NewVal = new Node(val);
-			anchor.Previous->Next = NewVal;
-			NewVal->Previous = anchor.Previous;
-			NewVal->Next = &anchor;
-			anchor.Previous = NewVal;
+			Node<type>* newval = new Node<type>(val);
+			anchor.Previous->Next = newval;
+			newval->Previous = anchor.Previous;
+			newval->Next = &anchor;
+			anchor.Previous = newval;
 			++size;
 		}
 		void popBack()
@@ -95,13 +108,14 @@ namespace KT
 
 			--size;
 		}
-		void pushFront(const type& val)
+		void pushFront(const Node<type>& val)
 		{
-			Node* NewVal = new Node(val);
-			anchor.Next->Previous = NewVal;
-			NewVal->Next = anchor.Next;
-			NewVal->Previous = &anchor;
-			anchor.Next = NewVal;
+			Node<type>* newval = new Node<type>(val);
+			anchor.Next->Previous = newval;
+			newval->Next = anchor.Next;
+			newval->Previous = &anchor;
+			anchor.Next = newval;
+
 			++size;
 		}
 		void popFront()
@@ -182,7 +196,7 @@ namespace KT
 		{
 			if (find(it) == end())
 				throw std::out_of_range("out of range");
-			auto supr = it.m_node;
+			auto supr = anchor.Next;
 			supr->Previous->Next = supr->Next;
 			supr->Next->Previous = supr->Previous;
 
@@ -228,7 +242,7 @@ namespace KT
 				popFront();
 
 		}
-		List& operator=(const List& tab)
+		IntrusiveList& operator=(const IntrusiveList& tab)
 		{
 			clear();
 			for (auto it = tab.begin(); it != tab.end(); ++it)
@@ -245,7 +259,7 @@ namespace KT
 				pushBack(*it);
 			}
 		}
-		void assign(size_t sizeofvec, type data)
+		void assign(size_t sizeofvec,  const Node<type>& data)
 		{
 			clear();
 			for (size_t i = 0; i < sizeofvec; ++i)
@@ -253,7 +267,7 @@ namespace KT
 				pushBack(data);
 			}
 		}
-		void assign(std::initializer_list<type> list)
+		void assign(std::initializer_list<Node<type>> list)
 		{
 			clear();
 			for (size_t i = 0; i < list.size(); ++i)
@@ -299,12 +313,12 @@ namespace KT
 		{
 			return std::numeric_limits<size_t>::max() / sizeof(type);
 		}
-		void insert(iterator newit, const type& value)
+		void insert(iterator newit, const Node<type>& value)
 		{
 			if (find(newit) == end())
 				throw std::out_of_range("Out of range");
 			auto oldnode = newit.m_node;
-			Node* nodetoadd = new Node(value);
+			Node<type>* nodetoadd = new Node<type>(value);
 			nodetoadd->Next = oldnode;
 			nodetoadd->Previous = oldnode->Previous;
 			oldnode->Previous->Next = nodetoadd;
@@ -331,33 +345,22 @@ namespace KT
 		}
 	private:
 
-		struct Node
-		{
-			Node() :Next(nullptr), Previous(nullptr)
-			{
-			}
-			Node(const  type& val) :data(val), Next(nullptr), Previous(nullptr)
-			{
-			}
-			type data;
-			Node* Next;
-			Node* Previous;
-		};
+		
 
 		struct iterator {
 			//this iterator compatible with stl
 			using iterator_category = std::random_access_iterator_tag;
-			using value_type = type;
+			using value_type = Node<type>;
 			using difference_type = std::ptrdiff_t;
-			using pointer = type*;
-			using reference = type&;
-			friend List;
-			iterator(Node* ptr) : m_node(ptr) {}
+			using pointer = Node<type>*;
+			using reference = Node<type>&;
+			friend IntrusiveList;
+			iterator(Node<type>* ptr) : m_node(ptr) {}
 			reference operator*()
 			{
-				return m_node->data;
+				return *m_node;
 			}
-			Node* operator->()
+			pointer* operator->()
 			{
 				return m_node;
 			}
@@ -416,23 +419,23 @@ namespace KT
 				return m_node != other.m_node;
 			}
 		private:
-			Node* m_node;
+			Node<type>* m_node;
 		};
 
 		struct reverse_iterator {
 			//this iterator compatible with stl
 			using iterator_category = std::random_access_iterator_tag;
-			using value_type = type;
+			using value_type = Node<type>;
 			using difference_type = std::ptrdiff_t;
-			using pointer = type*;
-			using reference = type&;
-			friend List;
-			reverse_iterator(Node* ptr) : m_node(ptr) {}
+			using pointer = Node<type>*;
+			using reference = Node<type>&;
+			friend IntrusiveList;
+			reverse_iterator(Node<type>* ptr) : m_node(ptr) {}
 			reference operator*()
 			{
-				return m_node->data;
+				return *m_node;
 			}
-			Node* operator->()
+			pointer* operator->()
 			{
 				return m_node;
 			}
@@ -491,20 +494,20 @@ namespace KT
 				return m_node != other.m_node;
 			}
 		private:
-			Node* m_node;
+			Node<type>* m_node;
 		};
-		Node anchor;
+		Node<int> anchor;
 		size_t size;
 	};
 }
-//template<typename type>
-//std::ostream& operator<<(std::ostream& os, const KT::IntrusiveList<type>& tab)
-//{
-//	if (tab.Empty())
-//		return os;
-//	os << "(";
-//	for (auto i = 0; i < tab.Size() - 1; ++i)
-//		os << tab[i] << ", ";
-//	os << tab[tab.Size() - 1] << ")";
-//	return os;
-//}
+template< typename type>
+std::ostream& operator<<(std::ostream& os, const KT::Node<type> & tab)
+{
+	if (tab.Empty())
+		return os;
+	os << "(";
+	for (auto i = 0; i < tab.Size() - 1; ++i)
+		os << tab[i] << ", ";
+	os << tab[tab.Size() - 1] << ")";
+	return os;
+}
