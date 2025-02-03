@@ -4,39 +4,39 @@
 #include "KT_Vector.h"
 int main()
 {
-	KT::List<int*>tst;
-	tst.pushBack(new int(5));
-	delete tst[0];ss
-	tst.erase(tst.begin());
+	//KT::List<int*>tst;
+	//tst.pushBack(new int(5));
+	//delete tst[0];
+	//tst.erase(tst.begin());
 
-	KT::List<int>a;
-	a.pushBack(1);
-	a.pushBack(2);
-	std::cout << a.at(0) << std::endl;
-	std::cout << a.Empty() << std::endl;
-	a.pushBack(3);
-	a.pushBack(4);
-	a.pushBack(8);
-	a.pushBack(8);
-	a.pushBack(8);
-	a.pushBack(8);
-	a.pushBack(8);
-	a.pushBack(8);
-	a.pushBack(8);
-	KT::List<int>b;
-	std::cout << a.Size() << std::endl;
-	b.assign(a.begin(), a.end());
-	auto rr = a.begin();
-	++rr;
-	std::cout << *rr << std::endl;
-	std::cout << b.Size() << std::endl;
-	auto it = b.begin();
-	//List<int>::advanceptr(it, 12);
-	b.erase(it);
-	std::cout << b[0] << std::endl;
-	/*MyVecteur<int> a;
-	MyVecteur<int> b{ 1,4,3,2 };
-	MyVecteur<int> c(b);
+	//KT::List<int>a;
+	//a.pushBack(1);
+	//a.pushBack(2);
+	//std::cout << a.at(0) << std::endl;
+	//std::cout << a.Empty() << std::endl;
+	//a.pushBack(3);
+	//a.pushBack(4);
+	//a.pushBack(8);
+	//a.pushBack(8);
+	//a.pushBack(8);
+	//a.pushBack(8);
+	//a.pushBack(8);
+	//a.pushBack(8);
+	//a.pushBack(8);
+	//KT::List<int>b;
+	//std::cout << a.Size() << std::endl;
+	//b.assign(a.begin(), a.end());
+	//auto rr = a.begin();
+	//++rr;
+	//std::cout << *rr << std::endl;
+	//std::cout << b.Size() << std::endl;
+	//auto it = b.begin();
+	////List<int>::advanceptr(it, 12);
+	//b.erase(it);
+	//std::cout << b[0] << std::endl;
+	KT::Vector<int> a;
+	KT::Vector<int> b{ 1,4,3,2 };
+	KT::Vector<int> c(b);
 	std::cout << c << std::endl;
 	c.resize(3);
 	c.pushBack(13);
@@ -66,10 +66,10 @@ int main()
 	c.insert(c.begin(), 100);
 	std::cout << c << std::endl;
 	std::cout << c.at(0) << std::endl;
-	MyVecteur<int> t = c;
+	KT::Vector<int> t = c;
 	t.clear();
 	std::cout << c << std::endl;
 	std::cout << t << std::endl;
 	c.pushBack(1313);
-	std::cout << t << std::endl;*/
+	std::cout << t << std::endl;
 }

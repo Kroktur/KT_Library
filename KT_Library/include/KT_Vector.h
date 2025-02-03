@@ -39,7 +39,7 @@ namespace KT
             resize(tab.Size());
             std::copy(tab.begin(), tab.end(), m_data);
         }
-        Vector(std::initializer_list<type> list)
+        Vector(std::initializer_list<type> list):capacity(0), size(0), m_data(nullptr)
         {
             reserve(list.size() * 2);
             resize(list.size());
