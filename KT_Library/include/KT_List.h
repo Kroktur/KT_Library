@@ -21,9 +21,9 @@ namespace KT
 		struct iterator;
 		struct const_iterator;
 		struct reverse_iterator;
-		struct cons_reverse_iterator;
+		struct const_reverse_iterator;
 		using reverse_iterator = reverse_iterator;
-		using const_reverse_iterator = cons_reverse_iterator;
+		using const_reverse_iterator = const_reverse_iterator;
 		using iterator = iterator;
 		using const_iterator = const_iterator;
 		using value_type = type;
@@ -41,7 +41,7 @@ namespace KT
 				pushBack(*it);
 			}
 		}
-		List(std::initializer_list<type> list) :size(0)
+		List(const std::initializer_list<type>& list) :size(0)
 		{
 			anchor.Next = &anchor; anchor.Previous = &anchor;
 			for (const auto& element : list)
@@ -231,7 +231,7 @@ namespace KT
 				popFront();
 			resize(0);
 		}
-		List& operator=(List tab)
+		List& operator=(const List& tab)
 		{
 			clear();
 			for (auto it = tab.begin(); it != tab.end(); ++it)
@@ -240,7 +240,7 @@ namespace KT
 			}
 			return *this;
 		}
-		void assign(iterator begin, iterator end)
+		void assign(const iterator& begin, const iterator& end)
 		{
 			clear();
 			for (auto it = begin; it != end; ++it)
@@ -248,7 +248,7 @@ namespace KT
 				pushBack(*it);
 			}
 		}
-		void assign(size_t sizeofvec, type data)
+		void assign(const size_t& sizeofvec, const value_type& data)
 		{
 			clear();
 			for (size_t i = 0; i < sizeofvec; ++i)
@@ -256,7 +256,7 @@ namespace KT
 				pushBack(data);
 			}
 		}
-		void assign(std::initializer_list<type> list)
+		void assign(const std::initializer_list<type>& list)
 		{
 			clear();
 			for (const auto& element : list)
@@ -264,7 +264,7 @@ namespace KT
 				pushBack(element);
 			}
 		}
-		void static advanceptr(iterator& dest, int distance)
+		void static advanceptr(iterator& dest, const int& distance)
 		{
 			if (distance < 0)
 			{
@@ -302,7 +302,7 @@ namespace KT
 		{
 			return std::numeric_limits<size_t>::max() / sizeof(type);
 		}
-		void insert(iterator newit, const type& value)
+		void insert(const iterator&  newit, const value_type& value)
 		{
 			if (find(newit) == end())
 				throw std::out_of_range("Out of range");
@@ -569,7 +569,7 @@ namespace KT
 		private:
 			Node* m_node;
 		};
-		struct cont_reverse_iterator {
+		struct const_reverse_iterator {
 			//this iterator compatible with stl
 			using iterator_category = std::random_access_iterator_tag;
 			using value_type = const type;
@@ -577,7 +577,7 @@ namespace KT
 			using pointer = const type*;
 			using reference = const type&;
 			friend List;
-			cont_reverse_iterator(const Node* ptr) : m_node(ptr) {}
+			const_reverse_iterator(const Node* ptr) : m_node(ptr) {}
 			reference operator*()
 			{
 				return m_node->data;
@@ -586,35 +586,35 @@ namespace KT
 			{
 				return m_node;
 			}
-			cont_reverse_iterator& operator++()
+			const_reverse_iterator& operator++()
 			{
 				m_node = m_node->Previous;
 				return *this;
 			}
-			cont_reverse_iterator& operator--()
+			const_reverse_iterator& operator--()
 			{
 				m_node = m_node->Next;
 				return *this;
 			}
-			cont_reverse_iterator operator+(difference_type n) const
+			const_reverse_iterator operator+(difference_type n) const
 			{
 				auto curentnode = m_node;
 				for (size_t i = 0; i < n; ++i)
 				{
 					curentnode = curentnode->Previous;
 				}
-				return cont_reverse_iterator(curentnode);
+				return const_reverse_iterator(curentnode);
 			}
-			cont_reverse_iterator operator-(difference_type n) const
+			const_reverse_iterator operator-(difference_type n) const
 			{
 				auto curentnode = m_node;
 				for (size_t i = 0; i < n; ++i)
 				{
 					curentnode = curentnode->Next;
 				}
-				return cont_reverse_iterator(curentnode);
+				return const_reverse_iterator(curentnode);
 			}
-			difference_type operator-(const cont_reverse_iterator& other) const
+			difference_type operator-(const const_reverse_iterator& other) const
 			{
 				difference_type diff = 0;
 				for (auto i = m_node; i != other; --i)
@@ -623,7 +623,7 @@ namespace KT
 				}
 				return diff;
 			}
-			difference_type operator+(const cont_reverse_iterator& other) const
+			difference_type operator+(const const_reverse_iterator& other) const
 			{
 				difference_type diff = 0;
 				for (auto i = m_node; i != other; ++i)
@@ -632,11 +632,11 @@ namespace KT
 				}
 				return diff;
 			}
-			bool operator==(const cont_reverse_iterator& other) const
+			bool operator==(const const_reverse_iterator& other) const
 			{
 				return m_node == other.m_node;
 			}
-			bool operator!=(const cont_reverse_iterator& other) const
+			bool operator!=(const const_reverse_iterator& other) const
 			{
 				return m_node != other.m_node;
 			}

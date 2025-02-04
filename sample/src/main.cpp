@@ -82,8 +82,8 @@ int main()
 	std::cout << "array.at(0) == 1 :";
 	std::cout << testArrayconst.at(0) << std::endl;
 
-	std::cout << "*Begin && *data = 1 : ";
-	std::cout << *testArrayconst.begin() << "," << *testArrayconst.data() << std::endl;
+	std::cout << "*Begin && *data && rbegin = 1,1,5 : ";
+	std::cout << *testArrayconst.begin() << "," << *testArrayconst.data() << "," << *testArrayconst.rbegin() << std::endl;
 
 	std::cout << "front && end = 1 et 5 :";
 	std::cout << testArrayconst.front() << "," << testArrayconst.back() << std::endl;
@@ -91,115 +91,115 @@ int main()
 
 	// test Vector
 	
-	//KT::Vector<int> testVector;
+	KT::Vector<int> testVector;
 
-	//KT::Vector<int> testVector2{ 1,2,3,4,5 };
+	KT::Vector<int> testVector2{ 1,2,3,4,5 };
 
-	//KT::Vector<int> testVector3(testVector2);
+	KT::Vector<int> testVector3(testVector2);
 
-	//KT::Vector<int>testVector4{ 1,2,3 };
+	KT::Vector<int>testVector4{ 1,2,3 };
 
-	//testVector = testVector3;
+	testVector = testVector3;
 
-	//std::cout << "Size  && max size = 5 :";
-	//std::cout << testVector.Size() << "," << testVector.max_size() << std::endl;
+	std::cout << "Size  && max size = 5 :";
+	std::cout << testVector.Size() << "," << testVector.max_size() << std::endl;
 
-	//std::cout << "vector == 1,2,3,4,5 : ";
-	//std::cout << testVector << std::endl;
+	std::cout << "vector == 1,2,3,4,5 : ";
+	std::cout << testVector << std::endl;
 
-	//std::cout << "vector2 == 1,2,3,4,5 : ";
-	//std::cout << testVector2 << std::endl;
+	std::cout << "vector2 == 1,2,3,4,5 : ";
+	std::cout << testVector2 << std::endl;
 
-	//std::cout << "vector3 == 1,2,3,4,5 : ";
-	//std::cout << testVector3 << std::endl;
+	std::cout << "vector3 == 1,2,3,4,5 : ";
+	std::cout << testVector3 << std::endl;
 
-	//std::cout << "vector4 == 1,2,3,0,0 : ";
-	//std::cout << testVector4 << std::endl;
+	std::cout << "vector4 == 1,2,3,0,0 : ";
+	std::cout << testVector4 << std::endl;
 
-	//std::cout << "vector[0] == 1 :";
-	//std::cout << testVector[0] << std::endl;
+	std::cout << "vector[0] == 1 :";
+	std::cout << testVector[0] << std::endl;
 
-	//std::cout << "vector.at(0) == 1 :";
-	//std::cout << testVector.at(0) << std::endl;
+	std::cout << "vector.at(0) == 1 :";
+	std::cout << testVector.at(0) << std::endl;
 
-	//std::cout << "*Begin && *data = 1 : ";
-	//std::cout << *testVector.begin() << "," << *testVector.data() << std::endl;
+	std::cout << "*Begin && *data && rbegin = 1,1,5 : ";
+	std::cout << *testVector.begin() << "," << *testVector.data() <<"," <<*testVector.rbegin() << std::endl;
 
-	//std::cout << "front && end = 1 et 5 :";
-	//std::cout << testVector.front() << "," << testVector.back() << std::endl;
+	std::cout << "front && end = 1 et 5 :";
+	std::cout << testVector.front() << "," << testVector.back() << std::endl;
 
-	//std::fill(testVector.begin(), testVector.end(), 5);
-	//std::cout << "vector == 5,5,5,5,5 : ";
-	//std::cout << testVector << std::endl;
+	std::fill(testVector.begin(), testVector.end(), 5);
+	std::cout << "vector == 5,5,5,5,5 : ";
+	std::cout << testVector << std::endl;
 
-	//std::fill(testVector.rbegin(), testVector.rend(), 10);
-	//std::cout << "vector == 10,10,10,10,10 : ";
-	//std::cout << testVector << std::endl;
-
-
-	//testVector.swap(testVector2);
-	//std::cout << "vector == 1,2,3,4,5 : ";
-	//std::cout << testVector << std::endl;
-	//testVector2 = { 1,2,3,4,5 };
-	//testVector.pushBack(100);
-	//std::cout << "vector == 1,2,3,4,5,100 && size = 6 : ";
-	//std::cout << testVector << "," << testVector.Size() << std::endl;
-
-	//testVector.popBack();
-	//std::cout << "vector == 1,2,3,4,5 && size = 5 : ";
-	//std::cout << testVector << "," << testVector.Size() << std::endl;
-
-	//testVector.erase(testVector.begin());
-	//std::cout << "vector == 2,3,4,5 : ";
-	//std::cout << testVector << std::endl;
-
-	//testVector.insert(testVector.begin(),100);
-	//std::cout << "vector == 100,2,3,4,5 : ";
-	//std::cout << testVector << std::endl;
-
-	//testVector.assign({ 1,2,3 });
-	//std::cout << "vector == 1,2,3 : ";
-	//std::cout << testVector << std::endl;
-
-	//testVector.assign(3,3);
-	//std::cout << "vector == 3,3,3 : ";
-	//std::cout << testVector << std::endl;
-
-	//testVector.assign(testVector2.begin(), testVector2.end());
-	//std::cout << "vector == 1,2,3,4,5 : ";
-	//std::cout << testVector << std::endl;
-	//// test const Vector
-	//const KT::Vector<int> testVectorconst{ 1,2,3,4,5 };
-
-	//const KT::Vector<int> testVector2const{ 1,2,3,4,5 };
-
-	//const KT::Vector<int> testVector3const(testVector2const);
-
-	//const KT::Vector<int>testVector4const{ 1,2,3 };
-
-	////testArrayconst;
-
-	//std::cout << "Size  && max size = 5 :";
-	//std::cout << testVectorconst.Size() << "," << testVectorconst.max_size() << std::endl;
-
-	//std::cout << "array == 1,2,3,4,5 : ";
-	//std::cout << testVectorconst << std::endl;
+	std::fill(testVector.rbegin(), testVector.rend(), 10);
+	std::cout << "vector == 10,10,10,10,10 : ";
+	std::cout << testVector << std::endl;
 
 
-	//std::cout << "array4 == 1,2,3,0,0 : ";
-	//std::cout << testVector4const << std::endl;
+	testVector.swap(testVector2);
+	std::cout << "vector == 1,2,3,4,5 : ";
+	std::cout << testVector << std::endl;
+	testVector2 = { 1,2,3,4,5 };
+	testVector.pushBack(100);
+	std::cout << "vector == 1,2,3,4,5,100 && size = 6 : ";
+	std::cout << testVector << "," << testVector.Size() << std::endl;
 
-	//std::cout << "array[0] == 1 :";
-	//std::cout << testVectorconst[0] << std::endl;
+	testVector.popBack();
+	std::cout << "vector == 1,2,3,4,5 && size = 5 : ";
+	std::cout << testVector << "," << testVector.Size() << std::endl;
 
-	//std::cout << "array.at(0) == 1 :";
-	//std::cout << testVectorconst.at(0) << std::endl;
+	testVector.erase(testVector.begin());
+	std::cout << "vector == 2,3,4,5 : ";
+	std::cout << testVector << std::endl;
 
-	//std::cout << "*Begin && *data = 1 : ";
-	//std::cout << *testVectorconst.begin() << "," << *testVectorconst.data() << std::endl;
+	testVector.insert(testVector.begin(),100);
+	std::cout << "vector == 100,2,3,4,5 : ";
+	std::cout << testVector << std::endl;
 
-	//std::cout << "front && end = 1 et 5 :";
-	//std::cout << testVectorconst.front() << "," << testVectorconst.back() << std::endl;
+	testVector.assign({ 1,2,3 });
+	std::cout << "vector == 1,2,3 : ";
+	std::cout << testVector << std::endl;
+
+	testVector.assign(3,3);
+	std::cout << "vector == 3,3,3 : ";
+	std::cout << testVector << std::endl;
+
+	testVector.assign(testVector2.begin(), testVector2.end());
+	std::cout << "vector == 1,2,3,4,5 : ";
+	std::cout << testVector << std::endl;
+	// test const Vector
+	const KT::Vector<int> testVectorconst{ 1,2,3,4,5 };
+
+	const KT::Vector<int> testVector2const{ 1,2,3,4,5 };
+
+	const KT::Vector<int> testVector3const(testVector2const);
+
+	const KT::Vector<int>testVector4const{ 1,2,3 };
+
+	//testArrayconst;
+
+	std::cout << "Size  && max size = 5 :";
+	std::cout << testVectorconst.Size() << "," << testVectorconst.max_size() << std::endl;
+
+	std::cout << "array == 1,2,3,4,5 : ";
+	std::cout << testVectorconst << std::endl;
+
+
+	std::cout << "array4 == 1,2,3,0,0 : ";
+	std::cout << testVector4const << std::endl;
+
+	std::cout << "array[0] == 1 :";
+	std::cout << testVectorconst[0] << std::endl;
+
+	std::cout << "array.at(0) == 1 :";
+	std::cout << testVectorconst.at(0) << std::endl;
+
+	std::cout << "*Begin && *data = 1 : ";
+	std::cout << *testVectorconst.begin() << "," << *testVectorconst.data() << std::endl;
+
+	std::cout << "front && end = 1 et 5 :";
+	std::cout << testVectorconst.front() << "," << testVectorconst.back() << std::endl;
 
 	//test List
 KT::List<int> testList{ 1,2,3,4,5 };
@@ -215,53 +215,53 @@ testList = testList2;
 std::cout << "Size  && max size = 5 :";
 std::cout << testList.Size() << "," << testList.max_size() << std::endl;
 
-std::cout << "vector == 1,2,3,4,5 : ";
+std::cout << "List == 1,2,3,4,5 : ";
 std::cout << testList << std::endl;
 
-std::cout << "vector2 == 1,2,3,4,5 : ";
+std::cout << "List2 == 1,2,3,4,5 : ";
 std::cout << testList2 << std::endl;
 
-std::cout << "vector3 == 1,2,3,4,5 : ";
+std::cout << "List3 == 1,2,3,4,5 : ";
 std::cout << testList3 << std::endl;
 
-std::cout << "vector4 == 1,2,3,0,0 : ";
+std::cout << "List4 == 1,2,3,0,0 : ";
 std::cout << testList4 << std::endl;
 
-std::cout << "vector[0] == 1 :";
+std::cout << "List[0] == 1 :";
 std::cout << testList[0] << std::endl;
 
-std::cout << "vector.at(0) == 1 :";
+std::cout << "List.at(0) == 1 :";
 std::cout << testList.at(0) << std::endl;
 
-std::cout << "*Begin  1 : ";
-std::cout << *testList.begin() << ","<<std::endl;
+std::cout << "*Begin && rbegin  1 , 5 : ";
+std::cout << *testList.begin() << "," << *testList.rbegin()<<std::endl;
 
 std::cout << "front && end = 1 et 5 :";
 std::cout << testList.front() << "," << testList.back() << std::endl;
 
 std::fill(testList.begin(), testList.end(), 5);
-std::cout << "vector == 5,5,5,5,5 : ";
+std::cout << "List == 5,5,5,5,5 : ";
 std::cout << testList << std::endl;
 
 std::fill(testList.rbegin(), testList.rend(), 10);
-std::cout << "vector == 10,10,10,10,10 : ";
+std::cout << "List == 10,10,10,10,10 : ";
 std::cout << testList << std::endl;
 
 
 testList.swap(testList2);
-std::cout << "vector == 1,2,3,4,5 : ";
+std::cout << "List == 1,2,3,4,5 : ";
 std::cout << testList << std::endl;
 testList2 = { 1,2,3,4,5 };
 testList.pushBack(100);
-std::cout << "vector == 1,2,3,4,5,100 && size = 6 : ";
+std::cout << "List == 1,2,3,4,5,100 && size = 6 : ";
 std::cout << testList << "," << testList.Size() << std::endl;
 
 testList.popBack();
-std::cout << "vector == 1,2,3,4,5 && size = 5 : ";
+std::cout << "List == 1,2,3,4,5 && size = 5 : ";
 std::cout << testList << "," << testList.Size() << std::endl;
 
 testList.erase(testList.begin());
-std::cout << "vector == 2,3,4,5 : ";
+std::cout << "List == 2,3,4,5 : ";
 std::cout << testList << std::endl;
 
 testList.insert(testList.begin(), 100);
@@ -269,47 +269,47 @@ std::cout << "vector == 100,2,3,4,5 : ";
 std::cout << testList << std::endl;
 
 testList.assign({ 1,2,3 });
-std::cout << "vector == 1,2,3 : ";
+std::cout << "List == 1,2,3 : ";
 std::cout << testList << std::endl;
 
 testList.assign(3, 3);
-std::cout << "vector == 3,3,3 : ";
+std::cout << "List == 3,3,3 : ";
 std::cout << testList << std::endl;
 
 testList.assign(testList2.begin(), testList2.end());
-std::cout << "vector == 1,2,3,4,5 : ";
+std::cout << "List == 1,2,3,4,5 : ";
 std::cout << testList << std::endl;
 // test const Vector
-const KT::Vector<int> testVectorconst{ 1,2,3,4,5 };
+const KT::List<int> testListconst{ 1,2,3,4,5 };
 
-const KT::Vector<int> testVector2const{ 1,2,3,4,5 };
+const KT::List<int> testList2const{ 1,2,3,4,5 };
 
-const KT::Vector<int> testVector3const(testVector2const);
+const KT::List<int> testList3const(testList2const);
 
-const KT::Vector<int>testVector4const{ 1,2,3 };
+const KT::List<int>testList4const{ 1,2,3 };
 
 //testArrayconst;
 
 std::cout << "Size  && max size = 5 :";
-std::cout << testVectorconst.Size() << "," << testVectorconst.max_size() << std::endl;
+std::cout << testListconst.Size() << "," << testListconst.max_size() << std::endl;
 
-std::cout << "array == 1,2,3,4,5 : ";
-std::cout << testVectorconst << std::endl;
+std::cout << "List == 1,2,3,4,5 : ";
+std::cout << testListconst << std::endl;
 
 
-std::cout << "array4 == 1,2,3,0,0 : ";
-std::cout << testVector4const << std::endl;
+std::cout << "List == 1,2,3,0,0 : ";
+std::cout << testList4const << std::endl;
 
-std::cout << "array[0] == 1 :";
-std::cout << testVectorconst[0] << std::endl;
+std::cout << "List[0] == 1 :";
+std::cout << testListconst[0] << std::endl;
 
-std::cout << "array.at(0) == 1 :";
-std::cout << testVectorconst.at(0) << std::endl;
+std::cout << "List.at(0) == 1 :";
+std::cout << testListconst.at(0) << std::endl;
 
-std::cout << "*Begin && *data = 1 : ";
-std::cout << *testVectorconst.begin() << "," << *testVectorconst.data() << std::endl;
+std::cout << "*Begin = 1 rbegin = 5 : ";
+std::cout << *testListconst.begin() << ","  << *testListconst.rbegin()<<std::endl;
 
 std::cout << "front && end = 1 et 5 :";
-std::cout << testVectorconst.front() << "," << testVectorconst.back() << std::endl;
+std::cout << testListconst.front() << "," << testListconst.back() << std::endl;
 
 }
