@@ -275,7 +275,15 @@ namespace KT
             {
                 return *m_ptr;
             }
+          const reference operator*()const
+            {
+                return *m_ptr;
+            }
             pointer operator->()
+            {
+                return m_ptr;
+            }
+           const pointer operator->()const
             {
                 return m_ptr;
             }
@@ -345,7 +353,15 @@ namespace KT
             {
                 return *m_ptr;
             }
+            const reference operator*() const
+            {
+                return *m_ptr;
+            }
             pointer operator->()
+            {
+                return m_ptr;
+            }
+            const pointer operator->() const
             {
                 return m_ptr;
             }
@@ -415,7 +431,15 @@ namespace KT
             {
                 return *m_ptr;
             }
+            const reference operator*() const
+            {
+                return *m_ptr;
+            }
             pointer operator->()
+            {
+                return m_ptr;
+            }
+            const pointer operator->() const
             {
                 return m_ptr;
             }
@@ -485,7 +509,15 @@ namespace KT
             {
                 return *m_ptr;
             }
+            const reference operator*() const 
+            {
+                return *m_ptr;
+            }
             pointer operator->()
+            {
+                return m_ptr;
+            }
+            const pointer operator->() const 
             {
                 return m_ptr;
             }

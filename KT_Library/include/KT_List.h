@@ -264,20 +264,6 @@ namespace KT
 				pushBack(element);
 			}
 		}
-		void static advanceptr(iterator& dest, const int& distance)
-		{
-			if (distance < 0)
-			{
-				for (int i = 0; i < -distance; ++i)
-					--dest;
-			}
-			else
-			{
-				for (int i = 0; i < distance; ++i)
-					++dest;
-			}
-
-		}
 		reverse_iterator rbegin()
 		{
 			return reverse_iterator(anchor.Previous);
@@ -360,7 +346,15 @@ namespace KT
 			{
 				return m_node->data;
 			}
+			const reference  operator*() const
+			{
+				return m_node->data;
+			}
 			Node* operator->()
+			{
+				return m_node;
+			}
+			const Node* operator->() const
 			{
 				return m_node;
 			}
@@ -395,7 +389,7 @@ namespace KT
 			difference_type operator-(const iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other; --i)
+				for (auto i = m_node; i != other.m_node; --i)
 				{
 					++diff;
 				}
@@ -404,7 +398,7 @@ namespace KT
 			difference_type operator+(const iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other; ++i)
+				for (auto i = m_node; i != other.m_node; ++i)
 				{
 					++diff;
 				}
@@ -434,7 +428,15 @@ namespace KT
 			{
 				return m_node->data;
 			}
+			reference operator*() const
+			{
+				return m_node->data;
+			}
 			Node* operator->()
+			{
+				return m_node;
+			}
+			const Node* operator->() const
 			{
 				return m_node;
 			}
@@ -508,7 +510,15 @@ namespace KT
 			{
 				return m_node->data;
 			}
+			const reference operator*() const
+			{
+				return m_node->data;
+			}
 			const Node* operator->()
+			{
+				return m_node;
+			}
+			const Node* operator->() const
 			{
 				return m_node;
 			}
@@ -582,7 +592,15 @@ namespace KT
 			{
 				return m_node->data;
 			}
+			const reference operator*() const
+			{
+				return m_node->data;
+			}
 			const Node* operator->()
+			{
+				return m_node;
+			}
+			const Node* operator->() const
 			{
 				return m_node;
 			}
@@ -640,6 +658,7 @@ namespace KT
 			{
 				return m_node != other.m_node;
 			}
+
 		private:
 			const Node* m_node;
 		};
