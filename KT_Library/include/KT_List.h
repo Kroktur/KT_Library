@@ -19,18 +19,20 @@ namespace KT
 	public:
 		struct Node;
 		struct iterator;
+		struct const_iterator;
 		struct reverse_iterator;
+		struct cons_reverse_iterator;
 		using reverse_iterator = reverse_iterator;
-		using const_reverse_iterator = reverse_iterator;
+		using const_reverse_iterator = cons_reverse_iterator;
 		using iterator = iterator;
-		using const_iterator = const iterator;
+		using const_iterator = const_iterator;
 		using value_type = type;
 		using pointer = type*;
 		using const_pointer = const type*;
 		using reference = type&;
 		using const_reference = const type&;
 		~List() { clear(); }
-		List() :size(0) { anchor.Next = &anchor; anchor.Previous = &anchor; }
+		List():size(0) { anchor.Next = &anchor; anchor.Previous = &anchor; }
 		List(const List& tab) :size(0)
 		{
 			anchor.Next = &anchor; anchor.Previous = &anchor;
@@ -39,15 +41,15 @@ namespace KT
 				pushBack(*it);
 			}
 		}
-		List(std::initializer_list<type> list)
+		List(std::initializer_list<type> list) :size(0)
 		{
 			anchor.Next = &anchor; anchor.Previous = &anchor;
-			for (size_t idx = 0; idx < list.size(); ++idx)
+			for (const auto& element : list)
 			{
-				pushBack(list[idx]);
+				pushBack(element);
 			}
 		}
-		void resize(size_t idx)
+		void resize(const size_t& idx)
 		{
 			if (idx < size)
 			{
@@ -126,6 +128,7 @@ namespace KT
 				++it;
 			}
 			return *it;
+
 		}
 		const_reference operator[](const size_t& idx) const
 		{
@@ -196,7 +199,7 @@ namespace KT
 		}
 		const_iterator begin() const
 		{
-			return iterator(anchor.Next);
+			return const_iterator(anchor.Next);
 		}
 		iterator end()
 		{
@@ -204,7 +207,7 @@ namespace KT
 		}
 		const_iterator end() const
 		{
-			return iterator(&anchor);
+			return const_iterator(&anchor);
 		}
 		reference front()
 		{
@@ -226,9 +229,9 @@ namespace KT
 		{
 			while (!Empty())
 				popFront();
-
+			resize(0);
 		}
-		List& operator=(const List& tab)
+		List& operator=(List tab)
 		{
 			clear();
 			for (auto it = tab.begin(); it != tab.end(); ++it)
@@ -256,9 +259,9 @@ namespace KT
 		void assign(std::initializer_list<type> list)
 		{
 			clear();
-			for (size_t i = 0; i < list.size(); ++i)
+			for (const auto& element : list)
 			{
-				pushBack(list[i]);
+				pushBack(element);
 			}
 		}
 		void static advanceptr(iterator& dest, int distance)
@@ -281,7 +284,7 @@ namespace KT
 		}
 		const_reverse_iterator rbegin() const
 		{
-			return reverse_iterator(anchor.Previous);
+			return const_reverse_iterator(anchor.Previous);
 		}
 		reverse_iterator rend()
 		{
@@ -289,13 +292,13 @@ namespace KT
 		}
 		const_reverse_iterator rend() const
 		{
-			return reverse_iterator(&anchor);
+			return const_reverse_iterator(&anchor);
 		}
-		size_t maxsize()
+		size_t max_size()
 		{
 			return std::numeric_limits<size_t>::max() / sizeof(type);
 		}
-		size_t maxsize() const
+		size_t max_size() const
 		{
 			return std::numeric_limits<size_t>::max() / sizeof(type);
 		}
@@ -336,7 +339,7 @@ namespace KT
 			Node() :Next(nullptr), Previous(nullptr)
 			{
 			}
-			Node(const  type& val) :data(val), Next(nullptr), Previous(nullptr)
+			Node( type val) :data(val), Next(nullptr), Previous(nullptr)
 			{
 			}
 			type data;
@@ -418,7 +421,80 @@ namespace KT
 		private:
 			Node* m_node;
 		};
-
+		struct const_iterator {
+			//this iterator compatible with stl
+			using iterator_category = std::random_access_iterator_tag;
+			using value_type = const type;
+			using difference_type = std::ptrdiff_t;
+			using pointer = const type*;
+			using reference = const type&;
+			friend List;
+			const_iterator(const Node* ptr) : m_node(ptr) {}
+			reference operator*()
+			{
+				return m_node->data;
+			}
+			Node* operator->()
+			{
+				return m_node;
+			}
+			const_iterator& operator++()
+			{
+				m_node = m_node->Next;
+				return *this;
+			}
+			const_iterator& operator--()
+			{
+				m_node = m_node->Previous;
+				return *this;
+			}
+			const_iterator operator+(difference_type n) const
+			{
+				auto curentnode = m_node;
+				for (size_t i = 0; i < n; ++i)
+				{
+					curentnode = curentnode->Next;
+				}
+				return const_iterator(curentnode);
+			}
+			const_iterator operator-(difference_type n) const
+			{
+				auto curentnode = m_node;
+				for (size_t i = 0; i < n; ++i)
+				{
+					curentnode = curentnode->Previous;
+				}
+				return const_iterator(curentnode);
+			}
+			difference_type operator-(const const_iterator& other) const
+			{
+				difference_type diff = 0;
+				for (auto i = m_node; i != other; --i)
+				{
+					++diff;
+				}
+				return diff;
+			}
+			difference_type operator+(const const_iterator& other) const
+			{
+				difference_type diff = 0;
+				for (auto i = m_node; i != other; ++i)
+				{
+					++diff;
+				}
+				return diff;
+			}
+			bool operator==(const const_iterator& other) const
+			{
+				return m_node == other.m_node;
+			}
+			bool operator!=(const const_iterator& other) const
+			{
+				return m_node != other.m_node;
+			}
+		private:
+			const Node* m_node;
+		};
 		struct reverse_iterator {
 			//this iterator compatible with stl
 			using iterator_category = std::random_access_iterator_tag;
@@ -432,7 +508,7 @@ namespace KT
 			{
 				return m_node->data;
 			}
-			Node* operator->()
+			const Node* operator->()
 			{
 				return m_node;
 			}
@@ -493,18 +569,92 @@ namespace KT
 		private:
 			Node* m_node;
 		};
+		struct cont_reverse_iterator {
+			//this iterator compatible with stl
+			using iterator_category = std::random_access_iterator_tag;
+			using value_type = const type;
+			using difference_type = std::ptrdiff_t;
+			using pointer = const type*;
+			using reference = const type&;
+			friend List;
+			cont_reverse_iterator(const Node* ptr) : m_node(ptr) {}
+			reference operator*()
+			{
+				return m_node->data;
+			}
+			const Node* operator->()
+			{
+				return m_node;
+			}
+			cont_reverse_iterator& operator++()
+			{
+				m_node = m_node->Previous;
+				return *this;
+			}
+			cont_reverse_iterator& operator--()
+			{
+				m_node = m_node->Next;
+				return *this;
+			}
+			cont_reverse_iterator operator+(difference_type n) const
+			{
+				auto curentnode = m_node;
+				for (size_t i = 0; i < n; ++i)
+				{
+					curentnode = curentnode->Previous;
+				}
+				return cont_reverse_iterator(curentnode);
+			}
+			cont_reverse_iterator operator-(difference_type n) const
+			{
+				auto curentnode = m_node;
+				for (size_t i = 0; i < n; ++i)
+				{
+					curentnode = curentnode->Next;
+				}
+				return cont_reverse_iterator(curentnode);
+			}
+			difference_type operator-(const cont_reverse_iterator& other) const
+			{
+				difference_type diff = 0;
+				for (auto i = m_node; i != other; --i)
+				{
+					++diff;
+				}
+				return diff;
+			}
+			difference_type operator+(const cont_reverse_iterator& other) const
+			{
+				difference_type diff = 0;
+				for (auto i = m_node; i != other; ++i)
+				{
+					++diff;
+				}
+				return diff;
+			}
+			bool operator==(const cont_reverse_iterator& other) const
+			{
+				return m_node == other.m_node;
+			}
+			bool operator!=(const cont_reverse_iterator& other) const
+			{
+				return m_node != other.m_node;
+			}
+		private:
+			const Node* m_node;
+		};
 		Node anchor;
 		size_t size;
 	};
 }
-//template<typename type>
-//std::ostream& operator<<(std::ostream& os, const KT::IntrusiveList<type>& tab)
-//{
-//	if (tab.Empty())
-//		return os;
-//	os << "(";
-//	for (auto i = 0; i < tab.Size() - 1; ++i)
-//		os << tab[i] << ", ";
-//	os << tab[tab.Size() - 1] << ")";
-//	return os;
-//}
+template<typename type>
+std::ostream& operator<<(std::ostream& os,  KT::List<type> tab)
+{
+	if (tab.Empty())
+		return os;
+	os << "(";
+	for (auto i = 0; i < tab.Size() - 1; ++i)
+		os << tab[i] << ", ";
+	os << tab[tab.Size() - 1] << ")";
+	return os;
+}

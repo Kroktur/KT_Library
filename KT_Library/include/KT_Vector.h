@@ -21,10 +21,12 @@ namespace KT
         using value_type = type;
         struct iterator;
         struct reverse_iterator;
+        struct const_iterator;
+        struct const_reverse_iterator;
         using reverse_iterator = reverse_iterator;
-        using const_reverse_iterator = const reverse_iterator;
+        using const_reverse_iterator = const_reverse_iterator;
         using iterator = iterator;
-        using const_iterator = const iterator;
+        using const_iterator = const_iterator;
         using value_type = type;
         using pointer = type*;
         using const_pointer = const type*;
@@ -56,7 +58,7 @@ namespace KT
             m_data = newdata;
             capacity = newcapacity;
         }
-        void pushBack(const type& value)
+        void pushBack(const_reference value)
         {
             resize(size + 1);
             m_data[size - 1] = value;
@@ -112,19 +114,19 @@ namespace KT
         }
         reverse_iterator rbegin()
         {
-            return m_data + size - 1;
+            return reverse_iterator(m_data + size - 1);
         }
         const_reverse_iterator rbegin() const
         {
-            return m_data + size - 1;
+            return const_reverse_iterator(m_data + size - 1);
         }
         reverse_iterator rend()
         {
-            return m_data - 1;
+            return reverse_iterator(m_data - 1);
         }
         const_reverse_iterator rend() const
         {
-            return m_data - 1;
+            return const_reverse_iterator(m_data - 1);
         }
         reference front()
         {
@@ -166,20 +168,28 @@ namespace KT
         {
             return size;
         }
-        size_t maxsize()
+        size_t max_size()
         {
             return std::numeric_limits<size_t>::max() / sizeof(type);
         }
-        size_t maxsize() const
+        size_t max_size() const
         {
             return std::numeric_limits<size_t>::max() / sizeof(type);
+        }
+        pointer data()
+        {
+            return m_data;
+        }
+        const_pointer data() const
+        {
+            return m_data;
         }
         void clear()
         {
             resize(0);
             reserve(capacity);
         }
-        void insert(iterator dest, const type& value)
+        void insert(iterator dest, const_reference value )
         {
             if (dest > m_data + size || dest < m_data)
                 throw std::out_of_range("dest out of range");
@@ -203,12 +213,12 @@ namespace KT
         void assign(iterator begin, iterator end)
         {
             clear();
-            size_t sizeofvec = end.m_ptr - begin.m_ptr;
+            size_t sizeofvec = end - begin;
             resize(sizeofvec);
 
             std::copy(begin, end, m_data);
         }
-        void assign(size_t sizeofvec, type data)
+        void assign(size_t sizeofvec, value_type data)
         {
             clear();
             resize(sizeofvec);
@@ -222,7 +232,7 @@ namespace KT
         }
         Vector& operator=(const Vector& tab)
         {
-            resize(tab.size());
+            resize(tab.Size());
             std::copy(tab.begin(), tab.end(), m_data);
             return *this;
         }
@@ -241,7 +251,7 @@ namespace KT
             }
             return end();
         }
-        const_iterator find(const iterator& ptr) const
+        const_iterator find(const const_iterator& ptr) const
         {
             for (auto it = begin(); it != end(); ++it)
             {
@@ -250,6 +260,7 @@ namespace KT
             }
             return end();
         }
+
     private:
         struct iterator {
             //this iterator compatible with stl
@@ -321,7 +332,76 @@ namespace KT
         private:
             pointer m_ptr;
         };
-
+        struct const_iterator {
+            //this iterator compatible with stl
+            using iterator_category = std::random_access_iterator_tag;
+            using value_type = const type;
+            using difference_type = std::ptrdiff_t;
+            using pointer = const type*;
+            using reference = const type&;
+            friend Vector;
+            const_iterator(pointer ptr) : m_ptr(ptr) {}
+            reference operator*()
+            {
+                return *m_ptr;
+            }
+            pointer operator->()
+            {
+                return m_ptr;
+            }
+            const_iterator& operator++()
+            {
+                ++m_ptr;
+                return *this;
+            }
+            const_iterator& operator--()
+            {
+                --m_ptr;
+                return *this;
+            }
+            const_iterator operator+(difference_type n) const
+            {
+                return iterator(m_ptr + n);
+            }
+            const_iterator operator-(difference_type n) const
+            {
+                return const_iterator(m_ptr - n);
+            }
+            difference_type operator-(const const_iterator& other) const
+            {
+                return m_ptr - other.m_ptr;
+            }
+            difference_type operator+(const const_iterator& other) const
+            {
+                return m_ptr + other.m_ptr;
+            }
+            bool operator==(const const_iterator& other) const
+            {
+                return m_ptr == other.m_ptr;
+            }
+            bool operator!=(const const_iterator& other) const
+            {
+                return m_ptr != other.m_ptr;
+            }
+            bool operator<(const const_iterator& other) const
+            {
+                return m_ptr < other.m_ptr;
+            }
+            bool operator>(const const_iterator& other) const
+            {
+                return m_ptr > other.m_ptr;
+            }
+            bool operator<=(const const_iterator& other) const
+            {
+                return m_ptr <= other.m_ptr;
+            }
+            bool operator>=(const const_iterator& other) const
+            {
+                return m_ptr >= other.m_ptr;
+            }
+        private:
+            pointer m_ptr;
+        };
         struct reverse_iterator {
             //this iterator compatible with stl
             using iterator_category = std::random_access_iterator_tag;
@@ -386,6 +466,76 @@ namespace KT
                 return m_ptr <= other.m_ptr;
             }
             bool operator>=(const reverse_iterator& other) const
+            {
+                return m_ptr >= other.m_ptr;
+            }
+        private:
+            pointer m_ptr;
+        };
+        struct const_reverse_iterator {
+            //this iterator compatible with stl
+            using iterator_category = std::random_access_iterator_tag;
+            using value_type = const type;
+            using difference_type = std::ptrdiff_t;
+            using pointer = const type*;
+            using reference = const type&;
+            friend Vector;
+            const_reverse_iterator(pointer ptr) : m_ptr(ptr) {}
+            reference operator*()
+            {
+                return *m_ptr;
+            }
+            pointer operator->()
+            {
+                return m_ptr;
+            }
+            const_reverse_iterator& operator++()
+            {
+                --m_ptr;
+                return *this;
+            }
+            const_reverse_iterator& operator--()
+            {
+                ++m_ptr;
+                return *this;
+            }
+            const_reverse_iterator operator+(difference_type n) const
+            {
+                return const_reverse_iterator(m_ptr - n);
+            }
+            const_reverse_iterator operator-(difference_type n) const
+            {
+                return const_reverse_iterator(m_ptr + n);
+            }
+            difference_type operator-(const const_reverse_iterator& other) const
+            {
+                return m_ptr + other.m_ptr;
+            }
+            difference_type operator+(const const_reverse_iterator& other) const
+            {
+                return m_ptr - other.m_ptr;
+            }
+            bool operator==(const const_reverse_iterator& other) const
+            {
+                return m_ptr == other.m_ptr;
+            }
+            bool operator!=(const const_reverse_iterator& other) const
+            {
+                return m_ptr != other.m_ptr;
+            }
+            bool operator<(const const_reverse_iterator& other) const
+            {
+                return m_ptr < other.m_ptr;
+            }
+            bool operator>(const const_reverse_iterator& other) const
+            {
+                return m_ptr > other.m_ptr;
+            }
+            bool operator<=(const const_reverse_iterator& other) const
+            {
+                return m_ptr <= other.m_ptr;
+            }
+            bool operator>=(const const_reverse_iterator& other) const
             {
                 return m_ptr >= other.m_ptr;
             }

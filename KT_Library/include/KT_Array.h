@@ -19,11 +19,13 @@ namespace KT
     public:
         using value_type = type;
         struct iterator;
+        struct const_iterator;
         struct reverse_iterator;
+        struct const_reverse_iterator;
         using reverse_iterator = reverse_iterator;
-        using const_reverse_iterator = reverse_iterator;
+        using const_reverse_iterator = const_reverse_iterator;
         using iterator = iterator;
-        using const_iterator = const iterator;
+        using const_iterator = const_iterator;
         using value_type = type;
         using pointer = type*;
         using const_pointer = const type*;
@@ -31,9 +33,11 @@ namespace KT
         using const_reference = const type&;
         Array(std::initializer_list<type> list)
         {
-            if (list.size() != size)
+            if (list.size() > size)
                 throw std::runtime_error("Out of Range");
+
             std::copy(list.begin(), list.end(), m_data);
+            std::fill(m_data + list.size(), m_data + size, type());
         }
 
         Array()
@@ -42,29 +46,34 @@ namespace KT
         }
         Array& operator=(Array<type, size>& tab)
         {
+            if (Size() != tab.Size())
+                throw std::out_of_range("size must be equal");
             if (this != &tab)
                 std::copy(tab.begin(), tab.end(), m_data);
             return *this;
         }
         Array(const Array& tab)
         {
+            if (tab.Size() != size)
+                throw std::runtime_error("size must be equal");
             std::copy(tab.begin(), tab.end(), m_data);
         }
-        reference operator[](size_t Idx)
+        
+        reference operator[](const size_t& Idx)
         {
             return m_data[Idx];
         }
-        const_reference operator[](size_t Idx) const
+        const_reference operator[](const size_t& Idx) const
         {
             return m_data[Idx];
         }
-        reference at(size_t Idx)
+        reference at(const size_t& Idx)
         {
             if (Idx >= size)
                 throw std::runtime_error("Out of Range");
             return m_data[Idx];
         }
-        const_reference at(size_t Idx) const
+        const_reference at(const size_t& Idx) const
         {
             if (Idx >= size)
                 throw std::runtime_error("Out of Range");
@@ -72,18 +81,26 @@ namespace KT
         }
         reference front()
         {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
             return m_data[0];
         }
         const_reference front() const
         {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
             return m_data[0];
         }
         reference back()
         {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
             return m_data[size - 1];
         }
         const_reference back() const
         {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
             return m_data[size - 1];
         }
         pointer data()
@@ -120,35 +137,51 @@ namespace KT
         }
         iterator begin()
         {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
             return iterator(m_data);
         }
         iterator end()
         {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
             return iterator(m_data + size);
         }
         const_iterator begin() const
         {
-            return iterator(m_data);
+            if (Empty())
+                throw std::out_of_range("Array is empty");
+            return const_iterator(m_data);
         }
         const_iterator end() const
         {
-            return iterator(m_data + size);
+            if (Empty())
+                throw std::out_of_range("Array is empty");
+            return const_iterator(m_data + size);
         }
         reverse_iterator rbegin()
         {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
             return reverse_iterator(m_data + size - 1);
         }
         reverse_iterator rend()
         {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
             return reverse_iterator(m_data - 1);
         }
         const_reverse_iterator rbegin() const
         {
-            return reverse_iterator(m_data + size - 1);
+            if (Empty())
+                throw std::out_of_range("Array is empty");
+            return const_reverse_iterator(m_data + size - 1);
         }
         const_reverse_iterator rend() const
         {
-            return reverse_iterator(m_data - 1);
+            if (Empty())
+                throw std::out_of_range("Array is empty");
+            return const_reverse_iterator(m_data - 1);
         }
         void swap(Array<type, size>& NewArray)
         {
@@ -227,7 +260,76 @@ namespace KT
         private:
             pointer m_ptr;
         };
-
+        struct const_iterator {
+            //this iterator compatible with stl
+            using iterator_category = std::random_access_iterator_tag;
+            using value_type = const type;
+            using difference_type = std::ptrdiff_t;
+            using pointer = const type*;
+            using reference =  const type&;
+            friend Array;
+            const_iterator(pointer ptr) : m_ptr(ptr) {}
+            reference operator*()
+            {
+                return *m_ptr;
+            }
+            pointer operator->()
+            {
+                return m_ptr;
+            }
+            const_iterator& operator++()
+            {
+                ++m_ptr;
+                return *this;
+            }
+            const_iterator& operator--()
+            {
+                --m_ptr;
+                return *this;
+            }
+            const_iterator operator+(difference_type n) const
+            {
+                return iterator(m_ptr + n);
+            }
+            const_iterator operator-(difference_type n) const
+            {
+                return const_iterator(m_ptr - n);
+            }
+            difference_type operator-(const const_iterator& other) const
+            {
+                return m_ptr - other.m_ptr;
+            }
+            difference_type operator+(const const_iterator& other) const
+            {
+                return m_ptr + other.m_ptr;
+            }
+            bool operator==(const const_iterator& other) const
+            {
+                return m_ptr == other.m_ptr;
+            }
+            bool operator!=(const const_iterator& other) const
+            {
+                return m_ptr != other.m_ptr;
+            }
+            bool operator<(const const_iterator& other) const
+            {
+                return m_ptr < other.m_ptr;
+            }
+            bool operator>(const const_iterator& other) const
+            {
+                return m_ptr > other.m_ptr;
+            }
+            bool operator<=(const const_iterator& other) const
+            {
+                return m_ptr <= other.m_ptr;
+            }
+            bool operator>=(const const_iterator& other) const
+            {
+                return m_ptr >= other.m_ptr;
+            }
+        private:
+            pointer m_ptr;
+        };
         struct reverse_iterator {
             //this iterator compatible with stl
             using iterator_category = std::random_access_iterator_tag;
@@ -292,6 +394,76 @@ namespace KT
                 return m_ptr <= other.m_ptr;
             }
             bool operator>=(const reverse_iterator& other) const
+            {
+                return m_ptr >= other.m_ptr;
+            }
+        private:
+            pointer m_ptr;
+        };
+        struct const_reverse_iterator {
+            //this iterator compatible with stl
+            using iterator_category = std::random_access_iterator_tag;
+            using value_type = const type;
+            using difference_type = std::ptrdiff_t;
+            using pointer = const type*;
+            using reference = const type&;
+            friend Array;
+            const_reverse_iterator(pointer ptr) : m_ptr(ptr) {}
+            reference operator*()
+            {
+                return *m_ptr;
+            }
+            pointer operator->()
+            {
+                return m_ptr;
+            }
+            const_reverse_iterator& operator++()
+            {
+                --m_ptr;
+                return *this;
+            }
+            const_reverse_iterator& operator--()
+            {
+                ++m_ptr;
+                return *this;
+            }
+            const_reverse_iterator operator+(difference_type n) const
+            {
+                return const_reverse_iterator(m_ptr - n);
+            }
+            const_reverse_iterator operator-(difference_type n) const
+            {
+                return const_reverse_iterator(m_ptr + n);
+            }
+            difference_type operator-(const const_reverse_iterator& other) const
+            {
+                return m_ptr + other.m_ptr;
+            }
+            difference_type operator+(const const_reverse_iterator& other) const
+            {
+                return m_ptr - other.m_ptr;
+            }
+            bool operator==(const const_reverse_iterator& other) const
+            {
+                return m_ptr == other.m_ptr;
+            }
+            bool operator!=(const const_reverse_iterator& other) const
+            {
+                return m_ptr != other.m_ptr;
+            }
+            bool operator<(const const_reverse_iterator& other) const
+            {
+                return m_ptr < other.m_ptr;
+            }
+            bool operator>(const const_reverse_iterator& other) const
+            {
+                return m_ptr > other.m_ptr;
+            }
+            bool operator<=(const const_reverse_iterator& other) const
+            {
+                return m_ptr <= other.m_ptr;
+            }
+            bool operator>=(const const_reverse_iterator& other) const
             {
                 return m_ptr >= other.m_ptr;
             }
