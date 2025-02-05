@@ -433,4 +433,6 @@ std::cout << testListsort;
 //KT::Sort<KT::IntrusiveList<int>, KT::BubbleSort>(testListsortintrusive);
 //std::cout << "test list avant sort : " << std::endl;
 //std::cout << testListsortintrusive;
+std::vector<int> testvecstl({ 5,2,3,1,4 });
+KT::Sort<std::vector<int>, KT::BubbleSort>(testvecstl);
 }
