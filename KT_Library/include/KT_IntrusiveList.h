@@ -25,6 +25,14 @@ namespace KT
 		type data;
 		Node* Next;
 		Node* Previous;
+		bool operator<(const Node& other) const
+		{
+			return data < other.data;
+		}
+		bool operator>(const Node& other) const
+		{
+			return data > other.data;
+		}
 	};
 	template <typename type>
 	std::ostream& operator<<(std::ostream& os, const Node<type>& node)

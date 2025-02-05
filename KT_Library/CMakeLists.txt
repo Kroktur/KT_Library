@@ -11,6 +11,9 @@ set(HEADERS
  ${HEADER_DIR}/KT_Algorithm.h
  ${HEADER_DIR}/KT_Container.h
  ${HEADER_DIR}/KT_IntrusiveList.h
+ ${HEADER_DIR}/KT_InsertionSort.h
+ ${HEADER_DIR}/KT_BubbleSort.h
+ ${HEADER_DIR}/KT_FusionSort.h
 )
 set(SOURCES
 ${SOURCE_DIR}/KT_Algorithm.cpp

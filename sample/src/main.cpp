@@ -3,6 +3,8 @@
 #include "KT_List.h"
 #include "KT_Vector.h"
 #include "KT_IntrusiveList.h"
+#include "KT_Algorithm.h"
+#include "KT_BubbleSort.h"
 #include <algorithm>
 int main()
 {
@@ -351,9 +353,9 @@ std::cout << *testIntrusiveList.begin() << "," << *testIntrusiveList.rbegin() <<
 std::cout << "front && end = 1 et 5 :";
 std::cout << testIntrusiveList.front() << "," << testIntrusiveList.back() << std::endl;
 //
-std::fill(testIntrusiveList.begin(), testIntrusiveList.end(), KT::Node<int>(5) );
-std::cout << "IntrusiveList == 5,5,5,5,5 : ";
-std::cout << testIntrusiveList << std::endl;
+//std::fill(testIntrusiveList.begin(), testIntrusiveList.end(), KT::Node<int>(5) );
+//std::cout << "IntrusiveList == 5,5,5,5,5 : ";
+//std::cout << testIntrusiveList << std::endl;
 
 //std::fill(testIntrusiveList.rbegin(), testIntrusiveList.rend(), 10);
 //std::cout << "IntrusiveList == 10,10,10,10,10 : ";
@@ -422,4 +424,19 @@ std::cout << *testIntrusiveListcont.begin() << "," << *testIntrusiveListcont.rbe
 
 std::cout << "front && end = 1 et 5 :";
 std::cout << testIntrusiveListcont.front().data << "," << testIntrusiveListcont.back().data << std::endl;
+
+KT::Array<int, 5> testArraysort{ 5,4,3,2,1 };
+KT::Sort<KT::Array<int, 5>, KT::FusionSort>(testArraysort);
+std::cout << testArraysort;
+
+KT::Vector<int> testVectorsort{ 5,4,3,2,1 };
+KT::Sort<KT::Vector<int>, KT::FusionSort>(testVectorsort);
+std::cout << testVectorsort;
+
+
+KT::List<int> testListsort{ 5,4,3,2,1 };
+KT::Sort<KT::List<int>, KT::FusionSort>(testListsort);
+std::cout << testListsort;
+
+
 }
