@@ -16,23 +16,39 @@ namespace KT
 	template <typename type>
 	struct Node
 	{
-		Node() :Next(nullptr), Previous(nullptr)
-		{
-		}
-		Node( const type& val) :data(val), Next(nullptr), Previous(nullptr)
-		{
-		}
-		type data;
-		Node* Next;
-		Node* Previous;
-		bool operator<(const Node& other) const
-		{
-			return data < other.data;
-		}
-		bool operator>(const Node& other) const
-		{
-			return data > other.data;
-		}
+			Node() :Next(nullptr), Previous(nullptr)
+			{
+			}
+			Node(type val) :data(val), Next(nullptr), Previous(nullptr)
+			{
+			}
+			type data;
+			Node<type>* Next;
+			Node<type>* Previous;
+			bool operator==(const Node& other) const
+			{
+				return data == other.data;
+			}
+			bool operator!=(const Node& other) const
+			{
+				return data != other.data;
+			}
+			bool operator<(const Node& other) const
+			{
+				return data < other.data;
+			}
+			bool operator>(const Node& other) const
+			{
+				return data > other.data;
+			}
+			bool operator<=(const Node& other) const
+			{
+				return data <= other.data;
+			}
+			bool operator>=(const Node& other) const
+			{
+				return data >= other.data;
+			}
 	};
 	template <typename type>
 	std::ostream& operator<<(std::ostream& os, const Node<type>& node)
@@ -43,38 +59,41 @@ namespace KT
 	class IntrusiveList
 	{
 	public:
+
+		struct Node;
 		struct iterator;
-		struct reverse_iterator;
 		struct const_iterator;
+		struct reverse_iterator;
 		struct const_reverse_iterator;
 		using reverse_iterator = reverse_iterator;
 		using const_reverse_iterator = const_reverse_iterator;
 		using iterator = iterator;
 		using const_iterator = const_iterator;
-		using value_type = Node<type>;
-		using pointer = Node<type>*;
-		using const_pointer = const Node<type>*;
-		using reference = Node<type>&;
-		using const_reference = const Node<type>&;
+		using value_type = KT::Node<type>;
+		using pointer = KT::Node<type>*;
+		using const_pointer = const KT::Node<type>*;
+		using reference = KT::Node<type>&;
+		using const_reference = const KT::Node<type>&;
 		~IntrusiveList() { clear(); }
-		IntrusiveList() :size(0) { anchor.Next = &anchor; anchor.Previous = &anchor; }
+		IntrusiveList() :size(0) { Head.Next = &Tail;  Tail.Previous = &Head; }
 		IntrusiveList(const IntrusiveList& tab) :size(0)
 		{
-			anchor.Next = &anchor; anchor.Previous = &anchor;
+			Head.Next = &Tail;
+			Tail.Previous = &Head;
 			for (auto it = tab.begin(); it != tab.end(); ++it)
 			{
 				pushBack(*it);
 			}
 		}
-		IntrusiveList(const std::initializer_list<Node<type>>& list):size(0)
+		IntrusiveList(const std::initializer_list<KT::Node<type>>& list) :size(0)
 		{
-			anchor.Next = &anchor; anchor.Previous = &anchor;
+			Head.Next = &Tail;  Tail.Previous = &Head;
 			for (const auto& element : list)
 			{
 				pushBack(element);
 			}
 		}
-		void resize(size_t idx)
+		void resize(const size_t& idx)
 		{
 			if (idx < size)
 			{
@@ -88,42 +107,33 @@ namespace KT
 			{
 				for (size_t i = size; i < idx; ++i)
 				{
-					pushBack(Node<type>{});
+					pushBack(type{});
 				}
 			}
 
 		}
-		IntrusiveList& operator=(const IntrusiveList& tab)
-		{
-			clear();
-			for (auto it = tab.begin(); it != tab.end(); ++it)
-			{
-				pushBack(*it);
-			}
-			return *this;
-		}
-		void swap( IntrusiveList& Newlist)
+		void swap(IntrusiveList<type>& Newlist)
 		{
 			IntrusiveList<type> tmp = *this;
 			*this = Newlist;
 			Newlist = tmp;
 		}
-		void pushBack(const Node<type>& val)
+		void pushBack(const value_type& val)
 		{
-			Node<type>* newval = new Node<type>(val.data);
-			anchor.Previous->Next = newval;
-			newval->Previous = anchor.Previous;
-			newval->Next = &anchor;
-			anchor.Previous = newval;
+			pointer NewVal = new KT::Node(val.data);
+			Tail.Previous->Next = NewVal;
+			NewVal->Next = &Tail;
+			NewVal->Previous = Tail.Previous;
+			Tail.Previous = NewVal;
 			++size;
 		}
 		void popBack()
 		{
 			if (Empty())
 				throw std::out_of_range("List is Empty");
-			auto todelete = anchor.Previous;
-			anchor.Previous = todelete->Previous;
-			todelete->Previous->Next = &anchor;
+			auto todelete = Tail.Previous;
+			Tail.Previous = todelete->Previous;
+			todelete->Previous->Next = &Tail;
 
 			todelete->Next = nullptr;
 			todelete->Previous = nullptr;
@@ -131,23 +141,22 @@ namespace KT
 
 			--size;
 		}
-		void pushFront(const Node<type>& val)
+		void pushFront(const value_type& val)
 		{
-			Node<type>* newval = new Node<type>(val.data);
-			anchor.Next->Previous = newval;
-			newval->Next = anchor.Next;
-			newval->Previous = &anchor;
-			anchor.Next = newval;
-
+			pointer NewVal = new KT::Node(val.data);
+			Head.Next->Previous = NewVal;
+			NewVal->Previous = &Head;
+			NewVal->Next = Head.Next;
+			Head.Next = NewVal;
 			++size;
 		}
 		void popFront()
 		{
 			if (Empty())
 				throw std::out_of_range("List is Empty");
-			auto todelete = anchor.Next;
-			anchor.Next = todelete->Next;
-			todelete->Next->Previous = &anchor;
+			auto todelete = Head.Next;
+			Head.Next = todelete->Next;
+			todelete->Next->Previous = &Head;
 
 			todelete->Next = nullptr;
 			todelete->Previous = nullptr;
@@ -163,6 +172,7 @@ namespace KT
 				++it;
 			}
 			return *it;
+
 		}
 		const_reference operator[](const size_t& idx) const
 		{
@@ -229,43 +239,52 @@ namespace KT
 		}
 		iterator begin()
 		{
-			return iterator(anchor.Next);
+			return iterator(Head.Next);
 		}
 		const_iterator begin() const
 		{
-			return const_iterator(anchor.Next);
+			return const_iterator(Head.Next);
 		}
 		iterator end()
 		{
-			return iterator(&anchor);
+			return iterator(&Tail);
 		}
 		const_iterator end() const
 		{
-			return const_iterator(&anchor);
+			return const_iterator(&Tail);
 		}
 		reference front()
 		{
-			return *anchor.Next;
+			return *Head.Next;
 		}
 		const_reference front() const
 		{
-			return *anchor.Next;
+			return *Head.Next;
 		}
 		reference back()
 		{
-			return *anchor.Previous;
+			return *Tail.Previous;
 		}
 		const_reference back() const
 		{
-			return *anchor.Previous;
+			return *Tail.Previous;
 		}
 		void clear()
 		{
 			while (!Empty())
 				popFront();
-
+			resize(0);
 		}
-		void assign(iterator begin, iterator end)
+		IntrusiveList& operator=(const IntrusiveList& tab)
+		{
+			clear();
+			for (auto it = tab.begin(); it != tab.end(); ++it)
+			{
+				pushBack(*it);
+			}
+			return *this;
+		}
+		void assign(const iterator& begin, const iterator& end)
 		{
 			clear();
 			for (auto it = begin; it != end; ++it)
@@ -273,7 +292,7 @@ namespace KT
 				pushBack(*it);
 			}
 		}
-		void assign(size_t sizeofvec,  const Node<type>& data)
+		void assign(const size_t& sizeofvec, const value_type& data)
 		{
 			clear();
 			for (size_t i = 0; i < sizeofvec; ++i)
@@ -281,7 +300,7 @@ namespace KT
 				pushBack(data);
 			}
 		}
-		void assign(std::initializer_list<Node<type>> list)
+		void assign(const std::initializer_list<KT::Node<type>>& list)
 		{
 			clear();
 			for (const auto& element : list)
@@ -289,50 +308,36 @@ namespace KT
 				pushBack(element);
 			}
 		}
-		void static advanceptr(iterator& dest, int distance)
-		{
-			if (distance < 0)
-			{
-				for (int i = 0; i < -distance; ++i)
-					--dest;
-			}
-			else
-			{
-				for (int i = 0; i < distance; ++i)
-					++dest;
-			}
-
-		}
 		reverse_iterator rbegin()
 		{
-			return reverse_iterator(anchor.Previous);
+			return reverse_iterator(Tail.Previous);
 		}
 		const_reverse_iterator rbegin() const
 		{
-			return const_reverse_iterator(anchor.Previous);
+			return const_reverse_iterator(Tail.Previous);
 		}
 		reverse_iterator rend()
 		{
-			return reverse_iterator(&anchor);
+			return reverse_iterator(&Head);
 		}
 		const_reverse_iterator rend() const
 		{
-			return const_reverse_iterator(&anchor);
+			return const_reverse_iterator(&Head);
 		}
-		size_t maxsize()
+		size_t max_size()
 		{
 			return std::numeric_limits<size_t>::max() / sizeof(type);
 		}
-		size_t maxsize() const
+		size_t max_size() const
 		{
 			return std::numeric_limits<size_t>::max() / sizeof(type);
 		}
-		void insert(const iterator& newit, const Node<type>& value)
+		void insert(const iterator& newit, const value_type& value)
 		{
 			if (find(newit) == end())
 				throw std::out_of_range("Out of range");
 			auto oldnode = newit.m_node;
-			Node<type>* nodetoadd = new Node<type>(value.data);
+			pointer nodetoadd = new KT::Node<type>(value.data);
 			nodetoadd->Next = oldnode;
 			nodetoadd->Previous = oldnode->Previous;
 			oldnode->Previous->Next = nodetoadd;
@@ -358,20 +363,31 @@ namespace KT
 			return end();
 		}
 	private:
+
+		
+
 		struct iterator {
 			//this iterator compatible with stl
 			using iterator_category = std::random_access_iterator_tag;
-			using value_type = Node<type>;
+			using value_type = KT::Node<type>;
 			using difference_type = std::ptrdiff_t;
-			using pointer = Node<type>*;
-			using reference = Node<type>&;
+			using pointer = KT::Node<type>*;
+			using reference = KT::Node<type>&;
 			friend IntrusiveList;
-			iterator(Node<type>* ptr) : m_node(ptr) {}
+			iterator(pointer ptr) : m_node(ptr) {}
 			reference operator*()
 			{
 				return *m_node;
 			}
+			const reference  operator*() const
+			{
+				return *m_node;
+			}
 			pointer operator->()
+			{
+				return m_node;
+			}
+			const pointer operator->() const
 			{
 				return m_node;
 			}
@@ -406,16 +422,16 @@ namespace KT
 			difference_type operator-(const iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other; --i)
+				for (auto it = *this; it != other; --it)
 				{
-					++diff;
+						++diff;
 				}
 				return diff;
 			}
 			difference_type operator+(const iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other; ++i)
+				for (auto it = *this; it != other; ++it)
 				{
 					++diff;
 				}
@@ -429,20 +445,69 @@ namespace KT
 			{
 				return m_node != other.m_node;
 			}
-		private:
-			Node<type>* m_node;
-		};
+			bool operator<(const iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Next;
+					if (curent == other.m_node)
+						return true;
 
-		struct reverse_iterator {
+				}
+				return false;
+			}
+			bool operator>(const iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Previous;
+					if (curent == other.m_node)
+						return true;
+
+				}
+				return false;
+			}
+			bool operator<=(const iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Next;
+				}
+				return false;
+			}
+			bool operator>=(const iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Previous;
+				}
+				return false;
+			}
+		private:
+			pointer m_node;
+		};
+		struct const_iterator {
 			//this iterator compatible with stl
 			using iterator_category = std::random_access_iterator_tag;
-			using value_type = Node<type>;
+			using value_type = const KT::Node<type>;
 			using difference_type = std::ptrdiff_t;
-			using pointer = Node<type>*;
-			using reference = Node<type>&;
+			using pointer = const KT::Node<type>*;
+			using reference = const KT::Node<type>&;
 			friend IntrusiveList;
-			reverse_iterator(Node<type>* ptr) : m_node(ptr) {}
+			const_iterator(pointer ptr) : m_node(ptr) {}
 			reference operator*()
+			{
+				return *m_node;
+			}
+			reference operator*() const
 			{
 				return *m_node;
 			}
@@ -450,77 +515,7 @@ namespace KT
 			{
 				return m_node;
 			}
-			reverse_iterator& operator++()
-			{
-				m_node = m_node->Previous;
-				return *this;
-			}
-			reverse_iterator& operator--()
-			{
-				m_node = m_node->Next;
-				return *this;
-			}
-			reverse_iterator operator+(difference_type n) const
-			{
-				auto curentnode = m_node;
-				for (size_t i = 0; i < n; ++i)
-				{
-					curentnode = curentnode->Previous;
-				}
-				return reverse_iterator(curentnode);
-			}
-			reverse_iterator operator-(difference_type n) const
-			{
-				auto curentnode = m_node;
-				for (size_t i = 0; i < n; ++i)
-				{
-					curentnode = curentnode->Next;
-				}
-				return reverse_iterator(curentnode);
-			}
-			difference_type operator-(const reverse_iterator& other) const
-			{
-				difference_type diff = 0;
-				for (auto i = m_node; i != other; --i)
-				{
-					++diff;
-				}
-				return diff;
-			}
-			difference_type operator+(const reverse_iterator& other) const
-			{
-				difference_type diff = 0;
-				for (auto i = m_node; i != other; ++i)
-				{
-					++diff;
-				}
-				return diff;
-			}
-			bool operator==(const reverse_iterator& other) const
-			{
-				return m_node == other.m_node;
-			}
-			bool operator!=(const reverse_iterator& other) const
-			{
-				return m_node != other.m_node;
-			}
-		private:
-			Node<type>* m_node;
-		};
-		struct const_iterator {
-			//this iterator compatible with stl
-			using iterator_category = std::random_access_iterator_tag;
-			using value_type = const Node<type>;
-			using difference_type = std::ptrdiff_t;
-			using pointer = const Node<type>*;
-			using reference = const Node<type>&;
-			friend IntrusiveList;
-			const_iterator(const Node<type>* ptr) : m_node(ptr) {}
-			reference operator*()
-			{
-				return *m_node;
-			}
-			pointer operator->()
+			pointer operator->() const
 			{
 				return m_node;
 			}
@@ -555,7 +550,7 @@ namespace KT
 			difference_type operator-(const const_iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other; --i)
+				for (auto it = *this; it != other; --it)
 				{
 					++diff;
 				}
@@ -564,7 +559,7 @@ namespace KT
 			difference_type operator+(const const_iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other; ++i)
+				for (auto it = *this; it != other; ++it)
 				{
 					++diff;
 				}
@@ -578,24 +573,205 @@ namespace KT
 			{
 				return m_node != other.m_node;
 			}
+			bool operator<(const const_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Next;
+					if (curent == other.m_node)
+						return true;
+
+				}
+				return false;
+			}
+			bool operator>(const const_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Previous;
+					if (curent == other.m_node)
+						return true;
+
+				}
+				return false;
+			}
+			bool operator<=(const const_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Next;
+				}
+				return false;
+			}
+			bool operator>=(const const_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Previous;
+				}
+				return false;
+			}
 		private:
-			const Node<type>* m_node;
+			pointer m_node;
 		};
-		
+		struct reverse_iterator {
+			//this iterator compatible with stl
+			using iterator_category = std::random_access_iterator_tag;
+			using value_type = KT::Node<type>;
+			using difference_type = std::ptrdiff_t;
+			using pointer = KT::Node<type>*;
+			using reference = KT::Node<type>&;
+			friend IntrusiveList;
+			reverse_iterator(pointer ptr) : m_node(ptr) {}
+			type& operator*()
+			{
+				return m_node->data;
+			}
+			const reference operator*() const
+			{
+				return *m_node;
+			}
+			 pointer operator->()
+			{
+				return m_node;
+			}
+			const pointer operator->() const
+			{
+				return m_node;
+			}
+			reverse_iterator& operator++()
+			{
+				m_node = m_node->Previous;
+				return *this;
+			}
+			reverse_iterator& operator--()
+			{
+				m_node = m_node->Next;
+				return *this;
+			}
+			reverse_iterator operator+(difference_type n) const
+			{
+				auto curentnode = m_node;
+				for (size_t i = 0; i < n; ++i)
+				{
+					curentnode = curentnode->Previous;
+				}
+				return reverse_iterator(curentnode);
+			}
+			reverse_iterator operator-(difference_type n) const
+			{
+				auto curentnode = m_node;
+				for (size_t i = 0; i < n; ++i)
+				{
+					curentnode = curentnode->Next;
+				}
+				return reverse_iterator(curentnode);
+			}
+			difference_type operator-(const reverse_iterator& other) const
+			{
+				difference_type diff = 0;
+				for (auto it = *this; it != other; --it)
+				{
+					++diff;
+				}
+				return diff;
+			}
+			difference_type operator+(const reverse_iterator& other) const
+			{
+				difference_type diff = 0;
+				for (auto it = *this; it != other; ++it)
+				{
+					++diff;
+				}
+				return diff;
+			}
+			bool operator==(const reverse_iterator& other) const
+			{
+				return m_node == other.m_node;
+			}
+			bool operator!=(const reverse_iterator& other) const
+			{
+				return m_node != other.m_node;
+			}
+			bool operator<(const reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Next;
+					if (curent == other.m_node)
+						return true;
+
+				}
+				return false;
+			}
+			bool operator>(const reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Previous;
+					if (curent == other.m_node)
+						return true;
+
+				}
+				return false;
+			}
+			bool operator<=(const reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Next;
+				}
+				return false;
+			}
+			bool operator>=(const reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Previous;
+				}
+				return false;
+			}
+		private:
+			pointer m_node;
+		};
 		struct const_reverse_iterator {
 			//this iterator compatible with stl
 			using iterator_category = std::random_access_iterator_tag;
-			using value_type = const Node<type>;
+			using value_type = const KT::Node<type>;
 			using difference_type = std::ptrdiff_t;
-			using pointer = const Node<type>*;
-			using reference = const Node<type>&;
+			using pointer = const KT::Node<type>*;
+			using reference = const KT::Node<type>&;
 			friend IntrusiveList;
-			const_reverse_iterator(const Node<type>* ptr) : m_node(ptr) {}
+			const_reverse_iterator(pointer ptr) : m_node(ptr) {}
 			reference operator*()
 			{
 				return *m_node;
 			}
+			const reference operator*() const
+			{
+				return *m_node;
+			}
 			pointer operator->()
+			{
+				return m_node;
+			}
+			pointer operator->() const
 			{
 				return m_node;
 			}
@@ -630,7 +806,7 @@ namespace KT
 			difference_type operator-(const const_reverse_iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other; --i)
+				for (auto it = *this; it != other; --it)
 				{
 					++diff;
 				}
@@ -639,7 +815,7 @@ namespace KT
 			difference_type operator+(const const_reverse_iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other; ++i)
+				for (auto it = *this; it != other; ++it)
 				{
 					++diff;
 				}
@@ -653,10 +829,58 @@ namespace KT
 			{
 				return m_node != other.m_node;
 			}
+			bool operator<(const const_reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Next;
+					if (curent == other.m_node)
+						return true;
+
+				}
+				return false;
+			}
+			bool operator>(const const_reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Previous;
+					if (curent == other.m_node)
+						return true;
+
+				}
+				return false;
+			}
+			bool operator<=(const const_reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Next;
+				}
+				return false;
+			}
+			bool operator>=(const const_reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Previous;
+				}
+				return false;
+			}
+
 		private:
-			const Node<type>* m_node;
+			pointer m_node;
 		};
-		Node<type> anchor;
+		KT::Node<type> Head;
+		KT::Node<type> Tail;
 		size_t size;
 	};
 }

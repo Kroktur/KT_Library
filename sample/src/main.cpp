@@ -316,13 +316,13 @@ std::cout << testListconst.front() << "," << testListconst.back() << std::endl;
 
 // test Intrusive List
 
-KT::IntrusiveList<KT::Node<int>> testIntrusiveList{ KT::Node<int>(1), KT::Node<int>(2), KT::Node<int>(3), KT::Node<int>(4), KT::Node<int>(5)};
+KT::IntrusiveList<int> testIntrusiveList{ KT::Node<int>(1), KT::Node<int>(2), KT::Node<int>(3), KT::Node<int>(4), KT::Node<int>(5)};
 
-KT::IntrusiveList<KT::Node<int>> testIntrusiveList2{ KT::Node<int>(1), KT::Node<int>(2), KT::Node<int>(3), KT::Node<int>(4), KT::Node<int>(5) };
+KT::IntrusiveList<int> testIntrusiveList2{ KT::Node<int>(1), KT::Node<int>(2), KT::Node<int>(3), KT::Node<int>(4), KT::Node<int>(5) };
 
-KT::IntrusiveList<KT::Node<int>> testIntrusiveList3(testIntrusiveList2);
+KT::IntrusiveList<int> testIntrusiveList3(testIntrusiveList2);
 
-KT::IntrusiveList<KT::Node<int>>testIntrusiveList4{ KT::Node<int>(1), KT::Node<int>(2), KT::Node<int>(3)};
+KT::IntrusiveList<int>testIntrusiveList4{ KT::Node<int>(1), KT::Node<int>(2), KT::Node<int>(3)};
 
 testIntrusiveList = testIntrusiveList2;
 
@@ -352,15 +352,6 @@ std::cout << *testIntrusiveList.begin() << "," << *testIntrusiveList.rbegin() <<
 
 std::cout << "front && end = 1 et 5 :";
 std::cout << testIntrusiveList.front() << "," << testIntrusiveList.back() << std::endl;
-//
-//std::fill(testIntrusiveList.begin(), testIntrusiveList.end(), KT::Node<int>(5) );
-//std::cout << "IntrusiveList == 5,5,5,5,5 : ";
-//std::cout << testIntrusiveList << std::endl;
-
-//std::fill(testIntrusiveList.rbegin(), testIntrusiveList.rend(), 10);
-//std::cout << "IntrusiveList == 10,10,10,10,10 : ";
-//std::cout << testIntrusiveList << std::endl;
-
 
 testIntrusiveList.swap(testIntrusiveList2);
 std::cout << "IntrusiveList == 1,2,3,4,5 : ";
@@ -394,13 +385,13 @@ testIntrusiveList.assign(testIntrusiveList2.begin(), testIntrusiveList2.end());
 std::cout << "IntrusiveList == 1,2,3,4,5 : ";
 std::cout << testIntrusiveList << std::endl;
 
-const KT::IntrusiveList<const KT::Node<int>> testIntrusiveListcont{ KT::Node<int>(1), KT::Node<int>(2), KT::Node<int>(3), KT::Node<int>(4), KT::Node<int>(5) };
+const KT::IntrusiveList< int> testIntrusiveListcont{ KT::Node<int>(1), KT::Node<int>(2), KT::Node<int>(3), KT::Node<int>(4), KT::Node<int>(5) };
 
-const KT::IntrusiveList<const KT::Node<int>> testIntrusiveList2cont{ KT::Node<int>(1), KT::Node<int>(2), KT::Node<int>(3), KT::Node<int>(4), KT::Node<int>(5) };
+const KT::IntrusiveList<int> testIntrusiveList2cont{ KT::Node<int>(1), KT::Node<int>(2), KT::Node<int>(3), KT::Node<int>(4), KT::Node<int>(5) };
 
-const KT::IntrusiveList<const KT::Node<int>> testIntrusiveList3cont(testIntrusiveList2cont);
+const KT::IntrusiveList<int> testIntrusiveList3cont(testIntrusiveList2cont);
 
-const KT::IntrusiveList<const KT::Node<int>>testIntrusiveList4cont{ KT::Node<int>(1), KT::Node<int>(2), KT::Node<int>(3) };
+const KT::IntrusiveList<int>testIntrusiveList4cont{ KT::Node<int>(1), KT::Node<int>(2), KT::Node<int>(3) };
 
 
 std::cout << "Size  && max size = 5 :";
@@ -417,7 +408,7 @@ std::cout << "IntrusiveList[0] == 1 :";
 std::cout << testIntrusiveListcont[0] << std::endl;
 
 std::cout << "IntrusiveList.at(0) == 1 :";
-std::cout << testIntrusiveListcont.at(0).data << std::endl;
+std::cout << testIntrusiveListcont.at(0) << std::endl;
 
 std::cout << "*Begin = 1 rbegin = 5 : ";
 std::cout << *testIntrusiveListcont.begin() << "," << *testIntrusiveListcont.rbegin() << std::endl;
@@ -438,5 +429,8 @@ KT::List<int> testListsort{ 5,4,3,2,1 };
 KT::Sort<KT::List<int>, KT::FusionSort>(testListsort);
 std::cout << testListsort;
 
-
+//KT::IntrusiveList<int> testListsortintrusive{ KT::Node<int>(5), KT::Node<int>(4), KT::Node<int>(3), KT::Node<int>(2), KT::Node<int>(1) };
+//KT::Sort<KT::IntrusiveList<int>, KT::BubbleSort>(testListsortintrusive);
+//std::cout << "test list avant sort : " << std::endl;
+//std::cout << testListsortintrusive;
 }

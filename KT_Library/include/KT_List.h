@@ -76,7 +76,7 @@ namespace KT
 			*this = Newlist;
 			Newlist = tmp;
 		}
-		void pushBack(const type& val)
+		void pushBack(const value_type& val)
 		{
 			Node* NewVal = new Node(val);
 			Tail.Previous->Next = NewVal;
@@ -99,7 +99,7 @@ namespace KT
 
 			--size;
 		}
-		void pushFront(const type& val)
+		void pushFront(const value_type& val)
 		{
 			Node* NewVal = new Node(val);
 			Head.Next->Previous = NewVal;
@@ -348,7 +348,7 @@ namespace KT
 			{
 				return m_node->data;
 			}
-			const reference  operator*() const
+			const reference operator*() const
 			{
 				return m_node->data;
 			}
@@ -608,7 +608,7 @@ namespace KT
 			{
 				return m_node->data;
 			}
-			const Node* operator->()
+			Node* operator->()
 			{
 				return m_node;
 			}
@@ -736,7 +736,7 @@ namespace KT
 			{
 				return m_node->data;
 			}
-			const Node* operator->()
+			Node* operator->()
 			{
 				return m_node;
 			}
