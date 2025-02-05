@@ -9,14 +9,14 @@ using {\bfseries value\+\_\+type} = type
 \Hypertarget{class_k_t_1_1_vector_a3006526006279d60b8d38a0bff1a4fe3}\label{class_k_t_1_1_vector_a3006526006279d60b8d38a0bff1a4fe3} 
 using {\bfseries reverse\+\_\+iterator} = reverse\+\_\+iterator
 \item 
-\Hypertarget{class_k_t_1_1_vector_a34ee9a2a20e65e13134c83aab0f0afd5}\label{class_k_t_1_1_vector_a34ee9a2a20e65e13134c83aab0f0afd5} 
-using {\bfseries const\+\_\+reverse\+\_\+iterator} = reverse\+\_\+iterator
+\Hypertarget{class_k_t_1_1_vector_a1ef8e760afa3db034a312f62e9ecd7bc}\label{class_k_t_1_1_vector_a1ef8e760afa3db034a312f62e9ecd7bc} 
+using {\bfseries const\+\_\+reverse\+\_\+iterator} = const\+\_\+reverse\+\_\+iterator
 \item 
 \Hypertarget{class_k_t_1_1_vector_a472bdeffb6637b9af2f4642cc8e1b369}\label{class_k_t_1_1_vector_a472bdeffb6637b9af2f4642cc8e1b369} 
 using {\bfseries iterator} = iterator
 \item 
-\Hypertarget{class_k_t_1_1_vector_ae284d99ec8b86a494561dfb0f8e1ce1b}\label{class_k_t_1_1_vector_ae284d99ec8b86a494561dfb0f8e1ce1b} 
-using {\bfseries const\+\_\+iterator} = const iterator
+\Hypertarget{class_k_t_1_1_vector_a61ba2eff338125bdf9da3857d16a8ac5}\label{class_k_t_1_1_vector_a61ba2eff338125bdf9da3857d16a8ac5} 
+using {\bfseries const\+\_\+iterator} = const\+\_\+iterator
 \item 
 \Hypertarget{class_k_t_1_1_vector_ab8b7318284a0fbe6afa36d46a238ba37}\label{class_k_t_1_1_vector_ab8b7318284a0fbe6afa36d46a238ba37} 
 using {\bfseries value\+\_\+type} = type
@@ -48,8 +48,8 @@ using {\bfseries const\+\_\+reference} = const type\&
 \Hypertarget{class_k_t_1_1_vector_a36a8fb6921c7fa5550dc7c824139bd67}\label{class_k_t_1_1_vector_a36a8fb6921c7fa5550dc7c824139bd67} 
 void {\bfseries reserve} (const size\+\_\+t \&newcapacity)
 \item 
-\Hypertarget{class_k_t_1_1_vector_ae04b8225a1a7ecc78e1500c4e0d00a95}\label{class_k_t_1_1_vector_ae04b8225a1a7ecc78e1500c4e0d00a95} 
-void {\bfseries push\+Back} (const type \&value)
+\Hypertarget{class_k_t_1_1_vector_a99e74a4f7b87932124638a827afe6afa}\label{class_k_t_1_1_vector_a99e74a4f7b87932124638a827afe6afa} 
+void {\bfseries push\+Back} (const\+\_\+reference value)
 \item 
 \Hypertarget{class_k_t_1_1_vector_ab4edf1091f5617dc1237448a7115e309}\label{class_k_t_1_1_vector_ab4edf1091f5617dc1237448a7115e309} 
 void {\bfseries pop\+Back} ()
@@ -57,17 +57,17 @@ void {\bfseries pop\+Back} ()
 \Hypertarget{class_k_t_1_1_vector_a94480d53dfc019c87538135b48883ffa}\label{class_k_t_1_1_vector_a94480d53dfc019c87538135b48883ffa} 
 void {\bfseries resize} (const size\+\_\+t \&newsize)
 \item 
-\Hypertarget{class_k_t_1_1_vector_a1e464e9b7c1b221e21218491e2e295c1}\label{class_k_t_1_1_vector_a1e464e9b7c1b221e21218491e2e295c1} 
-type \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (const size\+\_\+t \&idx)
+\Hypertarget{class_k_t_1_1_vector_ad671fa13ef0a67f7c8eac0fa7981ce44}\label{class_k_t_1_1_vector_ad671fa13ef0a67f7c8eac0fa7981ce44} 
+reference {\bfseries operator\mbox{[}$\,$\mbox{]}} (const size\+\_\+t \&idx)
 \item 
-\Hypertarget{class_k_t_1_1_vector_ad42746680f2c57f0ff0a373e33e726d1}\label{class_k_t_1_1_vector_ad42746680f2c57f0ff0a373e33e726d1} 
-const type \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (const size\+\_\+t \&idx) const
+\Hypertarget{class_k_t_1_1_vector_aa2b734eb123602176e22641566b8ad02}\label{class_k_t_1_1_vector_aa2b734eb123602176e22641566b8ad02} 
+const\+\_\+reference {\bfseries operator\mbox{[}$\,$\mbox{]}} (const size\+\_\+t \&idx) const
 \item 
-\Hypertarget{class_k_t_1_1_vector_a6bc0b5509c9541638418e36711cfee31}\label{class_k_t_1_1_vector_a6bc0b5509c9541638418e36711cfee31} 
-type \& {\bfseries at} (const size\+\_\+t \&idx)
+\Hypertarget{class_k_t_1_1_vector_ad680b8ddb1a83fedc0f6ecb2db64e23d}\label{class_k_t_1_1_vector_ad680b8ddb1a83fedc0f6ecb2db64e23d} 
+reference {\bfseries at} (const size\+\_\+t \&idx)
 \item 
-\Hypertarget{class_k_t_1_1_vector_a6d2f71ded0a60b14c1746b8cd1bcc421}\label{class_k_t_1_1_vector_a6d2f71ded0a60b14c1746b8cd1bcc421} 
-const type \& {\bfseries at} (const size\+\_\+t \&idx) const
+\Hypertarget{class_k_t_1_1_vector_aba5b35fc07f2133d3c5096b43c86145b}\label{class_k_t_1_1_vector_aba5b35fc07f2133d3c5096b43c86145b} 
+const\+\_\+reference {\bfseries at} (const size\+\_\+t \&idx) const
 \item 
 \Hypertarget{class_k_t_1_1_vector_ac7d63a5245c45470e5a832263fefe10e}\label{class_k_t_1_1_vector_ac7d63a5245c45470e5a832263fefe10e} 
 iterator {\bfseries begin} ()
@@ -123,17 +123,23 @@ size\+\_\+t {\bfseries Size} ()
 \Hypertarget{class_k_t_1_1_vector_a6799dbe4200ffd7d6cf0e825def605cb}\label{class_k_t_1_1_vector_a6799dbe4200ffd7d6cf0e825def605cb} 
 size\+\_\+t {\bfseries Size} () const
 \item 
-\Hypertarget{class_k_t_1_1_vector_a67f7554bab3ba3f2288bd42fc79d2558}\label{class_k_t_1_1_vector_a67f7554bab3ba3f2288bd42fc79d2558} 
-size\+\_\+t {\bfseries maxsize} ()
+\Hypertarget{class_k_t_1_1_vector_a0fb37d954874ebc25c35d6786fb4d2a2}\label{class_k_t_1_1_vector_a0fb37d954874ebc25c35d6786fb4d2a2} 
+size\+\_\+t {\bfseries max\+\_\+size} ()
 \item 
-\Hypertarget{class_k_t_1_1_vector_ad83148da357ea420004d7c094292d791}\label{class_k_t_1_1_vector_ad83148da357ea420004d7c094292d791} 
-size\+\_\+t {\bfseries maxsize} () const
+\Hypertarget{class_k_t_1_1_vector_a2823d9c9c231dc2837ba797182040b9e}\label{class_k_t_1_1_vector_a2823d9c9c231dc2837ba797182040b9e} 
+size\+\_\+t {\bfseries max\+\_\+size} () const
+\item 
+\Hypertarget{class_k_t_1_1_vector_a670a64537af6587b8a7c47f8930d6d25}\label{class_k_t_1_1_vector_a670a64537af6587b8a7c47f8930d6d25} 
+pointer {\bfseries data} ()
+\item 
+\Hypertarget{class_k_t_1_1_vector_a9b7455bb33559a3f71d9cc5d1de3d024}\label{class_k_t_1_1_vector_a9b7455bb33559a3f71d9cc5d1de3d024} 
+const\+\_\+pointer {\bfseries data} () const
 \item 
 \Hypertarget{class_k_t_1_1_vector_a38f1de49eb70d5ac2cd2b18ff4d34369}\label{class_k_t_1_1_vector_a38f1de49eb70d5ac2cd2b18ff4d34369} 
 void {\bfseries clear} ()
 \item 
-\Hypertarget{class_k_t_1_1_vector_a0453bb7bda4d51355e502a9fde7da741}\label{class_k_t_1_1_vector_a0453bb7bda4d51355e502a9fde7da741} 
-void {\bfseries insert} (iterator dest, const type \&value)
+\Hypertarget{class_k_t_1_1_vector_a10e1287dd9873a17448ae025d14e86d2}\label{class_k_t_1_1_vector_a10e1287dd9873a17448ae025d14e86d2} 
+void {\bfseries insert} (iterator dest, const\+\_\+reference value)
 \item 
 \Hypertarget{class_k_t_1_1_vector_a0f18ae2122f5dc46b845677bcfe15916}\label{class_k_t_1_1_vector_a0f18ae2122f5dc46b845677bcfe15916} 
 void {\bfseries erase} (iterator supr)
@@ -141,8 +147,8 @@ void {\bfseries erase} (iterator supr)
 \Hypertarget{class_k_t_1_1_vector_a6832c02323aa596a6a820a6ec2bb336f}\label{class_k_t_1_1_vector_a6832c02323aa596a6a820a6ec2bb336f} 
 void {\bfseries assign} (iterator begin, iterator end)
 \item 
-\Hypertarget{class_k_t_1_1_vector_ad8de8b2cf9eb85270fe0390a18a5a03c}\label{class_k_t_1_1_vector_ad8de8b2cf9eb85270fe0390a18a5a03c} 
-void {\bfseries assign} (size\+\_\+t sizeofvec, type data)
+\Hypertarget{class_k_t_1_1_vector_a8ff0cc36d82bb07c434a6a8520532275}\label{class_k_t_1_1_vector_a8ff0cc36d82bb07c434a6a8520532275} 
+void {\bfseries assign} (size\+\_\+t sizeofvec, value\+\_\+type data)
 \item 
 \Hypertarget{class_k_t_1_1_vector_aee2bef65c50b8e09c27c209312906697}\label{class_k_t_1_1_vector_aee2bef65c50b8e09c27c209312906697} 
 void {\bfseries assign} (std\+::initializer\+\_\+list$<$ type $>$ list)
@@ -156,11 +162,11 @@ void {\bfseries swap} (\mbox{\hyperlink{class_k_t_1_1_vector}{Vector}}$<$ type $
 \Hypertarget{class_k_t_1_1_vector_ad57b336345e82fb188b7c6d0e738acf4}\label{class_k_t_1_1_vector_ad57b336345e82fb188b7c6d0e738acf4} 
 iterator {\bfseries find} (const iterator \&ptr)
 \item 
-\Hypertarget{class_k_t_1_1_vector_a27e9818a3b2704b0abe7c4db020e74b8}\label{class_k_t_1_1_vector_a27e9818a3b2704b0abe7c4db020e74b8} 
-const\+\_\+iterator {\bfseries find} (const iterator \&ptr) const
+\Hypertarget{class_k_t_1_1_vector_a7a90b97afd530d47adc1fff6d9825e63}\label{class_k_t_1_1_vector_a7a90b97afd530d47adc1fff6d9825e63} 
+const\+\_\+iterator {\bfseries find} (const const\+\_\+iterator \&ptr) const
 \end{DoxyCompactItemize}
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Src/projet\+\_\+library/\+KT\+\_\+\+Library/include/KT\+\_\+\+Vector.\+h\end{DoxyCompactItemize}
+C\+:/projet bibliotheque/\+KT\+\_\+\+Library/\+KT\+\_\+\+Library/include/KT\+\_\+\+Vector.\+h\end{DoxyCompactItemize}

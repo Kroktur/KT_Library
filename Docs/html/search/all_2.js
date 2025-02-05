@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['list_0',['List',['../class_k_t_1_1_list.html',1,'KT']]]
+  ['fusionsort_0',['FusionSort',['../struct_k_t_1_1_fusion_sort.html',1,'KT']]]
 ];

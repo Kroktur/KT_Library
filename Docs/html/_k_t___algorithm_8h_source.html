@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>KT_Library: C:/Src/projet_library/KT_Library/include/KT_Algorithm.h Source File</title>
+<title>KT_Library: C:/projet bibliotheque/KT_Library/KT_Library/include/KT_Algorithm.h Source File</title>
 <link rel="icon" href="Git_Logo.jpg" type="image/x-icon" />
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -107,13 +107,37 @@ $(function(){initNavTree('_k_t___algorithm_8h_source.html',''); initResizable(tr
   <div class="headertitle"><div class="title">KT_Algorithm.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<a href="_k_t___algorithm_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">/*****************************************************************/</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="_k_t___fusion_sort_8h.html">KT_FusionSort.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="_k_t___bubble_sort_8h.html">KT_BubbleSort.h</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="_k_t___insertion_sort_8h.html">KT_InsertionSort.h</a>&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span>KT</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>{</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> container, <span class="keyword">template</span>&lt;<span class="keyword">typename</span>&gt;<span class="keyword">class </span>SortMethode&gt;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordtype">void</span> Sort(container&amp; data)</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        SortMethode&lt;container&gt;()(data);</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    }</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> input, <span class="keyword">typename</span> output, <span class="keyword">typename</span> fn&gt;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keywordtype">void</span> transform(input* begin, input* end, output* dest, fn fn_)</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = begin; it != end; ++it, ++dest)</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            *dest = fn_(*it);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        }</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    }</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>}</div>
+<div class="ttc" id="a_k_t___bubble_sort_8h_html"><div class="ttname"><a href="_k_t___bubble_sort_8h.html">KT_BubbleSort.h</a></div><div class="ttdoc">This file contains the BubbleSort.</div></div>
+<div class="ttc" id="a_k_t___fusion_sort_8h_html"><div class="ttname"><a href="_k_t___fusion_sort_8h.html">KT_FusionSort.h</a></div><div class="ttdoc">This file contains the FusionSort.</div></div>
+<div class="ttc" id="a_k_t___insertion_sort_8h_html"><div class="ttname"><a href="_k_t___insertion_sort_8h.html">KT_InsertionSort.h</a></div><div class="ttdoc">This file contains the InsertionSort.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_84ad19d165bc7e5e7cd6e531dbf3581e.html">KT_Library</a></li><li class="navelem"><a class="el" href="dir_6269db0e26a70d05c2050351d604fe87.html">include</a></li><li class="navelem"><b>KT_Algorithm.h</b></li>
+    <li class="navelem"><a class="el" href="dir_84ad19d165bc7e5e7cd6e531dbf3581e.html">KT_Library</a></li><li class="navelem"><a class="el" href="dir_6269db0e26a70d05c2050351d604fe87.html">include</a></li><li class="navelem"><a class="el" href="_k_t___algorithm_8h.html">KT_Algorithm.h</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

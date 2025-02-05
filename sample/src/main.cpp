@@ -1,11 +1,7 @@
 #include <iostream>
-#include "KT_Array.h"
-#include "KT_List.h"
-#include "KT_Vector.h"
-#include "KT_IntrusiveList.h"
 #include "KT_Algorithm.h"
-#include "KT_BubbleSort.h"
-#include <algorithm>
+#include "KT_Container.h"
+#include "KT_VectorND.h"
 int main()
 {
 	//// Test Array
@@ -433,6 +429,17 @@ std::cout << testListsort;
 //KT::Sort<KT::IntrusiveList<int>, KT::BubbleSort>(testListsortintrusive);
 //std::cout << "test list avant sort : " << std::endl;
 //std::cout << testListsortintrusive;
-std::vector<int> testvecstl({ 5,2,3,1,4 });
-KT::Sort<std::vector<int>, KT::BubbleSort>(testvecstl);
+KT::VectorND<int,5> testVectorND;
+
+KT::VectorND<int,5> testVector2ND{ 1,2,3,4,5 };
+
+KT::VectorND<int,5> testVector3ND(testVector2ND);
+
+KT::VectorND<int,5>testVector4ND{ 1,2,3 };
+
+testVectorND = testVector3ND;
+
+std::cout << std::endl;
+std::cout << "test vector nd: " << std::endl;
+std::cout << testVectorND;
 }

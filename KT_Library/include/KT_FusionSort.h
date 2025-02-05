@@ -1,5 +1,11 @@
 #pragma once
-#include "vector"
+/*****************************************************************//**
+ * \file   KT_FusionSort.h
+ * \brief  This file contains the FusionSort
+ *
+ * \author Kroktur
+ * \date   February 2025
+ *********************************************************************/
 #include "KT_Vector.h"
 namespace KT
 {
@@ -50,11 +56,11 @@ namespace KT
 				tmptab.pushBack(*curentrightidx);
 				++curentrightidx;
 			}
-			auto tmp_it = tmptab.begin();
+			auto tmpit = tmptab.begin();
 			for (auto it = startidx; it != endrightidx + 1; ++it)
 			{
-				*it = *tmp_it;
-				++tmp_it;
+				*it = *tmpit;
+				++tmpit;
 			}
 		}
 

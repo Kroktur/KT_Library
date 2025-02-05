@@ -1,4 +1,12 @@
 #pragma once
+/*****************************************************************//**
+ * \file   KT_BubbleSort.h
+ * \brief  This file contains the BubbleSort
+ *
+ * \author Kroktur
+ * \date   February 2025
+ *********************************************************************/
+#include "KT_Algorithm.h"
 namespace KT
 {
 	template<typename container>

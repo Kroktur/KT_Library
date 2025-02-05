@@ -76,21 +76,21 @@ namespace KT
                 reserve(newsize * 2);
             size = newsize;
         }
-        type& operator[](const size_t& idx)
+        reference operator[](const size_t& idx)
         {
             return m_data[idx];
         }
-        const type& operator[](const size_t& idx) const
+        const_reference operator[](const size_t& idx) const
         {
             return m_data[idx];
         }
-        type& at(const size_t& idx)
+        reference at(const size_t& idx)
         {
             if (idx >= size)
                 throw std::out_of_range("Out of Range");
             return m_data[idx];
         }
-        const type& at(const size_t& idx) const
+        const_reference at(const size_t& idx) const
         {
             if (idx >= size)
                 throw std::out_of_range("Out of Range");

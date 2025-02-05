@@ -1,4 +1,12 @@
 #pragma once
+/*****************************************************************//**
+ * \file   KT_InsertionSort.h
+ * \brief  This file contains the InsertionSort
+ *
+ * \author Kroktur
+ * \date   February 2025
+ *********************************************************************/
+#include "KT_Algorithm.h"
 namespace KT
 {
 	template<typename container>
