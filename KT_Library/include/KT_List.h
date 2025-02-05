@@ -17,6 +17,7 @@ namespace KT
 	class List
 	{
 	public:
+	
 		struct Node;
 		struct iterator;
 		struct const_iterator;
@@ -32,10 +33,11 @@ namespace KT
 		using reference = type&;
 		using const_reference = const type&;
 		~List() { clear(); }
-		List():size(0) { anchor.Next = &anchor; anchor.Previous = &anchor; }
+		List() :size(0) { Head.Next = &Tail;  Tail.Previous = &Head; }
 		List(const List& tab) :size(0)
 		{
-			anchor.Next = &anchor; anchor.Previous = &anchor;
+			Head.Next = &Tail;  
+			Tail.Previous = &Head;
 			for (auto it = tab.begin(); it != tab.end(); ++it)
 			{
 				pushBack(*it);
@@ -43,7 +45,7 @@ namespace KT
 		}
 		List(const std::initializer_list<type>& list) :size(0)
 		{
-			anchor.Next = &anchor; anchor.Previous = &anchor;
+			Head.Next = &Tail;  Tail.Previous = &Head;
 			for (const auto& element : list)
 			{
 				pushBack(element);
@@ -77,19 +79,19 @@ namespace KT
 		void pushBack(const type& val)
 		{
 			Node* NewVal = new Node(val);
-			anchor.Previous->Next = NewVal;
-			NewVal->Previous = anchor.Previous;
-			NewVal->Next = &anchor;
-			anchor.Previous = NewVal;
+			Tail.Previous->Next = NewVal;
+			NewVal->Next = &Tail;
+			NewVal->Previous = Tail.Previous;
+			Tail.Previous = NewVal;
 			++size;
 		}
 		void popBack()
 		{
 			if (Empty())
 				throw std::out_of_range("List is Empty");
-			auto todelete = anchor.Previous;
-			anchor.Previous = todelete->Previous;
-			todelete->Previous->Next = &anchor;
+			auto todelete = Tail.Previous;
+			Tail.Previous = todelete->Previous;
+			todelete->Previous->Next = &Tail;
 
 			todelete->Next = nullptr;
 			todelete->Previous = nullptr;
@@ -100,19 +102,19 @@ namespace KT
 		void pushFront(const type& val)
 		{
 			Node* NewVal = new Node(val);
-			anchor.Next->Previous = NewVal;
-			NewVal->Next = anchor.Next;
-			NewVal->Previous = &anchor;
-			anchor.Next = NewVal;
+			Head.Next->Previous = NewVal;
+			NewVal->Previous = &Head;
+			NewVal->Next = Head.Next;
+			Head.Next = NewVal;
 			++size;
 		}
 		void popFront()
 		{
 			if (Empty())
 				throw std::out_of_range("List is Empty");
-			auto todelete = anchor.Next;
-			anchor.Next = todelete->Next;
-			todelete->Next->Previous = &anchor;
+			auto todelete = Head.Next;
+			Head.Next = todelete->Next;
+			todelete->Next->Previous = &Head;
 
 			todelete->Next = nullptr;
 			todelete->Previous = nullptr;
@@ -195,35 +197,35 @@ namespace KT
 		}
 		iterator begin()
 		{
-			return iterator(anchor.Next);
+			return iterator(Head.Next);
 		}
 		const_iterator begin() const
 		{
-			return const_iterator(anchor.Next);
+			return const_iterator(Head.Next);
 		}
 		iterator end()
 		{
-			return iterator(&anchor);
+			return iterator(&Tail);
 		}
 		const_iterator end() const
 		{
-			return const_iterator(&anchor);
+			return const_iterator(&Tail);
 		}
 		reference front()
 		{
-			return anchor.Next->data;
+			return Head.Next->data;
 		}
 		const_reference front() const
 		{
-			return anchor.Next->data;
+			return Head.Next->data;
 		}
 		reference back()
 		{
-			return anchor.Previous->data;
+			return Tail.Previous->data;
 		}
 		const_reference back() const
 		{
-			return anchor.Previous->data;
+			return Tail.Previous->data;
 		}
 		void clear()
 		{
@@ -266,19 +268,19 @@ namespace KT
 		}
 		reverse_iterator rbegin()
 		{
-			return reverse_iterator(anchor.Previous);
+			return reverse_iterator(Tail.Previous);
 		}
 		const_reverse_iterator rbegin() const
 		{
-			return const_reverse_iterator(anchor.Previous);
+			return const_reverse_iterator(Tail.Previous);
 		}
 		reverse_iterator rend()
 		{
-			return reverse_iterator(&anchor);
+			return reverse_iterator(&Head);
 		}
 		const_reverse_iterator rend() const
 		{
-			return const_reverse_iterator(&anchor);
+			return const_reverse_iterator(&Head);
 		}
 		size_t max_size()
 		{
@@ -389,7 +391,7 @@ namespace KT
 			difference_type operator-(const iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other.m_node; --i)
+				for(auto it = *this; it != other ; --it)
 				{
 					++diff;
 				}
@@ -398,7 +400,7 @@ namespace KT
 			difference_type operator+(const iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other.m_node; ++i)
+				for (auto it = *this; it != other; ++it)
 				{
 					++diff;
 				}
@@ -411,6 +413,52 @@ namespace KT
 			bool operator!=(const iterator& other) const
 			{
 				return m_node != other.m_node;
+			}
+			bool operator<(const iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Next;
+					if (curent == other.m_node)
+						return true;
+					
+				}
+				return false;
+			}
+			bool operator>(const iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Previous;
+					if (curent == other.m_node)
+						return true;
+
+				}
+				return false;
+			}
+			bool operator<=(const iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Next;
+				}
+				return false;
+			}
+			bool operator>=(const iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Previous;
+				}
+				return false;
 			}
 		private:
 			Node* m_node;
@@ -471,7 +519,7 @@ namespace KT
 			difference_type operator-(const const_iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other; --i)
+				for (auto it = *this; it != other; --it)
 				{
 					++diff;
 				}
@@ -480,7 +528,7 @@ namespace KT
 			difference_type operator+(const const_iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other; ++i)
+				for (auto it = *this; it != other; ++it)
 				{
 					++diff;
 				}
@@ -493,6 +541,52 @@ namespace KT
 			bool operator!=(const const_iterator& other) const
 			{
 				return m_node != other.m_node;
+			}
+			bool operator<(const const_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Next;
+					if (curent == other.m_node)
+						return true;
+
+				}
+				return false;
+			}
+			bool operator>(const const_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Previous;
+					if (curent == other.m_node)
+						return true;
+
+				}
+				return false;
+			}
+			bool operator<=(const const_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Next;
+				}
+				return false;
+			}
+			bool operator>=(const const_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Previous;
+				}
+				return false;
 			}
 		private:
 			const Node* m_node;
@@ -553,7 +647,7 @@ namespace KT
 			difference_type operator-(const reverse_iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other; --i)
+				for (auto it = *this; it != other; --it)
 				{
 					++diff;
 				}
@@ -562,7 +656,7 @@ namespace KT
 			difference_type operator+(const reverse_iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other; ++i)
+				for (auto it = *this; it != other; ++it)
 				{
 					++diff;
 				}
@@ -575,6 +669,52 @@ namespace KT
 			bool operator!=(const reverse_iterator& other) const
 			{
 				return m_node != other.m_node;
+			}
+			bool operator<(const reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Next;
+					if (curent == other.m_node)
+						return true;
+
+				}
+				return false;
+			}
+			bool operator>(const reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Previous;
+					if (curent == other.m_node)
+						return true;
+
+				}
+				return false;
+			}
+			bool operator<=(const reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Next;
+				}
+				return false;
+			}
+			bool operator>=(const reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Previous;
+				}
+				return false;
 			}
 		private:
 			Node* m_node;
@@ -635,7 +775,7 @@ namespace KT
 			difference_type operator-(const const_reverse_iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other; --i)
+				for (auto it = *this; it != other; --it)
 				{
 					++diff;
 				}
@@ -644,7 +784,7 @@ namespace KT
 			difference_type operator+(const const_reverse_iterator& other) const
 			{
 				difference_type diff = 0;
-				for (auto i = m_node; i != other; ++i)
+				for (auto it = *this; it != other; ++it)
 				{
 					++diff;
 				}
@@ -658,13 +798,61 @@ namespace KT
 			{
 				return m_node != other.m_node;
 			}
+			bool operator<(const const_reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Next;
+					if (curent == other.m_node)
+						return true;
+
+				}
+				return false;
+			}
+			bool operator>(const const_reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					curent = curent->Previous;
+					if (curent == other.m_node)
+						return true;
+
+				}
+				return false;
+			}
+			bool operator<=(const const_reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Next;
+				}
+				return false;
+			}
+			bool operator>=(const const_reverse_iterator& other) const
+			{
+				auto curent = m_node;
+				while (curent != nullptr)
+				{
+					if (curent == other.m_node)
+						return true;
+					curent = curent->Previous;
+				}
+				return false;
+			}
 
 		private:
 			const Node* m_node;
 		};
-		Node anchor;
+		Node Head;
+		Node Tail;
 		size_t size;
 	};
+
 }
 template<typename type>
 std::ostream& operator<<(std::ostream& os,  KT::List<type> tab)

@@ -224,8 +224,8 @@ std::cout << testList << std::endl;
 std::cout << "List2 == 1,2,3,4,5 : ";
 std::cout << testList2 << std::endl;
 
-std::cout << "List3 == 1,2,3,4,5 : ";
-std::cout << testList3 << std::endl;
+//std::cout << "List3 == 1,2,3,4,5 : ";
+//std::cout << testList3 << std::endl;
 
 std::cout << "List4 == 1,2,3,0,0 : ";
 std::cout << testList4 << std::endl;

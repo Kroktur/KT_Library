@@ -1,78 +1,81 @@
 #pragma once
+#include "vector"
+#include "KT_Vector.h"
 namespace KT
 {
 	template<typename container>
 	struct FusionSort
 	{
-		using Iterator = container::iterator;
-		using difference_type = container::iterator::difference_type;
+		using Iterator = typename container::iterator;
 		void operator()(container& data)
 		{
-			internalfusion(data, data.begin(), data.end());
-
+			auto it = data.end();
+			internalfusion(data, data.begin(), --it);
 		}
+
 	private:
 		void merge_fusion(container& val, Iterator startidx, Iterator middleidx, Iterator endrightidx)
 		{
+			auto leftstartidx = startidx;
 			auto leftendidx = middleidx;
-			auto rightstartidx = leftendidx + 1;
+			auto rightstartidx = middleidx + 1;
+			auto rightendidx = endrightidx;
 
-			auto curentleftidx = startidx;
+			auto curentleftidx = leftstartidx;
 			auto curentrightidx = rightstartidx;
+			KT::Vector<typename container::value_type> tmptab;
+			tmptab.reserve(endrightidx - startidx);
 
-			auto tabidx = 0;
-
-			auto tabsize = endrightidx - startidx + 1;
-			auto tmptab = val;
-
-			while (curentleftidx != leftendidx + 1 || curentrightidx != endrightidx + 1)
+			while (curentleftidx < leftendidx + 1 && curentrightidx < rightendidx + 1)
 			{
-				if (curentleftidx == leftendidx + 1)
+				if (*curentleftidx <= *curentrightidx)
 				{
-					tmptab[tabidx] = *curentrightidx;
-					++tabidx;
-					++curentrightidx;
-				}
-				else if (curentrightidx == endrightidx + 1)
-				{
-					tmptab[tabidx] = *curentleftidx;
-					++tabidx;
+					tmptab.pushBack(*curentleftidx);
 					++curentleftidx;
 				}
 				else
 				{
-					if (*curentleftidx <= *curentrightidx)
-					{
-						tmptab[tabidx] = *curentleftidx;
-						++tabidx;
-						++curentleftidx;
-					}
-					else
-					{
-						tmptab[tabidx] = *curentrightidx;
-						++tabidx;
-						++curentrightidx;
-					}
+					tmptab.pushBack(*curentrightidx);
+					++curentrightidx;
 				}
 			}
-			/*for (auto i = 0; i < tabsize; ++i)
+			while (curentleftidx < leftendidx + 1)
 			{
-				val[i + startidx] = tmptab[i];
-			}*/
+				tmptab.pushBack(*curentleftidx);
+				++curentleftidx;
+			}
 
+			while (curentrightidx < rightendidx + 1)
+			{
+				tmptab.pushBack(*curentrightidx);
+				++curentrightidx;
+			}
+			auto tmp_it = tmptab.begin();
+			for (auto it = startidx; it != endrightidx + 1; ++it)
+			{
+				*it = *tmp_it;
+				++tmp_it;
+			}
 		}
-		void internalfusion(container& val,  Iterator startidx, Iterator endidx)
+
+		void internalfusion(container& val, Iterator startidx, Iterator endidx)
 		{
 			if (startidx == endidx)
 				return;
 
-			auto middleidx = startidx +(/*(endidx + startidx) /*/ 2);
+			auto it = startidx;
+			size_t size = 0;
+			while (it != endidx)
+			{
+				++it;
+				++size;
+			}
+			auto middleidx = startidx + (size / 2);
 
 			internalfusion(val, startidx, middleidx);
 			internalfusion(val, middleidx + 1, endidx);
 
 			merge_fusion(val, startidx, middleidx, endidx);
 		}
-		
 	};
 }
