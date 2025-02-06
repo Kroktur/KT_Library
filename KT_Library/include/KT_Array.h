@@ -44,7 +44,7 @@ namespace KT
         {
             std::fill(m_data, m_data + size, type());
         }
-        Array& operator=(Array<type, size>& tab)
+        Array& operator=(const Array<type, size>& tab)
         {
             if (Size() != tab.Size())
                 throw std::out_of_range("size must be equal");

@@ -1,10 +1,16 @@
 #pragma once
+/*****************************************************************//**
+ * \file   KT_VectorND.h
+ * \brief  This file contains the code for KT::VectorND
+ *
+ * \author Kroktur
+ * \date   February 2025
+ *********************************************************************/
 #include <exception>
 #include <initializer_list>
 #include <sstream>
 
 #include "KT_Array.h"
-
 namespace KT
 {
 	template<typename type , size_t size>
@@ -16,7 +22,10 @@ namespace KT
         using const_pointer = const type*;
         using reference = type&;
         using const_reference = const type&;
-
+        using reverse_iterator = KT::Array<type,size>::reverse_iterator;
+        using const_reverse_iterator = KT::Array<type, size>::const_reverse_iterator;
+        using iterator = KT::Array<type, size>::iterator;
+        using const_iterator = KT::Array<type, size>::const_iterator;
         VectorND(std::initializer_list<type> list)
         {
             if (list.size() > size)
@@ -35,7 +44,7 @@ namespace KT
                 throw std::runtime_error("size must be equal");
             std::copy(tab.m_data.begin(), tab.m_data.end(), m_data.data());
         }
-        VectorND& operator=(VectorND& tab)
+        VectorND& operator=(const VectorND& tab)
         {
             if (m_data.Size() != tab.m_data.Size())
                 throw std::out_of_range("size must be equal");
@@ -70,6 +79,188 @@ namespace KT
         const size_t Size() const
         {
             return m_data.Size();
+        }
+        bool Empty()
+        {
+            return m_data.Empty();
+        }
+        bool Empty() const
+        {
+            return  m_data.Empty();
+        }
+        pointer data()
+        {
+            return m_data.data();
+        }
+        const_pointer data() const
+        {
+            return m_data.data();
+        }
+        iterator begin()
+        {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
+            return iterator(data());
+        }
+        iterator end()
+        {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
+            return iterator(data() + size);
+        }
+        const_iterator begin() const
+        {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
+            return const_iterator(data());
+        }
+        const_iterator end() const
+        {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
+            return const_iterator(data() + size);
+        }
+        reverse_iterator rbegin()
+        {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
+            return reverse_iterator(data() + size - 1);
+        }
+        reverse_iterator rend()
+        {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
+            return reverse_iterator(data() - 1);
+        }
+        const_reverse_iterator rbegin() const
+        {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
+            return const_reverse_iterator(data() + size - 1);
+        }
+        const_reverse_iterator rend() const
+        {
+            if (Empty())
+                throw std::out_of_range("Array is empty");
+            return const_reverse_iterator(data() - 1);
+        }
+        KT::VectorND<type, size> operator+(const KT::VectorND<type,size>& data)
+        {
+            KT::VectorND<type, size> result;
+            for (size_t i = 0; i < m_data.Size(); ++i)
+            {
+                result[i] = data[i] + m_data[i];
+            }
+            return result;
+        }
+        KT::VectorND<type, size> operator-(const KT::VectorND<type,size>& data)
+        {
+            KT::VectorND<type, size> result;
+            for (size_t i = 0; i < m_data.Size(); ++i)
+            {
+                result[i] = data[i] - m_data[i];
+            }
+            return result;
+        }
+        KT::VectorND<type, size> operator*(const int& idx)
+        {
+            KT::VectorND<type, size> result;
+            for (size_t i = 0; i < m_data.Size(); ++i)
+            {
+                result[i] =  m_data[i] * idx;
+            }
+            return result;
+        }
+        KT::VectorND<type, size> operator/(const int& idx)
+        {
+            if (idx == 0)
+                throw std::runtime_error("cannot divide by 0");
+            KT::VectorND<type, size> result;
+            for (size_t i = 0; i < m_data.Size(); ++i)
+            {
+                result[i] =  m_data[i] / idx;
+            }
+            return result;
+        }
+        bool operator ==(const KT::VectorND<type, size>& data)
+        {
+            for (size_t i = 0; i < m_data.Size(); ++i)
+            {
+                if (data[i] != m_data[i])
+                    return false;
+            }
+            return true;
+        }
+        bool operator !=(const KT::VectorND<type, size>& data)
+        {
+            bool result;
+            for (size_t i = 0; i < m_data.Size(); ++i)
+            {
+                if (data[i] == m_data[i])
+                    result = false;
+                else
+                    result = true;
+            }
+            return result;
+        }
+        KT::VectorND<type, size> operator+(const KT::VectorND<type, size>& data) const 
+        {
+            KT::VectorND<type, size> result;
+            for (size_t i = 0; i < m_data.Size(); ++i)
+            {
+                result[i] = data[i] + m_data[i];
+            }
+            return result;
+        }
+        KT::VectorND<type, size> operator-(const KT::VectorND<type, size>& data) const
+        {
+            KT::VectorND<type, size> result;
+            for (size_t i = 0; i < m_data.Size(); ++i)
+            {
+                result[i] = data[i] - m_data[i];
+            }
+            return result;
+        }
+        KT::VectorND<type, size> operator*(const int& idx) const
+        {
+            KT::VectorND<type, size> result;
+            for (size_t i = 0; i < m_data.Size(); ++i)
+            {
+                result[i] = m_data[i] * idx;
+            }
+            return result;
+        }
+        KT::VectorND<type, size> operator/(const int& idx) const
+        {
+            if (idx == 0)
+                throw std::runtime_error("cannot divide by 0");
+            KT::VectorND<type, size> result;
+            for (size_t i = 0; i < m_data.Size(); ++i)
+            {
+                result[i] = m_data[i] / idx;
+            }
+            return result;
+        }
+        bool operator ==(const KT::VectorND<type, size>& data) const
+        {
+            for (size_t i = 0; i < m_data.Size(); ++i)
+            {
+                if (data[i] != m_data[i])
+                    return false;
+            }
+            return true;
+        }
+        bool operator !=(const KT::VectorND<type, size>& data) const
+        {
+            bool result;
+            for (size_t i = 0; i < m_data.Size(); ++i)
+            {
+                if (data[i] == m_data[i])
+                    result = false;
+                else
+                    result = true;
+            }
+            return result;
         }
 	private:
         KT::Array<type, size> m_data;

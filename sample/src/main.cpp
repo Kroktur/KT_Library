@@ -2,6 +2,7 @@
 #include "KT_Algorithm.h"
 #include "KT_Container.h"
 #include "KT_VectorND.h"
+#include "KT_Math_Algorithm.h"
 int main()
 {
 	//// Test Array
@@ -442,4 +443,16 @@ testVectorND = testVector3ND;
 std::cout << std::endl;
 std::cout << "test vector nd: " << std::endl;
 std::cout << testVectorND;
+
+
+KT::VectorND<float, 3> lhs{ 3,4,0 };
+KT::VectorND<float, 3> rhs{ 3,4,1 };
+//lhs = KT::VectorProduct(lhs, rhs);
+//lhs = KT::VectorNormalization(lhs);
+bool t =  lhs != rhs ;
+std::cout << t;
+std::cout << "test product vector :" << std::endl << lhs << std::endl;
+std::cout << "test produit scalaire :" << std::endl << KT::VectorScalarProduct(lhs, rhs);
+
+
 }
