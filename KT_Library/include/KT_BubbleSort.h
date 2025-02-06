@@ -7,6 +7,7 @@
  * \date   February 2025
  *********************************************************************/
 #include "KT_Algorithm.h"
+#include <iostream>
 namespace KT
 {
 	template<typename container>

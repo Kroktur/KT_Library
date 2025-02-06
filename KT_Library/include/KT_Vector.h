@@ -262,7 +262,8 @@ namespace KT
         }
 
     private:
-        struct iterator {
+        struct iterator
+        {
             //this iterator compatible with stl
             using iterator_category = std::random_access_iterator_tag;
             using value_type = type;
@@ -340,7 +341,8 @@ namespace KT
         private:
             pointer m_ptr;
         };
-        struct const_iterator {
+        struct const_iterator
+        {
             //this iterator compatible with stl
             using iterator_category = std::random_access_iterator_tag;
             using value_type = const type;

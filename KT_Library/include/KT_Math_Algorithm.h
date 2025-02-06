@@ -7,6 +7,8 @@
  * \date   February 2025
  *********************************************************************/
 #include "KT_VectorND.h"
+#include "KT_Matrix.h"
+#include <exception>
 #include <cmath>
 namespace KT
 {
@@ -54,5 +56,36 @@ namespace KT
 		}
 		return result;
 	}
-
+	template <typename type ,size_t height, size_t width, size_t height_, size_t width_   >
+	KT::Matrix<type, height, width_>  MatrixProduct(const KT::Matrix<type, height, width>& lhs, const KT::Matrix<type, height_, width_>& rhs)
+	{
+		if (width != height_)
+			throw std::out_of_range("Product Imposible");
+		KT::Matrix<type, height, width_> result;
+		for (size_t row = 0; row < height; ++row)
+		{
+			for (size_t col = 0; col < width_; ++col)	
+			{
+				result.getCell(row, col) = type{};
+				for (size_t idx = 0; idx < width; ++idx)
+				{
+					result.getCell(row, col) += lhs.getCell(row, idx) * rhs.getCell(idx, col);
+				}
+			}
+		}
+		return result;
+	}
+	template <typename type, size_t height, size_t width>
+	KT::VectorND<type, height>  MatrixProduct(const KT::Matrix<type, height, width>& lhs, const KT::VectorND<type, width>& rhs)
+	{
+		KT::VectorND<type, height> result;
+		for (size_t i = 0; i < result.Size(); ++i)
+		{
+			for (size_t col = 0; col < width; ++col)
+			{
+				result[i] = rhs[col] * lhs.getCell(i, col);
+			}
+		}
+		return result;
+	}
 }
