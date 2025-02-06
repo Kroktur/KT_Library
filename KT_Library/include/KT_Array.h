@@ -9,6 +9,7 @@
 //include
 #include <exception>
 #include <initializer_list>
+#include "KT_Math.h"
 #include <sstream>
 //namespace
 namespace KT
@@ -36,27 +37,27 @@ namespace KT
             if (list.size() > size)
                 throw std::runtime_error("Out of Range");
 
-            std::copy(list.begin(), list.end(), m_data);
-            std::fill(m_data + list.size(), m_data + size, type());
+            KT::Math::Copy(list.begin(), list.end(), m_data);
+            KT::Math::Fill(m_data + list.size(), m_data + size, type());
         }
 
         Array()
         {
-            std::fill(m_data, m_data + size, type());
+            KT::Math::Fill(m_data, m_data + size, type());
         }
         Array& operator=(const Array<type, size>& tab)
         {
             if (Size() != tab.Size())
                 throw std::out_of_range("size must be equal");
             if (this != &tab)
-                std::copy(tab.begin(), tab.end(), m_data);
+               KT::Math::Copy(tab.begin(), tab.end(), m_data);
             return *this;
         }
         Array(const Array& tab)
         {
             if (tab.Size() != size)
                 throw std::runtime_error("size must be equal");
-            std::copy(tab.begin(), tab.end(), m_data);
+            KT::Math::Copy(tab.begin(), tab.end(), m_data);
         }
         
         reference operator[](const size_t& Idx)

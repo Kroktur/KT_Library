@@ -11,18 +11,21 @@
 #include "KT_InsertionSort.h"
 namespace KT
 {
-	template<typename container, template<typename>class SortMethode>
-	void Sort(container& data)
+	namespace Algorithm
 	{
-		SortMethode<container>()(data);
-	}
-
-	template<typename input, typename output, typename fn>
-	void transform(input* begin, input* end, output* dest, fn fn_)
-	{
-		for (auto it = begin; it != end; ++it, ++dest)
+		template<typename container, template<typename>class SortMethode>
+		void Sort(container& data)
 		{
-			*dest = fn_(*it);
+			SortMethode<container>()(data);
+		}
+
+		template<typename input, typename output, typename fn>
+		void transform(input* begin, input* end, output* dest, fn fn_)
+		{
+			for (auto it = begin; it != end; ++it, ++dest)
+			{
+				*dest = fn_(*it);
+			}
 		}
 	}
 }

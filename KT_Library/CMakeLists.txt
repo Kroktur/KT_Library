@@ -17,6 +17,7 @@ set(HEADERS
  ${HEADER_DIR}/KT_VectorND.h
  ${HEADER_DIR}/KT_Math_Algorithm.h
  ${HEADER_DIR}/KT_Matrix.h
+ ${HEADER_DIR}/KT_Math.h
 )
 set(SOURCES
 ${SOURCE_DIR}/KT_Algorithm.cpp

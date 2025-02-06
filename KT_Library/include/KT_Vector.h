@@ -11,6 +11,7 @@
  #include <exception>
 #include <initializer_list>
 #include <sstream>
+#include "KT_Math.h"
 //namespace
 namespace KT
 {
@@ -39,21 +40,21 @@ namespace KT
         {
             reserve(tab.Capacity());
             resize(tab.Size());
-            std::copy(tab.begin(), tab.end(), m_data);
+            KT::Math::Copy(tab.begin(), tab.end(), m_data);
         }
         Vector(std::initializer_list<type> list):capacity(0), size(0), m_data(nullptr)
         {
             reserve(list.size() * 2);
             resize(list.size());
-            std::copy(list.begin(), list.end(), m_data);
+            KT::Math::Copy(list.begin(), list.end(), m_data);
         }
         void reserve(const size_t& newcapacity)
         {
             if (capacity > newcapacity)
                 throw std::runtime_error("New capacity too small");
             type* newdata = new type[newcapacity];
-            std::copy(m_data, m_data + size, newdata);
-            std::fill(newdata + size, newdata + newcapacity, type());
+          KT::Math::Copy(m_data, m_data + size, newdata);
+            KT::Math::Fill(newdata + size, newdata + newcapacity, type());
             delete[] m_data;
             m_data = newdata;
             capacity = newcapacity;
@@ -216,24 +217,24 @@ namespace KT
             size_t sizeofvec = end - begin;
             resize(sizeofvec);
 
-            std::copy(begin, end, m_data);
+            KT::Math::Copy(begin, end, m_data);
         }
         void assign(size_t sizeofvec, value_type data)
         {
             clear();
             resize(sizeofvec);
-            std::fill(m_data, m_data + sizeofvec, data);
+            KT::Math::Fill(m_data, m_data + sizeofvec, data);
         }
         void assign(std::initializer_list<type> list)
         {
             clear();
             resize(list.size());
-            std::copy(list.begin(), list.end(), m_data);
+            KT::Math::Copy(list.begin(), list.end(), m_data);
         }
         Vector& operator=(const Vector& tab)
         {
             resize(tab.Size());
-            std::copy(tab.begin(), tab.end(), m_data);
+         KT::Math::Copy(tab.begin(), tab.end(), m_data);
             return *this;
         }
         void swap(Vector<type>& NewVector)

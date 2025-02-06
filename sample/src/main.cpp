@@ -415,16 +415,16 @@ std::cout << "front && end = 1 et 5 :";
 std::cout << testIntrusiveListcont.front().data << "," << testIntrusiveListcont.back().data << std::endl;
 
 KT::Array<int, 5> testArraysort{ 5,4,3,2,1 };
-KT::Sort<KT::Array<int, 5>, KT::BubbleSort>(testArraysort);
+KT::Algorithm::Sort<KT::Array<int, 5>, KT::Algorithm::BubbleSort>(testArraysort);
 std::cout << testArraysort;
 
 KT::Vector<int> testVectorsort{ 5,4,3,2,1 };
-KT::Sort<KT::Vector<int>, KT::BubbleSort>(testVectorsort);
+KT::Algorithm::Sort<KT::Vector<int>, KT::Algorithm::BubbleSort>(testVectorsort);
 std::cout << testVectorsort;
 
 
 KT::List<int> testListsort{ 5,4,3,2,1 };
-KT::Sort<KT::List<int>, KT::BubbleSort>(testListsort);
+KT::Algorithm::Sort<KT::List<int>, KT::Algorithm::BubbleSort>(testListsort);
 std::cout << testListsort;
 
 //KT::IntrusiveList<int> testListsortintrusive{ KT::Node<int>(5), KT::Node<int>(4), KT::Node<int>(3), KT::Node<int>(2), KT::Node<int>(1) };
@@ -453,10 +453,10 @@ KT::VectorND<float, 3> rhs{ 3,4,1 };
 bool t =  lhs != rhs ;
 std::cout << t;
 std::cout << "test product vector :" << std::endl << lhs << std::endl;
-std::cout << "test produit scalaire :" << std::endl << KT::VectorScalarProduct(lhs, rhs);
+std::cout << "test produit scalaire :" << std::endl << KT::Algorithm::VectorScalarProduct(lhs, rhs);
 
 KT::Matrix<int, 2, 3> testmatrix1{7,8,9,10,11,12};
 KT::VectorND<int, 3> testmatrix2{ 1,2,3 };
-auto matrix3 = KT::MatrixProduct(testmatrix1, testmatrix2);
+auto matrix3 = KT::Algorithm::MatrixProduct(testmatrix1, testmatrix2);
 std::cout << "test matrix :" << std::endl << matrix3;
 }

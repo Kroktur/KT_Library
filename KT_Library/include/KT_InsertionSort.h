@@ -9,22 +9,26 @@
 #include "KT_Algorithm.h"
 namespace KT
 {
-	template<typename container>
-	struct InsertionSort
+	namespace Algorithm
 	{
-		void operator()(container& data)
+		template<typename container>
+		struct InsertionSort
 		{
-			for (auto it = data.begin() + 1; it != data.end(); ++it)
+			void operator()(container& data)
 			{
-				auto curent = *it;
-				auto it2 = it;
-				while ( *(it2-1)> curent && it2 != data.begin())
+				for (auto it = data.begin() + 1; it != data.end(); ++it)
 				{
-					 *it2 = *(it2 - 1 );
-					 --it2;
+					auto curent = *it;
+					auto it2 = it;
+					while (*(it2 - 1) > curent && it2 != data.begin())
+					{
+						*it2 = *(it2 - 1);
+						--it2;
+					}
+					*it2 = curent;
 				}
-				*it2 = curent;
 			}
-		}
-	};
+		};
+	}
+	
 }

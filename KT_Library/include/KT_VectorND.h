@@ -9,7 +9,7 @@
 #include <exception>
 #include <initializer_list>
 #include <sstream>
-
+#include "KT_Math.h"
 #include "KT_Array.h"
 namespace KT
 {
@@ -31,25 +31,25 @@ namespace KT
             if (list.size() > size)
                 throw std::runtime_error("Out of Range");
 
-            std::copy(list.begin(), list.end(), m_data.data());
-            std::fill((m_data.begin() + list.size()), m_data.end(), type());
+           KT::Math::Copy(list.begin(), list.end(), m_data.data());
+            KT::Math::Fill((m_data.begin() + list.size()), m_data.end(), type());
         }
         VectorND()
         {
-            std::fill(m_data.begin(), m_data.end(), type());
+           KT::Math::Fill(m_data.begin(), m_data.end(), type());
         }
         VectorND(const VectorND& tab)
         {
             if (tab.m_data.Size() != size)
                 throw std::runtime_error("size must be equal");
-            std::copy(tab.m_data.begin(), tab.m_data.end(), m_data.data());
+            KT::Math::Copy(tab.m_data.begin(), tab.m_data.end(), m_data.data());
         }
         VectorND& operator=(const VectorND& tab)
         {
             if (m_data.Size() != tab.m_data.Size())
                 throw std::out_of_range("size must be equal");
             if (this != &tab)
-                std::copy(tab.m_data.begin(), tab.m_data.end(), m_data.data());
+               KT::Math::Copy(tab.m_data.begin(), tab.m_data.end(), m_data.data());
             return *this;
         }
         reference operator[](const size_t& idx)
