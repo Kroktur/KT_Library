@@ -1,16 +1,26 @@
 #pragma once
 /*****************************************************************//**
- * \file   KT_InsertionSort.h
- * \brief  This file contains the InsertionSort
+ * @file   KT_InsertionSort.h
+ * @brief  This file contains the InsertionSort
  *
- * \author Kroktur
- * \date   February 2025
+ * @author Kroktur
+ * @date   February 2025
  *********************************************************************/
 #include "KT_Algorithm.h"
+ /**
+ * @brief Namespace of my library
+ */
 namespace KT
 {
+	/**
+	* @brief Namespace of my Algorithm
+	*/
 	namespace Algorithm
 	{
+		/**
+		 * @brief InsertionSort
+		 * @tparam container
+		 */
 		template<typename container>
 		struct InsertionSort
 		{

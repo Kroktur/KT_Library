@@ -1,19 +1,33 @@
 #pragma once
 /*****************************************************************//**
- * \file   KT_Math_Algorithm.h
- * \brief  This file contains the Algorithm for KT::VectorND and KT::Matrix
+ * @file   KT_Math_Algorithm.h
+ * @brief  This file contains the Algorithm for KT::VectorND and KT::Matrix
  *
- * \author Kroktur
- * \date   February 2025
+ * @author Kroktur
+ * @date   February 2025
  *********************************************************************/
 #include "KT_VectorND.h"
 #include "KT_Matrix.h"
 #include <exception>
 #include <cmath>
+ /**
+  * @brief Namespace of my library
+  */
 namespace KT
 {
+	/**
+	 * @brief Node for the IntrusiveList
+	 * @tparam type
+	 */
 	namespace Algorithm
 	{
+		/**
+		 * @brief Vector product 
+		 * @tparam value_type
+		 * @param KT::VecteurND<value_type, 3> lhs 
+		 * @param KT::VecteurND<value_type, 3>  rhs 
+		 * @return KT::VecteurND<value_type, 3> 
+		 */
 		template <typename type >
 		KT::VectorND<type, 3>  VectorProduct(const KT::VectorND<type, 3>& lhs, const KT::VectorND<type, 3>& rhs)
 		{
@@ -23,6 +37,14 @@ namespace KT
 			result[2] = lhs[0] * rhs[1] - lhs[1] * rhs[0];
 			return result;
 		}
+
+		/**
+		 * @brief Norme of a vector
+		 * @tparam value_type 
+		 * @tparam size_t
+		 * @param KT::VecteurND  
+		 * @return value_type 
+		 */
 		template<typename type, size_t size>
 		type Norme(const KT::VectorND<type, size>& data)
 		{
@@ -33,6 +55,14 @@ namespace KT
 			}
 			return std::sqrt(result);
 		};
+
+		/**
+		 * @brief return the Vector Normalization
+		 * @tparam value_type 
+		 * @tparam size_t 
+		 * @param KT::VectorND 
+		 * @return KT::VectorND
+		 */
 		template<typename type, size_t size>
 		KT::VectorND<type, size> VectorNormalization(const KT::VectorND<type, size>& data)
 		{
@@ -46,6 +76,15 @@ namespace KT
 			}
 			return result;
 		};
+
+		/**
+		 * @brief return Vector Scalare Product
+		 * @tparam value_type 
+		 * @tparam size_t 
+		 * @param KT::VectorND 
+		 * @param KT::VectorND 
+		 * @return 
+		 */
 		template <typename type, size_t size>
 		type VectorScalarProduct(const KT::VectorND<type, size>& lhs, const KT::VectorND<type, size>& rhs)
 		{
@@ -58,6 +97,18 @@ namespace KT
 			}
 			return result;
 		}
+
+		/**
+		 * @brief return Matrix Product
+		 * @tparam value_type 
+		 * @tparam size_t 
+		 * @tparam size_t 
+		 * @tparam size_t 
+		 * @tparam size_t 
+		 * @param KT::Matrix
+		 * @param KT::Matrix
+		 * @return KT::Matrix
+		 */
 		template <typename type, size_t height, size_t width, size_t height_, size_t width_   >
 		KT::Matrix<type, height, width_>  MatrixProduct(const KT::Matrix<type, height, width>& lhs, const KT::Matrix<type, height_, width_>& rhs)
 		{
@@ -77,6 +128,16 @@ namespace KT
 			}
 			return result;
 		}
+
+		/**
+		 * @brief matrix product betwen VectorND and Matrix
+		 * @tparam value_type
+		 * @tparam size_t
+		 * @tparam size_t
+		 * @param KT::Matrix
+		 * @param KT::VectorND
+		 * @return KT::VectorND
+		 */
 		template <typename type, size_t height, size_t width>
 		KT::VectorND<type, height>  MatrixProduct(const KT::Matrix<type, height, width>& lhs, const KT::VectorND<type, width>& rhs)
 		{

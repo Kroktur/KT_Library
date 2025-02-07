@@ -1,18 +1,24 @@
 #pragma once 
 /*****************************************************************//**
- * \file   KT_Array.h
- * \brief  This file contains the code for KT::List
+ * @file   KT_Array.h
+ * @brief  This file contains the code for KT::List
  *
- * \author Kroktur
- * \date   February 2025
+ * @author Kroktur
+ * @date   February 2025
  *********************************************************************/
 //include 
 #include <exception>
 #include <initializer_list>
 #include <sstream>
-//namespace
+/**
+ * @brief Namespace of my library
+ */
 namespace KT
 {
+	/**
+	 * @brief List
+	 * @tparam type 
+	 */
 	template<typename type>
 	class List
 	{
@@ -32,8 +38,21 @@ namespace KT
 		using const_pointer = const type*;
 		using reference = type&;
 		using const_reference = const type&;
+
+		/**
+		 * @brief Destructor who Clear the List
+		 */
 		~List() { clear(); }
+
+		/**
+		 * @brief default Constructor
+		 */
 		List() :size(0) { Head.Next = &Tail;  Tail.Previous = &Head; }
+
+		/**
+		 * @brief Copy Constructor
+		 * @param KT::List 
+		 */
 		List(const List& tab) :size(0)
 		{
 			Head.Next = &Tail;  
@@ -43,6 +62,11 @@ namespace KT
 				pushBack(*it);
 			}
 		}
+
+		/**
+		 * @brief Constructor with initializer_list
+		 * @param initializer_list 
+		 */
 		List(const std::initializer_list<type>& list) :size(0)
 		{
 			Head.Next = &Tail;  Tail.Previous = &Head;
@@ -51,6 +75,11 @@ namespace KT
 				pushBack(element);
 			}
 		}
+
+		/**
+		 * @brief resize the List
+		 * @param size_t
+		 */
 		void resize(const size_t& idx)
 		{
 			if (idx < size)
@@ -70,12 +99,20 @@ namespace KT
 			}
 
 		}
+		/**
+		 * @brief
+		 * @param KT::List 
+		 */
 		void swap(List<type>& Newlist)
 		{
 			List<type> tmp = *this;
 			*this = Newlist;
 			Newlist = tmp;
 		}
+		/**
+		 * @brief Add an element to the back
+		 * @param value_type 
+		 */
 		void pushBack(const value_type& val)
 		{
 			Node* NewVal = new Node(val);
@@ -85,6 +122,9 @@ namespace KT
 			Tail.Previous = NewVal;
 			++size;
 		}
+		/**
+		 * @brief pop the last element 
+		 */
 		void popBack()
 		{
 			if (Empty())
@@ -99,6 +139,10 @@ namespace KT
 
 			--size;
 		}
+		/**
+		 * @brief Add an element to the front
+		 * @param value_type 
+		 */
 		void pushFront(const value_type& val)
 		{
 			Node* NewVal = new Node(val);
@@ -108,6 +152,9 @@ namespace KT
 			Head.Next = NewVal;
 			++size;
 		}
+		/**
+		 * @brief pop the first element
+		 */
 		void popFront()
 		{
 			if (Empty())
@@ -122,6 +169,12 @@ namespace KT
 
 			--size;
 		}
+		/**
+		 * @brief get an element
+		 *
+		 * @param size_t idx
+		 * @return value_type 
+		 */
 		reference operator[](const size_t& idx)
 		{
 			auto it = begin();
@@ -132,6 +185,12 @@ namespace KT
 			return *it;
 
 		}
+		/**
+		 * @brief get an element const 
+		 *
+		 * @param size_t idx
+		 * @return value_type const
+		 */
 		const_reference operator[](const size_t& idx) const
 		{
 			auto it = begin();
@@ -141,6 +200,13 @@ namespace KT
 			}
 			return *it;
 		}
+		/**
+		 * @brief get an element
+		 *
+		 * @param size_t idx
+		 * @return value_type
+		 * @throw incompatible size
+		 */
 		reference at(const size_t& idx)
 		{
 			if (Empty())
@@ -154,6 +220,13 @@ namespace KT
 			}
 			return *it;
 		}
+		/**
+		 * @brief get an element const
+		 *
+		 * @param size_t idx
+		 * @return value_type const 
+		 * @throw incompatible size
+		 */
 		const_reference at(const size_t& idx) const
 		{
 			if (Empty())
@@ -167,22 +240,45 @@ namespace KT
 			}
 			return *it;
 		}
+
+		/**
+		 * @brief return if Empty
+		 * @return bool
+		 */
 		bool Empty()
 		{
 			return size == 0;
 		}
+		/**
+		 * @brief return if Empty const
+		 * @return bool const
+		 */
 		bool Empty() const
 		{
 			return size == 0;
 		}
+
+		/**
+		 * @brief Get The size of the container
+		 * @return size_t 
+		 */
 		size_t Size()
 		{
 			return size;
 		}
+		/**
+		 * @brief Get The size of the container const
+		 * @return size_t const 
+		 */
 		size_t Size() const
 		{
 			return size;
 		}
+		/**
+		 * @brief erase an element
+		 *
+		 * @param Iterator
+		 */
 		void erase(const iterator& it)
 		{
 			if (find(it) == end())
@@ -195,44 +291,118 @@ namespace KT
 
 			--size;
 		}
+		/**
+		* @brief get Iterator on the first element
+		*
+		* @return Iterator
+		* @throw out_of_range if empty
+		*/
 		iterator begin()
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return iterator(Head.Next);
 		}
+		/**
+		* @brief get Const_Iterator on the first element
+		*
+		* @return Const_Iterator
+		* @throw out_of_range if empty
+		*/
 		const_iterator begin() const
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return const_iterator(Head.Next);
 		}
+		/**
+		* @brief get Iterator on the last element
+		*
+		* @return Iterator
+		* @throw out_of_range if empty
+		*/
 		iterator end()
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return iterator(&Tail);
 		}
+		/**
+		* @brief get Const_Iterator on the last element
+		*
+		* @return Const_Iterator
+		* @throw out_of_range if empty
+		*/
 		const_iterator end() const
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return const_iterator(&Tail);
 		}
+		/**
+		* @brief get first element
+		*
+		* @return reference
+		* @throw out_of_range if empty
+		*/
 		reference front()
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return Head.Next->data;
 		}
+		/**
+		* @brief get first element const
+		*
+		* @return reference const
+		* @throw out_of_range if empty
+		*/
 		const_reference front() const
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return Head.Next->data;
 		}
+		/**
+		* @brief get last element
+		*
+		* @return reference
+		* @throw out_of_range if empty
+		*/
 		reference back()
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return Tail.Previous->data;
 		}
+		/**
+		* @brief get last element const 
+		*
+		* @return reference const
+		* @throw out_of_range if empty
+		*/
 		const_reference back() const
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return Tail.Previous->data;
 		}
+		/**
+		 * @brief Clear the Container
+		 *
+		 */
 		void clear()
 		{
 			while (!Empty())
 				popFront();
 			resize(0);
 		}
+
+		/**
+		 * @brief Assign new value to the container
+		 * @param KT::List 
+		 * @return KT::List reference
+		 */
 		List& operator=(const List& tab)
 		{
 			clear();
@@ -242,6 +412,12 @@ namespace KT
 			}
 			return *this;
 		}
+
+		/**
+		 * @brief Assign new value betwen Iterator
+		 * @param Iterator begin 
+		 * @param Iterator end 
+		 */
 		void assign(const iterator& begin, const iterator& end)
 		{
 			clear();
@@ -250,6 +426,12 @@ namespace KT
 				pushBack(*it);
 			}
 		}
+
+		/**
+		 * @brief Assign new value in range of size
+		 * @param size_t size 
+		 * @param value_type
+		 */
 		void assign(const size_t& sizeofvec, const value_type& data)
 		{
 			clear();
@@ -258,6 +440,11 @@ namespace KT
 				pushBack(data);
 			}
 		}
+
+		/**
+		 * @brief Assign new KT::List
+		 * @param KT::List 
+		 */
 		void assign(const std::initializer_list<type>& list)
 		{
 			clear();
@@ -266,30 +453,77 @@ namespace KT
 				pushBack(element);
 			}
 		}
+		/**
+		* @brief get Reverse_Iterator on the first element
+		*
+		* @return Reverse_Iterator
+		* @throw out_of_range if empty
+		*/
 		reverse_iterator rbegin()
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return reverse_iterator(Tail.Previous);
 		}
+		/**
+		* @brief get Const_Reverse_Iterator on the first element
+		*
+		* @return Const_Reverse_Iterator
+		* @throw out_of_range if empty
+		*/
 		const_reverse_iterator rbegin() const
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return const_reverse_iterator(Tail.Previous);
 		}
+		/**
+		* @brief get Reverse_Iterator on the last element
+		*
+		* @return Reverse_Iterator
+		* @throw out_of_range if empty
+		*/
 		reverse_iterator rend()
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return reverse_iterator(&Head);
 		}
+		/**
+		* @brief get Const_Reverse_Iterator on the last element
+		*
+		* @return Const_Reverse_Iterator
+		* @throw out_of_range if empty
+		*/
 		const_reverse_iterator rend() const
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return const_reverse_iterator(&Head);
 		}
+
+		/**
+		 * @brief return the max size
+		 * @return size_t 
+		 */
 		size_t max_size()
 		{
 			return std::numeric_limits<size_t>::max() / sizeof(type);
 		}
+		/**
+		 * @brief return the max size const
+		 * @return size_t const
+		 */
 		size_t max_size() const
 		{
 			return std::numeric_limits<size_t>::max() / sizeof(type);
 		}
+
+		/**
+		 * @brief Insert an element
+		 * @param Iterator position
+		 * @param value_type 
+		 */
 		void insert(const iterator&  newit, const value_type& value)
 		{
 			if (find(newit) == end())
@@ -302,6 +536,12 @@ namespace KT
 			oldnode->Previous = nodetoadd;
 			++size;
 		}
+
+		/**
+		 * @brief find an element in the Container 
+		 * @param Iterator
+		 * @return Iterator
+		 */
 		iterator find(const iterator& ptr)
 		{
 			for (auto it = begin(); it != end(); ++it)
@@ -311,7 +551,12 @@ namespace KT
 			}
 			return end();
 		}
-		const_iterator find(const iterator& ptr) const
+		/**
+		 * @brief find an element in the Container const 
+		 * @param Const_itrator
+		 * @return Const_itrator
+		 */
+		const_iterator find(const const_iterator& ptr) const
 		{
 			for (auto it = begin(); it != end(); ++it)
 			{
@@ -854,6 +1099,14 @@ namespace KT
 	};
 
 }
+
+/**
+ * @brief display KT::List
+ * @tparam type 
+ * @param output stream 
+ * @param KT::List 
+ * @return output stream
+ */
 template<typename type>
 std::ostream& operator<<(std::ostream& os,  KT::List<type> tab)
 {

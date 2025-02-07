@@ -1,18 +1,26 @@
 #pragma once
 /*****************************************************************//**
- * \file   KT_VectorND.h
- * \brief  This file contains the code for KT::VectorND
+ * @file   KT_VectorND.h
+ * @brief  This file contains the code for KT::VectorND
  *
- * \author Kroktur
- * \date   February 2025
+ * @author Kroktur
+ * @date   February 2025
  *********************************************************************/
 #include <exception>
 #include <initializer_list>
 #include <sstream>
 #include "KT_Math.h"
 #include "KT_Array.h"
+ /**
+   * @brief Namespace of my library
+   */
 namespace KT
 {
+	/**
+	 * @brief VectorND
+	 * @tparam type 
+	 * @tparam size_t 
+	 */
 	template<typename type , size_t size>
 	class VectorND
 	{
@@ -26,6 +34,12 @@ namespace KT
         using const_reverse_iterator = KT::Array<type, size>::const_reverse_iterator;
         using iterator = KT::Array<type, size>::iterator;
         using const_iterator = KT::Array<type, size>::const_iterator;
+
+        /**
+         * @brief Constructor with initializer_list
+         * @param initializer_list
+         * @throw out_of_range if size not compatible
+         */
         VectorND(std::initializer_list<type> list)
         {
             if (list.size() > size)
@@ -34,16 +48,33 @@ namespace KT
            KT::Math::Copy(list.begin(), list.end(), m_data.data());
             KT::Math::Fill((m_data.begin() + list.size()), m_data.end(), type());
         }
+
+        /**
+         * @brief deault constructor
+         */
         VectorND()
         {
            KT::Math::Fill(m_data.begin(), m_data.end(), type());
         }
+
+        /**
+         * @brief Copy Constructor
+         * @param KT::VectorNd
+         * @throw if size not compatible
+         */
         VectorND(const VectorND& tab)
         {
             if (tab.m_data.Size() != size)
-                throw std::runtime_error("size must be equal");
+                throw std::out_of_range("size must be equal");
             KT::Math::Copy(tab.m_data.begin(), tab.m_data.end(), m_data.data());
         }
+
+        /**
+         * @brief Copy the VectorND
+         * @param KT::VectorND 
+         * @return KT::VectorND
+         * @throw out_of_range if size not compatible
+         */
         VectorND& operator=(const VectorND& tab)
         {
             if (m_data.Size() != tab.m_data.Size())
@@ -52,98 +83,201 @@ namespace KT
                KT::Math::Copy(tab.m_data.begin(), tab.m_data.end(), m_data.data());
             return *this;
         }
+
+        /**
+         * @brief get an element of the container
+         * @param size_t 
+         * @return reference
+         */
         reference operator[](const size_t& idx)
         {
             return m_data[idx];
         }
+
+        /**
+         * @brief get an element of the container const
+         * @param size_t 
+         * @return reference const
+         */
         const_reference operator[](const size_t& idx) const
         {
             return m_data[idx];
         }
+
+        /**
+         * @brief get an element of the container with verification
+         * @param size_t
+         * @return reference
+         * @throw out_of_range size not compatible
+         */
         reference at(const size_t& idx)
         {
             if (idx >= size)
                 throw std::out_of_range("Out of Range");
             return m_data[idx];
         }
+
+        /**
+         * @brief get an element of the container with verification const
+         * @param size_t 
+         * @return reference const
+         * @throw out_of_range size not compatible
+         */
         const_reference at(const size_t& idx) const
         {
             if (idx >= size)
                 throw std::out_of_range("Out of Range");
             return m_data[idx];
         }
+
+        /**
+         * @brief get the size of the container
+         * @return size_t
+         */
         size_t Size()
         {
             return m_data.Size();
         }
+
+        /**
+         * @brief get the size of the container const
+         * @return size_t const
+         */
         const size_t Size() const
         {
             return m_data.Size();
         }
+
+        /**
+         * @brief if container is empty
+         * @return bool
+         */
         bool Empty()
         {
             return m_data.Empty();
         }
+
+        /**
+         * @brief if container is empty const
+         * @return boll const
+         */
         bool Empty() const
         {
             return  m_data.Empty();
         }
+
+        /**
+         * @brief get a pointer of the first element
+         * @return pointer
+         */
         pointer data()
         {
             return m_data.data();
         }
+
+        /**
+         * @brief get a pointer of the first element const 
+         * @return pointer const 
+         */
         const_pointer data() const
         {
             return m_data.data();
         }
+
+        /**
+         * @brief return an iterator of the first element
+         * @return iterator
+         * @throw out_of_range if empty
+         */
         iterator begin()
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return iterator(data());
         }
+        /**
+        * @brief return an iterator of the last element
+        * @return iterator
+        * @throw out_of_range if empty
+        */
         iterator end()
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return iterator(data() + size);
         }
+        /**
+        * @brief return an Const_iterator of the first element
+        * @return Const_iterator
+        * @throw out_of_range if empty
+        */
         const_iterator begin() const
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return const_iterator(data());
         }
+        /**
+        * @brief return an Const_iterator of the first element
+        * @return Const_iterator
+        * @throw out_of_range if empty
+        */
         const_iterator end() const
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return const_iterator(data() + size);
         }
+        /**
+        * @brief return an Reverse_iterator of the first element
+        * @return Reverse_iterator
+        * @throw out_of_range if empty
+        */
         reverse_iterator rbegin()
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return reverse_iterator(data() + size - 1);
         }
+        /**
+        * @brief return an Reverse_iterator of the last element
+        * @return Reverse_iterator
+        * @throw out_of_range if empty
+        */
         reverse_iterator rend()
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return reverse_iterator(data() - 1);
         }
+        /**
+        * @brief return an Const_Reverse_iterator of the first element
+        * @return Const_Reverse_iterator
+        * @throw out_of_range if empty
+        */
         const_reverse_iterator rbegin() const
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return const_reverse_iterator(data() + size - 1);
         }
+        /**
+        * @brief return an Cont_Reverse_iterator of the last element
+        * @return Const_Reverse_iterator
+        * @throw out_of_range if empty
+        */
         const_reverse_iterator rend() const
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return const_reverse_iterator(data() - 1);
         }
+
+        /**
+         * @brief Operator + betwen KT::VectorND
+         * @param KT::VectorND 
+         * @return KT::VectorND
+         */
         KT::VectorND<type, size> operator+(const KT::VectorND<type,size>& data)
         {
             KT::VectorND<type, size> result;
@@ -153,6 +287,12 @@ namespace KT
             }
             return result;
         }
+
+        /**
+         * @brief Operator - betwen KT::VectorND
+         * @param KT::VectorND
+         * @return KT::VectorND
+         */
         KT::VectorND<type, size> operator-(const KT::VectorND<type,size>& data)
         {
             KT::VectorND<type, size> result;
@@ -162,6 +302,12 @@ namespace KT
             }
             return result;
         }
+
+        /**
+         * @brief Operator * betwen KT::VectorND and int
+         * @param int
+         * @return KT::VectorND
+         */
         KT::VectorND<type, size> operator*(const int& idx)
         {
             KT::VectorND<type, size> result;
@@ -171,6 +317,12 @@ namespace KT
             }
             return result;
         }
+
+        /**
+         * @brief Operator / betwen KT::VectorND and int
+         * @param int
+         * @return KT::VectorND
+         */
         KT::VectorND<type, size> operator/(const int& idx)
         {
             if (idx == 0)
@@ -182,6 +334,12 @@ namespace KT
             }
             return result;
         }
+
+        /**
+         * @brief Operator == betwen KT::VectorND
+         * @param KT::VectorND 
+         * @return bool
+         */
         bool operator ==(const KT::VectorND<type, size>& data)
         {
             for (size_t i = 0; i < m_data.Size(); ++i)
@@ -191,6 +349,12 @@ namespace KT
             }
             return true;
         }
+
+        /**
+         * @brief Operator != betwen KT::VectorND
+         * @param KT::VectorND 
+         * @return bool
+         */
         bool operator !=(const KT::VectorND<type, size>& data)
         {
             bool result;
@@ -203,6 +367,11 @@ namespace KT
             }
             return result;
         }
+        /**
+        * @brief Operator + betwen KT::VectorND const
+        * @param KT::VectorND
+        * @return KT::VectorND const
+        */
         KT::VectorND<type, size> operator+(const KT::VectorND<type, size>& data) const 
         {
             KT::VectorND<type, size> result;
@@ -212,6 +381,11 @@ namespace KT
             }
             return result;
         }
+        /**
+       * @brief Operator - betwen KT::VectorND const
+       * @param KT::VectorND
+       * @return KT::VectorND const
+       */
         KT::VectorND<type, size> operator-(const KT::VectorND<type, size>& data) const
         {
             KT::VectorND<type, size> result;
@@ -221,6 +395,11 @@ namespace KT
             }
             return result;
         }
+        /**
+       * @brief Operator * betwen KT::VectorND const and int
+       * @param KT::VectorND
+       * @return KT::VectorND const
+       */
         KT::VectorND<type, size> operator*(const int& idx) const
         {
             KT::VectorND<type, size> result;
@@ -230,6 +409,11 @@ namespace KT
             }
             return result;
         }
+        /**
+       * @brief Operator / betwen KT::VectorND const and int
+       * @param int
+       * @return KT::VectorND const
+       */
         KT::VectorND<type, size> operator/(const int& idx) const
         {
             if (idx == 0)
@@ -241,6 +425,11 @@ namespace KT
             }
             return result;
         }
+        /**
+         * @brief Operator == betwen KT::VectorND const
+         * @param KT::VectorND
+         * @return bool const
+         */
         bool operator ==(const KT::VectorND<type, size>& data) const
         {
             for (size_t i = 0; i < m_data.Size(); ++i)
@@ -250,6 +439,11 @@ namespace KT
             }
             return true;
         }
+        /**
+         * @brief Operator != betwen KT::VectorND const
+         * @param KT::VectorND
+         * @return bool const
+         */
         bool operator !=(const KT::VectorND<type, size>& data) const
         {
             bool result;
@@ -266,6 +460,15 @@ namespace KT
         KT::Array<type, size> m_data;
 	};
 }
+
+/**
+ * @brief display KT::VectorND
+ * @tparam type 
+ * @tparam size_t 
+ * @param output stream 
+ * @param KT::VectorND 
+ * @return output stream
+ */
 template<typename type , size_t size>
 std::ostream& operator<<(std::ostream& os, const KT::VectorND<type, size>& tab)
 {

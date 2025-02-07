@@ -1,16 +1,26 @@
 #pragma once
 /*****************************************************************//**
- * \file   KT_FusionSort.h
- * \brief  This file contains the FusionSort
+ * @file   KT_FusionSort.h
+ * @brief  This file contains the FusionSort
  *
- * \author Kroktur
- * \date   February 2025
+ * @author Kroktur
+ * @date   February 2025
  *********************************************************************/
 #include "KT_Vector.h"
+ /**
+ * @brief Namespace of my library
+ */
 namespace KT
 {
+	/**
+	* @brief Namespace of my Algorithm
+	*/
 	namespace Algorithm
 	{
+		/**
+		 * @brief FusionSort
+		 * @tparam container
+		 */
 		template<typename container>
 		struct FusionSort
 		{

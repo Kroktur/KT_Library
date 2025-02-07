@@ -1,17 +1,28 @@
 #pragma once
 /*****************************************************************//**
- * \file   KT_BubbleSort.h
- * \brief  This file contains the BubbleSort
+ * @file   KT_BubbleSort.h
+ * @brief  This file contains the BubbleSort
  *
- * \author Kroktur
- * \date   February 2025
+ * @author Kroktur
+ * @date   February 2025
  *********************************************************************/
 #include "KT_Algorithm.h"
 #include "KT_Math.h"
+ /**
+   * @brief Namespace of my library
+   */
 namespace KT
 {
+	/**
+	 * @brief Namespace of my Algorithm
+	 */
 	namespace Algorithm
 	{
+		
+		/**
+		 * @brief BubbleSort
+		 * @tparam container 
+		 */
 		template<typename container>
 		struct BubbleSort
 		{

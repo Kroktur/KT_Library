@@ -1,24 +1,24 @@
 #pragma once
 /*****************************************************************//**
- * \file   KT_Array.h
- * \brief  This file contains the code for KT::Array
+ * @file   KT_Array.h
+ * @brief  This file contains the code for KT::Array
  * 
- * \author Kroktur
- * \date   February 2025
+ * @author Kroktur
+ * @date   February 2025
  *********************************************************************/
 #include <exception>
 #include <initializer_list>
 #include "KT_Math.h"
 #include <sstream>
 /**
- * \brief Namespace of my library
+ * @brief Namespace of my library
  */
 namespace KT
 {
      /**
-      * \brief Array
-      * \tparam type
-      * \tparam size_t size 
+      * @brief Array
+      * @tparam type
+      * @tparam size_t size 
       */
     template<typename type, size_t size>
     class Array
@@ -41,10 +41,10 @@ namespace KT
         using reference = type&;
         using const_reference = const type&;
         /**
-         * \brief constructor with initializer_list
+         * @brief constructor with initializer_list
          * 
-         * \param list
-         * \throw out_of_range if incompatible size
+         * @param initializer_list
+         * @throw out_of_range if incompatible size
          */
         Array(std::initializer_list<type> list)
         {
@@ -55,7 +55,7 @@ namespace KT
             KT::Math::Fill(m_data + list.size(), m_data + size, type());
         }
         /**
-         * \brief default constructor
+         * @brief default constructor
          * 
          */
         Array()
@@ -63,10 +63,10 @@ namespace KT
             KT::Math::Fill(m_data, m_data + size, type());
         }
         /**
-         * \brief overloading the equals operator
+         * @brief overloading the equals operator
          * 
-         * \param KT::Array
-         * \return reference KT::Array
+         * @param KT::Array
+         * @return reference KT::Array
          */
         Array& operator=(const Array<type, size>& tab)
         {
@@ -75,10 +75,10 @@ namespace KT
             return *this;
         }
         /**
-         * \brief constructor with object
+         * @brief Copy constructor 
          * 
-         * \param tab
-         * \throw out_of_range if incompatible size
+         * @param tab
+         * @throw out_of_range if incompatible size
          */
         Array(const Array& tab)
         {
@@ -87,31 +87,31 @@ namespace KT
             KT::Math::Copy(tab.begin(), tab.end(), m_data);
         }
         /**
-         * \param get an element
+         * @brief get an element
          * 
-         * \param size_t idx
-         * \return reference 
+         * @param size_t idx
+         * @return reference 
          */
         reference operator[](const size_t& Idx)
         {
             return m_data[Idx];
         }
         /**
-       * \param get an element const
+       * @brief get an element const
        *
-       * \param size_t idx
-       * \return reference const
+       * @param size_t idx
+       * @return reference const
        */
         const_reference operator[](const size_t& Idx) const
         {
             return m_data[Idx];
         }
         /**
-       * \param get an element with verification 
+       * @brief get an element with verification 
        *
-       * \param size_t idx
-       * \return reference 
-       * \throw out_of_range if idx out of range
+       * @param size_t idx
+       * @return reference 
+       * @throw out_of_range if idx out of range
        */
         reference at(const size_t& Idx)
         {
@@ -120,11 +120,11 @@ namespace KT
             return m_data[Idx];
         }
         /**
-       * \param get an element const with verification
+       * @brief get an element const with verification
        *
-       * \param size_t idx
-       * \return reference const
-       * \throw out_of_range if idx out of range
+       * @param size_t idx
+       * @return reference const
+       * @throw out_of_range if idx out of range
        */
         const_reference at(const size_t& Idx) const
         {
@@ -133,10 +133,10 @@ namespace KT
             return m_data[Idx];
         }
         /**
-         * \brief get first element
+         * @brief get first element
          * 
-         * \return reference 
-         * \throw out_of_range if empty
+         * @return reference 
+         * @throw out_of_range if empty
          */
         reference front()
         {
@@ -145,10 +145,10 @@ namespace KT
             return m_data[0];
         }
         /**
-         * \brief get first element const
+         * @brief get first element const
          *
-         * \return reference const
-         * \throw out_of_range if empty
+         * @return reference const
+         * @throw out_of_range if empty
          */
         const_reference front() const
         {
@@ -157,10 +157,10 @@ namespace KT
             return m_data[0];
         }
         /**
-         * \brief get last element 
+         * @brief get last element 
          *
-         * \return reference 
-         * \throw out_of_range if empty
+         * @return reference 
+         * @throw out_of_range if empty
          */
         reference back()
         {
@@ -169,10 +169,10 @@ namespace KT
             return m_data[size - 1];
         }
         /**
-         * \brief get last element const 
+         * @brief get last element const 
          *
-         * \return reference 
-         * \throw out_of_range if empty
+         * @return reference 
+         * @throw out_of_range if empty
          */
         const_reference back() const
         {
@@ -181,82 +181,82 @@ namespace KT
             return m_data[size - 1];
         }
         /**
-         * \brief pointer to first element
+         * @brief pointer to first element
          * 
-         * \return pointer 
+         * @return pointer 
          */
         pointer data()
         {
             return m_data;
         }
         /**
-         * \brief pointer const to the first element
+         * @brief pointer const to the first element
          *
-         * \return pointer const 
+         * @return pointer const 
          */
         const_pointer data() const
         {
             return m_data;
         }
         /**
-         * \brief empty verification
+         * @brief empty verification
          * 
-         * \return bool  
+         * @return bool  
          */
         bool Empty()
         {
             return size == 0;
         }
         /**
-        * \brief empty verification const
+        * @brief empty verification const
         *
-        * \return bool const
+        * @return bool const
         */
         bool Empty() const
         {
             return size == 0;
         }
         /**
-         * \brief return the maximum size of the container
+         * @brief return the maximum size of the container
          * 
-         * \return size_t
+         * @return size_t
          */
         size_t max_size()
         {
             return size;
         }
         /**
-         * \brief return the maximum size const of the container
+         * @brief return the maximum size const of the container
          *
-         * \return size_t const 
+         * @return size_t const 
          */
         size_t max_size() const
         {
             return size;
         }
         /**
-         * \brief return the size of the container
+         * @brief return the size of the container
          * 
-         * \return size_t   
+         * @return size_t   
          */
         size_t Size()
         {
             return size;
         }
         /**
-        * \brief return the size of the container const
+        * @brief return the size of the container const
         *
-        * \return size_t const
+        * @return size_t const
         */
         size_t Size() const
         {
             return size;
         }
         /**
-         * \brief get Iterator on the first element
+         * @brief get Iterator on the first element
          * 
-         * \return Iterator
-         * \throw out_of_range if empty
+         * @return Iterator
+         * @throw out_of_range if empty
          */
         iterator begin()
         {
@@ -265,10 +265,10 @@ namespace KT
             return iterator(m_data);
         }
         /**
-         * \brief get Iterator on the last element
+         * @brief get Iterator on the last element
          *
-         * \return Iterator
-         * \throw out_of_range if empty
+         * @return Iterator
+         * @throw out_of_range if empty
          */
         iterator end()
         {
@@ -277,10 +277,10 @@ namespace KT
             return iterator(m_data + size);
         }
         /**
-         * \brief get Iterator on the first element const
+         * @brief get Iterator on the first element const
          *
-         * \return Const_Iterator 
-         * \throw out_of_range if empty
+         * @return Const_Iterator 
+         * @throw out_of_range if empty
          */
         const_iterator begin() const
         {
@@ -289,10 +289,10 @@ namespace KT
             return const_iterator(m_data);
         }
         /**
-         * \brief get Iterator on the last element const
+         * @brief get Iterator on the last element const
          *
-         * \return Const_Iterator
-         * \throw out_of_range if empty
+         * @return Const_Iterator
+         * @throw out_of_range if empty
          */
         const_iterator end() const
         {
@@ -301,10 +301,10 @@ namespace KT
             return const_iterator(m_data + size);
         }
         /**
-         * \brief get Iterator on the first element upside down
+         * @brief get Iterator on the first element upside down
          *
-         * \return Reverse_Iterator
-         * \throw out_of_range if empty
+         * @return Reverse_Iterator
+         * @throw out_of_range if empty
          */
         reverse_iterator rbegin()
         {
@@ -313,10 +313,10 @@ namespace KT
             return reverse_iterator(m_data + size - 1);
         }
         /**
-         * \brief get Iterator on the last element upside down
+         * @brief get Iterator on the last element upside down
          *
-         * \return Reverse_Iterator
-         * \throw out_of_range if empty
+         * @return Reverse_Iterator
+         * @throw out_of_range if empty
          */
         reverse_iterator rend()
         {
@@ -325,10 +325,10 @@ namespace KT
             return reverse_iterator(m_data - 1);
         }
         /**
-         * \brief get Iterator on the first element upside down const
+         * @brief get Iterator on the first element upside down const
          *
-         * \return Const_Reverse_Iterator
-         * \throw out_of_range if empty
+         * @return Const_Reverse_Iterator
+         * @throw out_of_range if empty
          */
         const_reverse_iterator rbegin() const
         {
@@ -337,10 +337,10 @@ namespace KT
             return const_reverse_iterator(m_data + size - 1);
         }
         /**
-        * \brief get Iterator on the last element upside down const
+        * @brief get Iterator on the last element upside down const
         *
-        * \return Const_Reverse_Iterator
-        * \throw out_of_range if empty
+        * @return Const_Reverse_Iterator
+        * @throw out_of_range if empty
         */
         const_reverse_iterator rend() const
         {
@@ -349,9 +349,9 @@ namespace KT
             return const_reverse_iterator(m_data - 1);
         }
         /**
-         * \brief Swaps the content of this array with another array of the same type and size. 
+         * @brief Swaps the content of this array with another array of the same type and size. 
          * 
-         * \param Array
+         * @param Array
          */
         void swap(Array<type, size>& NewArray)
         {
@@ -676,11 +676,13 @@ namespace KT
     };
 }
 /**
- * \brief operator overload << for display
- * 
- * \param output stream
- * \param KT::Array
- * \return output stream
+ * @brief operator overload << for display
+ *
+ * @tparam type
+ * @tparam size_t
+ * @param output stream
+ * @param KT::Array
+ * @return output stream
  */
 template<typename type, size_t size>
 std::ostream& operator<<(std::ostream& os, const KT::Array<type, size>& tab)

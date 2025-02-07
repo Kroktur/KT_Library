@@ -1,24 +1,39 @@
 #pragma once 
 /*****************************************************************//**
- * \file   KT_Array.h
- * \brief  This file contains the code for KT::IntrusiveList
+ * @file   KT_Array.h
+ * @brief  This file contains the code for KT::IntrusiveList
  *
- * \author Kroktur
- * \date   February 2025
+ * @author Kroktur
+ * @date   February 2025
  *********************************************************************/
  //include 
 #include <exception>
 #include <initializer_list>
 #include <sstream>
-//namespace
+ /**
+ * @brief Namespace of my library
+ */
 namespace KT
 {
+	/**
+	 * @brief Node for the IntrusiveList
+	 * @tparam type
+	 */
 	template <typename type>
 	struct Node
 	{
+			/**
+			 * @brief default constructor
+			 * 
+			 */
 			Node() :Next(nullptr), Previous(nullptr)
 			{
 			}
+			/**
+			 * @brief constructor
+			 * 
+			 * @param type
+			 */
 			Node(type val) :data(val), Next(nullptr), Previous(nullptr)
 			{
 			}
@@ -50,11 +65,23 @@ namespace KT
 				return data >= other.data;
 			}
 	};
+	/**
+     * @brief operator overload << for display
+	 *
+	 * @tparam type
+	 * @param output stream
+	 * @param KT::IntrusiveList
+	 * @return output stream
+	 */
 	template <typename type>
 	std::ostream& operator<<(std::ostream& os, const Node<type>& node)
 	{
 		return os << node.data;
 	}
+	/**
+	 * @brief IntrusiveList
+	 * @tparam type
+	 */
 	template<typename type>
 	class IntrusiveList
 	{
@@ -74,8 +101,21 @@ namespace KT
 		using const_pointer = const KT::Node<type>*;
 		using reference = KT::Node<type>&;
 		using const_reference = const KT::Node<type>&;
+		/**
+		 * @brief default destructor
+		 * 
+		 */
 		~IntrusiveList() { clear(); }
+		/**
+		 * @brief default constructor
+		 * 
+		 */
 		IntrusiveList() :size(0) { Head.Next = &Tail;  Tail.Previous = &Head; }
+		/**
+		 * @brief Copy Constructor
+		 * 
+		 * @param KT::IntrusiveList
+		 */
 		IntrusiveList(const IntrusiveList& tab) :size(0)
 		{
 			Head.Next = &Tail;
@@ -85,6 +125,11 @@ namespace KT
 				pushBack(*it);
 			}
 		}
+		/**
+		 * @brief Constructor with Initialize_list
+		 *
+		 * @param Initialize_list
+		 */
 		IntrusiveList(const std::initializer_list<KT::Node<type>>& list) :size(0)
 		{
 			Head.Next = &Tail;  Tail.Previous = &Head;
@@ -93,6 +138,11 @@ namespace KT
 				pushBack(element);
 			}
 		}
+		/**
+		 * @brief resize The container
+		 * 
+		 * @param Size_t 
+		 */
 		void resize(const size_t& idx)
 		{
 			if (idx < size)
@@ -112,12 +162,22 @@ namespace KT
 			}
 
 		}
+		/**
+		 * @brief Swaps the content of this IntrusiveList with another IntrusiveList of the same type.
+		 *
+		 * @param IntrusiveList
+		 */
 		void swap(IntrusiveList<type>& Newlist)
 		{
 			IntrusiveList<type> tmp = *this;
 			*this = Newlist;
 			Newlist = tmp;
 		}
+		/**
+		 * @brief PushBack
+		 * 
+		 * @param Node
+		 */
 		void pushBack(const value_type& val)
 		{
 			pointer NewVal = new KT::Node(val.data);
@@ -127,6 +187,10 @@ namespace KT
 			Tail.Previous = NewVal;
 			++size;
 		}
+		/**
+		 * @brief PopBack
+		 * 
+		 */
 		void popBack()
 		{
 			if (Empty())
@@ -141,6 +205,11 @@ namespace KT
 
 			--size;
 		}
+		/**
+		 * @brief PushFront
+		 *
+		 * @param Node
+		 */
 		void pushFront(const value_type& val)
 		{
 			pointer NewVal = new KT::Node(val.data);
@@ -150,6 +219,10 @@ namespace KT
 			Head.Next = NewVal;
 			++size;
 		}
+		/**
+		 * @brief PopFront
+		 * 
+		 */
 		void popFront()
 		{
 			if (Empty())
@@ -164,6 +237,12 @@ namespace KT
 
 			--size;
 		}
+		/**
+		 * @brief get an element
+		 *
+		 * @param size_t idx
+		 * @return Node reference
+		 */
 		reference operator[](const size_t& idx)
 		{
 			auto it = begin();
@@ -174,6 +253,12 @@ namespace KT
 			return *it;
 
 		}
+		/**
+		 * @brief get an element const 
+		 *
+		 * @param size_t idx
+		 * @return Node reference const 
+		 */
 		const_reference operator[](const size_t& idx) const
 		{
 			auto it = begin();
@@ -183,6 +268,13 @@ namespace KT
 			}
 			return *it;
 		}
+		/**
+		* @brief get an element with verification
+		*
+		* @param size_t idx
+		* @return Node reference
+		* @throw out_of_range if idx out of range
+		*/
 		reference at(const size_t& idx)
 		{
 			if (Empty())
@@ -196,6 +288,13 @@ namespace KT
 			}
 			return *it;
 		}
+		/**
+		* @brief get an element const with verification
+		*
+		* @param size_t idx
+		* @return Node reference const 
+		* @throw out_of_range if idx out of range
+		*/
 		const_reference at(const size_t& idx) const
 		{
 			if (Empty())
@@ -209,22 +308,47 @@ namespace KT
 			}
 			return *it;
 		}
+		/**
+		* @brief empty verification
+		*
+		* @return bool
+		*/
 		bool Empty()
 		{
 			return size == 0;
 		}
+		/**
+		* @brief empty verification
+		*
+		* @return bool const
+		*/
 		bool Empty() const
 		{
 			return size == 0;
 		}
+		/**
+		* @brief return the size of the container
+		*
+		* @return size_t
+		*/
 		size_t Size()
 		{
 			return size;
 		}
+		/**
+		* @brief return the size of the container const
+		*
+		* @return size_t const
+		*/
 		size_t Size() const
 		{
 			return size;
 		}
+		/**
+		 * @brief erase an element
+		 * 
+		 * @param Iterator
+		 */
 		void erase(const iterator& it)
 		{
 			if (find(it) == end())
@@ -237,44 +361,118 @@ namespace KT
 
 			--size;
 		}
+		/**
+		* @brief get Iterator on the first element
+		*
+		* @return Iterator
+		* @throw out_of_range if empty
+		*/
 		iterator begin()
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return iterator(Head.Next);
 		}
+		/**
+		* @brief get Const_Iterator on the first element
+		*
+		* @return Const_Iterator
+		* @throw out_of_range if empty
+		*/
 		const_iterator begin() const
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return const_iterator(Head.Next);
 		}
+		/**
+		* @brief get Iterator on the first element
+		*
+		* @return Iterator
+		* @throw out_of_range if empty
+		*/
 		iterator end()
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return iterator(&Tail);
 		}
+		/**
+		* @brief get Const_Iterator on the first element
+		*
+		* @return Const_Iterator
+		* @throw out_of_range if empty
+		*/
 		const_iterator end() const
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return const_iterator(&Tail);
 		}
+		/**
+		* @brief get first element
+		*
+		* @return reference
+		* @throw out_of_range if empty
+		*/
 		reference front()
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return *Head.Next;
 		}
+		/**
+		* @brief get first element const
+		*
+		* @return reference const
+		* @throw out_of_range if empty
+		*/
 		const_reference front() const
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return *Head.Next;
 		}
+		/**
+		* @brief get last element
+		*
+		* @return reference
+		* @throw out_of_range if empty
+		*/
 		reference back()
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return *Tail.Previous;
 		}
+		/**
+		* @brief get last element const 
+		*
+		* @return reference const 
+		* @throw out_of_range if empty
+		*/
 		const_reference back() const
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return *Tail.Previous;
 		}
+		/**
+		 * @brief Clear the Container
+		 * 
+		 */
 		void clear()
 		{
 			while (!Empty())
 				popFront();
 			resize(0);
 		}
+		/**
+		 * @brief overloading the equals operator
+		 *
+		 * @param KT::IntrusiveList
+		 * @return reference KT::IntrusiveList
+		 */
 		IntrusiveList& operator=(const IntrusiveList& tab)
 		{
 			clear();
@@ -284,6 +482,12 @@ namespace KT
 			}
 			return *this;
 		}
+		/**
+		 * @brief Assign with another IntrusiveList
+		 * 
+		 * @param Iterator begin
+		 * @param Iterator end
+		 */
 		void assign(const iterator& begin, const iterator& end)
 		{
 			clear();
@@ -292,6 +496,12 @@ namespace KT
 				pushBack(*it);
 			}
 		}
+		/**
+		 * @brief Assign with a size and a data
+		 * 
+		 * @param size_t 
+		 * @param Node 
+		 */
 		void assign(const size_t& sizeofvec, const value_type& data)
 		{
 			clear();
@@ -300,6 +510,11 @@ namespace KT
 				pushBack(data);
 			}
 		}
+		/**
+		 * @brief Assign with initialize_list
+		 * 
+		 * @param initialize_list
+		 */
 		void assign(const std::initializer_list<KT::Node<type>>& list)
 		{
 			clear();
@@ -308,30 +523,75 @@ namespace KT
 				pushBack(element);
 			}
 		}
+		/**
+		* @brief get Reverse_Iterator on the first element 
+		*
+		* @return Reverse_Iterator
+		* @throw out_of_range if empty
+		*/
 		reverse_iterator rbegin()
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return reverse_iterator(Tail.Previous);
 		}
+		/**
+		* @brief get Const_Reverse_Iterator on the first element
+		*
+		* @return Const_Reverse_Iterator
+		* @throw out_of_range if empty
+		*/
 		const_reverse_iterator rbegin() const
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return const_reverse_iterator(Tail.Previous);
 		}
+		/**
+		* @brief get Reverse_Iterator on the last element
+		*
+		* @return Reverse_Iterator
+		* @throw out_of_range if empty
+		*/
 		reverse_iterator rend()
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return reverse_iterator(&Head);
 		}
+		/**
+		* @brief get Const_Reverse_Iterator on the first element
+		*
+		* @return Const_Reverse_Iterator
+		* @throw out_of_range if empty
+		*/
 		const_reverse_iterator rend() const
 		{
+			if (Empty())
+				throw std::out_of_range("Array is empty");
 			return const_reverse_iterator(&Head);
 		}
+		/**
+		 * @brief get the max size 
+		 * @return size_t
+		 */
 		size_t max_size()
 		{
 			return std::numeric_limits<size_t>::max() / sizeof(type);
 		}
+		/**
+		 * @brief get the max size const
+		 * @return size_t const
+		 */
 		size_t max_size() const
 		{
 			return std::numeric_limits<size_t>::max() / sizeof(type);
 		}
+		/**
+		 * @brief Insert an element to a place 
+		 * @param Iterator 
+		 * @param Node 
+		 */
 		void insert(const iterator& newit, const value_type& value)
 		{
 			if (find(newit) == end())
@@ -344,6 +604,11 @@ namespace KT
 			oldnode->Previous = nodetoadd;
 			++size;
 		}
+		/**
+		 * @brief find an element in the Container
+		 * @param Iterator 
+		 * @return Iterator
+		 */
 		iterator find(const iterator& ptr)
 		{
 			for (auto it = begin(); it != end(); ++it)
@@ -353,7 +618,12 @@ namespace KT
 			}
 			return end();
 		}
-		const_iterator find(const iterator& ptr) const
+		/**
+		 * @brief find an element in the Container const 
+		 * @param Const_itrator 
+		 * @return Const_itrator
+		 */
+		const_iterator find(const const_iterator& ptr) const
 		{
 			for (auto it = begin(); it != end(); ++it)
 			{
@@ -884,6 +1154,14 @@ namespace KT
 		size_t size;
 	};
 }
+/**
+ * @brief operator overload << for display
+ *
+ * @tparam value_type
+ * @param output stream
+ * @param KT::IntrusiveList
+ * @return output stream
+ */
 template< typename type>
 std::ostream& operator<<(std::ostream& os, const KT::IntrusiveList<type>& tab)
 {
