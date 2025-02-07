@@ -6,18 +6,26 @@
  * \author Kroktur
  * \date   February 2025
  *********************************************************************/
-//include
 #include <exception>
 #include <initializer_list>
 #include "KT_Math.h"
 #include <sstream>
-//namespace
+/**
+ * \brief Namespace of my library
+ */
 namespace KT
 {
+     /**
+      * \brief Array
+      * \tparam type
+      * \tparam size_t size 
+      */
     template<typename type, size_t size>
     class Array
     {
     public:
+
+        
         using value_type = type;
         struct iterator;
         struct const_iterator;
@@ -32,158 +40,319 @@ namespace KT
         using const_pointer = const type*;
         using reference = type&;
         using const_reference = const type&;
+        /**
+         * \brief constructor with initializer_list
+         * 
+         * \param list
+         * \throw out_of_range if incompatible size
+         */
         Array(std::initializer_list<type> list)
         {
             if (list.size() > size)
-                throw std::runtime_error("Out of Range");
+                throw std::out_of_range("Out of Range");
 
             KT::Math::Copy(list.begin(), list.end(), m_data);
             KT::Math::Fill(m_data + list.size(), m_data + size, type());
         }
-
+        /**
+         * \brief default constructor
+         * 
+         */
         Array()
         {
             KT::Math::Fill(m_data, m_data + size, type());
         }
+        /**
+         * \brief overloading the equals operator
+         * 
+         * \param KT::Array
+         * \return reference KT::Array
+         */
         Array& operator=(const Array<type, size>& tab)
         {
-            if (Size() != tab.Size())
-                throw std::out_of_range("size must be equal");
             if (this != &tab)
                KT::Math::Copy(tab.begin(), tab.end(), m_data);
             return *this;
         }
+        /**
+         * \brief constructor with object
+         * 
+         * \param tab
+         * \throw out_of_range if incompatible size
+         */
         Array(const Array& tab)
         {
             if (tab.Size() != size)
-                throw std::runtime_error("size must be equal");
+                throw std::out_of_range("size must be equal");
             KT::Math::Copy(tab.begin(), tab.end(), m_data);
         }
-        
+        /**
+         * \param get an element
+         * 
+         * \param size_t idx
+         * \return reference 
+         */
         reference operator[](const size_t& Idx)
         {
             return m_data[Idx];
         }
+        /**
+       * \param get an element const
+       *
+       * \param size_t idx
+       * \return reference const
+       */
         const_reference operator[](const size_t& Idx) const
         {
             return m_data[Idx];
         }
+        /**
+       * \param get an element with verification 
+       *
+       * \param size_t idx
+       * \return reference 
+       * \throw out_of_range if idx out of range
+       */
         reference at(const size_t& Idx)
         {
             if (Idx >= size)
-                throw std::runtime_error("Out of Range");
+                throw std::out_of_range("Out of Range");
             return m_data[Idx];
         }
+        /**
+       * \param get an element const with verification
+       *
+       * \param size_t idx
+       * \return reference const
+       * \throw out_of_range if idx out of range
+       */
         const_reference at(const size_t& Idx) const
         {
             if (Idx >= size)
                 throw std::runtime_error("Out of Range");
             return m_data[Idx];
         }
+        /**
+         * \brief get first element
+         * 
+         * \return reference 
+         * \throw out_of_range if empty
+         */
         reference front()
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return m_data[0];
         }
+        /**
+         * \brief get first element const
+         *
+         * \return reference const
+         * \throw out_of_range if empty
+         */
         const_reference front() const
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return m_data[0];
         }
+        /**
+         * \brief get last element 
+         *
+         * \return reference 
+         * \throw out_of_range if empty
+         */
         reference back()
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return m_data[size - 1];
         }
+        /**
+         * \brief get last element const 
+         *
+         * \return reference 
+         * \throw out_of_range if empty
+         */
         const_reference back() const
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return m_data[size - 1];
         }
+        /**
+         * \brief pointer to first element
+         * 
+         * \return pointer 
+         */
         pointer data()
         {
             return m_data;
         }
+        /**
+         * \brief pointer const to the first element
+         *
+         * \return pointer const 
+         */
         const_pointer data() const
         {
             return m_data;
         }
+        /**
+         * \brief empty verification
+         * 
+         * \return bool  
+         */
         bool Empty()
         {
             return size == 0;
         }
+        /**
+        * \brief empty verification const
+        *
+        * \return bool const
+        */
         bool Empty() const
         {
             return size == 0;
         }
+        /**
+         * \brief return the maximum size of the container
+         * 
+         * \return size_t
+         */
         size_t max_size()
         {
             return size;
         }
+        /**
+         * \brief return the maximum size const of the container
+         *
+         * \return size_t const 
+         */
         size_t max_size() const
         {
             return size;
         }
+        /**
+         * \brief return the size of the container
+         * 
+         * \return size_t   
+         */
         size_t Size()
         {
             return size;
         }
+        /**
+        * \brief return the size of the container const
+        *
+        * \return size_t const
+        */
         size_t Size() const
         {
             return size;
         }
+        /**
+         * \brief get Iterator on the first element
+         * 
+         * \return Iterator
+         * \throw out_of_range if empty
+         */
         iterator begin()
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return iterator(m_data);
         }
+        /**
+         * \brief get Iterator on the last element
+         *
+         * \return Iterator
+         * \throw out_of_range if empty
+         */
         iterator end()
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return iterator(m_data + size);
         }
+        /**
+         * \brief get Iterator on the first element const
+         *
+         * \return Const_Iterator 
+         * \throw out_of_range if empty
+         */
         const_iterator begin() const
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return const_iterator(m_data);
         }
+        /**
+         * \brief get Iterator on the last element const
+         *
+         * \return Const_Iterator
+         * \throw out_of_range if empty
+         */
         const_iterator end() const
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return const_iterator(m_data + size);
         }
+        /**
+         * \brief get Iterator on the first element upside down
+         *
+         * \return Reverse_Iterator
+         * \throw out_of_range if empty
+         */
         reverse_iterator rbegin()
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return reverse_iterator(m_data + size - 1);
         }
+        /**
+         * \brief get Iterator on the last element upside down
+         *
+         * \return Reverse_Iterator
+         * \throw out_of_range if empty
+         */
         reverse_iterator rend()
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return reverse_iterator(m_data - 1);
         }
+        /**
+         * \brief get Iterator on the first element upside down const
+         *
+         * \return Const_Reverse_Iterator
+         * \throw out_of_range if empty
+         */
         const_reverse_iterator rbegin() const
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return const_reverse_iterator(m_data + size - 1);
         }
+        /**
+        * \brief get Iterator on the last element upside down const
+        *
+        * \return Const_Reverse_Iterator
+        * \throw out_of_range if empty
+        */
         const_reverse_iterator rend() const
         {
             if (Empty())
                 throw std::out_of_range("Array is empty");
             return const_reverse_iterator(m_data - 1);
         }
+        /**
+         * \brief Swaps the content of this array with another array of the same type and size. 
+         * 
+         * \param Array
+         */
         void swap(Array<type, size>& NewArray)
         {
             Array<type, size> tmp = *this;
@@ -506,6 +675,13 @@ namespace KT
         type m_data[size];
     };
 }
+/**
+ * \brief operator overload << for display
+ * 
+ * \param output stream
+ * \param KT::Array
+ * \return output stream
+ */
 template<typename type, size_t size>
 std::ostream& operator<<(std::ostream& os, const KT::Array<type, size>& tab)
 {
