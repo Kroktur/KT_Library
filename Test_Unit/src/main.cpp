@@ -1,6 +1,8 @@
 #include "KT_Algorithm.h"
 #include "Test.h"
 #include"KT_Container.h"
+#include "KT_Math_Algorithm.h"
+#include "KT_VectorND.h"
 
 
 int main()
@@ -478,6 +480,123 @@ int main()
 		list = { KT::Node<int>(5),KT::Node<int>(4),KT::Node<int>(3), KT::Node<int>(2),KT::Node<int>(1) };
 		KT::Algorithm::Sort<KT::IntrusiveList<int>, KT::Algorithm::InsertionSort>(list);
 		Test.testresult(list[0].data, 1, "test insertionsort");
+	}
+	{
+		Test_Units Test("Test_VectorND_Constructor");
+		KT::Array<int, 3> DefaultConstructor;
+		Test.testresult(DefaultConstructor[0], 0, "Test_Default value");
+		KT::Array<int, 3>InitialiszeListConstructor{ 1,2,3 };
+		Test.testresult(InitialiszeListConstructor[0], 1, "Test_First value");
+		KT::Array<int, 3>CopyConstructor = InitialiszeListConstructor;
+		Test.testresult(CopyConstructor[2], InitialiszeListConstructor[2], "test_Copy value");
+	}
+	{
+		Test_Units Test("Test_VectorND_Operator");
+		KT::VectorND<int, 3> vectornd{ 1,2,3 };
+		KT::VectorND<int, 3> VectorNdcopy{ 5,5,5 };
+		Test.testresult(vectornd[2], 3, "Test_Operator[]");
+		Test.testresult(vectornd.at(0), 1, "Test_at()");
+		vectornd = VectorNdcopy;
+		Test.testresult(vectornd[0], VectorNdcopy[0], "test_Operator =");
+		vectornd = { 1,2,3 };
+		VectorNdcopy[0] = 100;
+		Test.testresult(VectorNdcopy[0], 100, "test assignation");
+		vectornd = vectornd + VectorNdcopy;
+		Test.testresult(vectornd[0], 101, "test Addition");
+		vectornd = vectornd * 2;
+		Test.testresult(vectornd[0], 202, "test Multiplication");
+	}
+	{
+		Test_Units Test("test_VectorND_Iterator");
+		KT::VectorND<int, 3> IteratorTest{ 5, 1, 3 };
+		Test.testresult(*IteratorTest.begin(), 5, "Test_Iterator_begin");
+		Test.testresult(*IteratorTest.begin(), *(IteratorTest.rend() - 1), "test_Iterator and reverse Iterator");
+		KT::VectorND<int, 3>::reverse_iterator ri = IteratorTest.rbegin();
+		++ri;
+		Test.testresult(*ri, IteratorTest[1], "test_++Operator");
+		KT::VectorND<int, 3>::iterator ni = IteratorTest.end();
+		--ni;
+		Test.testresult(*ni, IteratorTest[2], "test_--Operator");
+	}
+	{
+		Test_Units Test("Test_VectorND_function");
+		KT::VectorND<int, 3> vectornd;
+		Test.testresult(vectornd.Size(), 3, "test_size");
+		Test.testresult(*vectornd.data(), 0, "test data");
+	}
+	{
+		Test_Units Test("Test_VectorND_Algorithm");
+		KT::VectorND<float, 3> vector1{ 1,2,3 };
+		KT::VectorND<float, 3>vector2{ 4,5,6 };
+		auto VectorProduct = KT::Algorithm::VectorProduct(vector1, vector2);
+		Test.testresult(VectorProduct[0], -3, "test vectorProduct");
+		vector1 = { 3,4,12 };
+		auto norme = KT::Algorithm::Norme(vector1);
+		Test.testresult(norme, 13, "test Norme");
+		vector1 = { 6,8,0 };
+		auto normalisation = KT::Algorithm::VectorNormalization(vector1);
+		Test.testresult(normalisation[0], 0.6f, "test Normalisation");
+	}
+
+
+
+
+
+
+
+
+	{
+		Test_Units Test("Test_Matrix_Constructor");
+		KT::Matrix<int,3,3> DefaultConstructor;
+		Test.testresult(DefaultConstructor[0], 0, "Test_Default value");
+		KT::Matrix<int, 3, 3> InitialiszeListConstructor{ 1,2,3,4,5,6,7,8,9 };
+		Test.testresult(InitialiszeListConstructor[0], 1, "Test_First value");
+		KT::Matrix<int, 3, 3>CopyConstructor = InitialiszeListConstructor;
+		Test.testresult(CopyConstructor[2], InitialiszeListConstructor[2], "test_Copy value");
+	}
+	{
+		Test_Units Test("Test_Matrix_Operator");
+		KT::Matrix<int, 3, 3> matrix{ 1,2,3,4,5,6,7,8,9 };
+		KT::Matrix<int, 3, 3> matrixcopy{ 5,5,5,5,5,5,5,5,5 };
+		Test.testresult(matrix[2], 3, "Test_Operator[]");
+		Test.testresult(matrix.at(0), 1, "Test_at()");
+		matrix = matrixcopy;
+		Test.testresult(matrix[0], matrixcopy[0], "test_Operator =");
+		matrix = { 1,2,3,4,5,6,7,8,9 };
+		matrixcopy[0] = 100;
+		Test.testresult(matrixcopy[0], 100, "test assignation");
+		matrix = matrix + matrixcopy;
+		Test.testresult(matrix[0], 101, "test Addition");
+		matrix = matrix * 2;
+		Test.testresult(matrix[0], 202, "test Multiplication");
+	}
+	{
+		Test_Units Test("test_Matrix_Iterator");
+		KT::Matrix<int, 3, 3>  IteratorTest{ 5, 1, 3 ,4,5,6,7,8,9};
+		Test.testresult(*IteratorTest.begin(), 5, "Test_Iterator_begin");
+		Test.testresult(*IteratorTest.begin(), *(IteratorTest.rend() - 1), "test_Iterator and reverse Iterator");
+		KT::Matrix<int, 3, 3> ::reverse_iterator ri = IteratorTest.rbegin();
+		++ri;
+		Test.testresult(*ri, IteratorTest[7], "test_++Operator");
+		KT::Matrix<int, 3, 3> ::iterator ni = IteratorTest.end();
+		--ni;
+		Test.testresult(*ni, IteratorTest[8], "test_--Operator");
+	}
+	{
+		Test_Units Test("Test_Matrix_function");
+		KT::Matrix<int, 3, 3>  matrix{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		Test.testresult(matrix.Size(), 9, "test_size");
+		Test.testresult(*matrix.data(), 1, "test data");
+	}
+	{
+		Test_Units Test("Test_Matrix_Algorithm");
+		KT::Matrix<int, 3, 3> matrix1{ 1,2,3,4,5,6,7,8,9 };
+		KT::Matrix<int, 3, 2> matrix2{ 5,5,5,5,5,5 };
+		auto matrixproduct = KT::Algorithm::MatrixProduct(matrix1, matrix2);
+		Test.testresult(matrixproduct[0], 30, "test MatrixProduct");
+		KT::VectorND<int, 3> vectorNd{ 5,5,5 };
+		auto vectocmatrix = KT::Algorithm::MatrixProduct(matrix1, vectorNd);
+		Test.testresult(vectocmatrix[0], 30, "test Matrix vector product");
 	}
 	return 0;
 }

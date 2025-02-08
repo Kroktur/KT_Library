@@ -382,66 +382,6 @@ namespace KT
             }
             return result;
         }
-
-        /**
-         * @brief Operator + betwen KT::Matrix of same size const
-         * @param KT::Matrix 
-         * @return KT::Matrix
-         */
-        KT::Matrix<type, height, width > operator+(const KT::Matrix<type, height, width >& data) const
-        {
-            KT::Matrix<type, height, width > result;
-            for (size_t i = 0; i < m_data.Size(); ++i)
-            {
-                result[i] = data[i] + m_data[i];
-            }
-            return result;
-        }
-        /**
-         * @brief Operator - betwen KT::Matrix of same size const
-         * @param KT::Matrix
-         * @return KT::Matrix
-         */
-        KT::Matrix<type, height, width > operator-(const KT::Matrix<type, height, width >& data) const
-        {
-            KT::Matrix<type, height, width> result;
-            for (size_t i = 0; i < m_data.Size(); ++i)
-            {
-                result[i] = data[i] - m_data[i];
-            }
-            return result;
-        }
-        /**
-         * @brief Operator * betwen KT::Matrix and int const 
-         * @param int
-         * @return KT::Matrix const 
-         */
-        KT::Matrix<type, height, width > operator*(const int& idx) const
-        {
-            KT::Matrix<type, height, width > result;
-            for (size_t i = 0; i < m_data.Size(); ++i)
-            {
-                result[i] = m_data[i] * idx;
-            }
-            return result;
-        }
-        /**
-        * @brief Operator / betwen KT::Matrix and int const
-        * @param int
-        * @return KT::Matrix const
-        */
-        KT::Matrix<type, height, width > operator/(const int& idx) const
-        {
-            if (idx == 0)
-                throw std::runtime_error("cannot divide by 0");
-            KT::Matrix<type, height, width > result;
-            for (size_t i = 0; i < m_data.Size(); ++i)
-            {
-                result[i] = m_data[i] / idx;
-            }
-            return result;
-        }
-
         /**
          * @brief Operator == betwen KT::Matrix of same size const
          * @param KT::Matrix

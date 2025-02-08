@@ -368,64 +368,6 @@ namespace KT
             return result;
         }
         /**
-        * @brief Operator + betwen KT::VectorND const
-        * @param KT::VectorND
-        * @return KT::VectorND const
-        */
-        KT::VectorND<type, size> operator+(const KT::VectorND<type, size>& data) const 
-        {
-            KT::VectorND<type, size> result;
-            for (size_t i = 0; i < m_data.Size(); ++i)
-            {
-                result[i] = data[i] + m_data[i];
-            }
-            return result;
-        }
-        /**
-       * @brief Operator - betwen KT::VectorND const
-       * @param KT::VectorND
-       * @return KT::VectorND const
-       */
-        KT::VectorND<type, size> operator-(const KT::VectorND<type, size>& data) const
-        {
-            KT::VectorND<type, size> result;
-            for (size_t i = 0; i < m_data.Size(); ++i)
-            {
-                result[i] = data[i] - m_data[i];
-            }
-            return result;
-        }
-        /**
-       * @brief Operator * betwen KT::VectorND const and int
-       * @param KT::VectorND
-       * @return KT::VectorND const
-       */
-        KT::VectorND<type, size> operator*(const int& idx) const
-        {
-            KT::VectorND<type, size> result;
-            for (size_t i = 0; i < m_data.Size(); ++i)
-            {
-                result[i] = m_data[i] * idx;
-            }
-            return result;
-        }
-        /**
-       * @brief Operator / betwen KT::VectorND const and int
-       * @param int
-       * @return KT::VectorND const
-       */
-        KT::VectorND<type, size> operator/(const int& idx) const
-        {
-            if (idx == 0)
-                throw std::runtime_error("cannot divide by 0");
-            KT::VectorND<type, size> result;
-            for (size_t i = 0; i < m_data.Size(); ++i)
-            {
-                result[i] = m_data[i] / idx;
-            }
-            return result;
-        }
-        /**
          * @brief Operator == betwen KT::VectorND const
          * @param KT::VectorND
          * @return bool const

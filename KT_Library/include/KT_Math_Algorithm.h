@@ -146,7 +146,7 @@ namespace KT
 			{
 				for (size_t col = 0; col < width; ++col)
 				{
-					result[i] = rhs[col] * lhs.getCell(i, col);
+					result[i] += rhs[col] * lhs.getCell(i, col);
 				}
 			}
 			return result;
