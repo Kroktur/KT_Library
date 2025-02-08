@@ -920,7 +920,7 @@ namespace KT
 				auto curent = m_node;
 				while (curent != nullptr)
 				{
-					curent = curent->Next;
+					curent = curent->Previous;
 					if (curent == other.m_node)
 						return true;
 
@@ -932,7 +932,7 @@ namespace KT
 				auto curent = m_node;
 				while (curent != nullptr)
 				{
-					curent = curent->Previous;
+					curent = curent->Next;
 					if (curent == other.m_node)
 						return true;
 
@@ -946,7 +946,7 @@ namespace KT
 				{
 					if (curent == other.m_node)
 						return true;
-					curent = curent->Next;
+					curent = curent->Previous;
 				}
 				return false;
 			}
@@ -957,7 +957,7 @@ namespace KT
 				{
 					if (curent == other.m_node)
 						return true;
-					curent = curent->Previous;
+					curent = curent->Next;
 				}
 				return false;
 			}
@@ -1048,7 +1048,7 @@ namespace KT
 				auto curent = m_node;
 				while (curent != nullptr)
 				{
-					curent = curent->Next;
+					curent = curent->Previous;
 					if (curent == other.m_node)
 						return true;
 
@@ -1060,7 +1060,7 @@ namespace KT
 				auto curent = m_node;
 				while (curent != nullptr)
 				{
-					curent = curent->Previous;
+					curent = curent->Next;
 					if (curent == other.m_node)
 						return true;
 
@@ -1074,7 +1074,7 @@ namespace KT
 				{
 					if (curent == other.m_node)
 						return true;
-					curent = curent->Next;
+					curent = curent->Previous;
 				}
 				return false;
 			}
@@ -1085,7 +1085,7 @@ namespace KT
 				{
 					if (curent == other.m_node)
 						return true;
-					curent = curent->Previous;
+					curent = curent->Next;
 				}
 				return false;
 			}

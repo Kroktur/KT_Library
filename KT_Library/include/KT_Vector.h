@@ -737,19 +737,19 @@ namespace KT
             }
             bool operator<(const reverse_iterator& other) const
             {
-                return m_ptr < other.m_ptr;
+                return m_ptr > other.m_ptr;
             }
             bool operator>(const reverse_iterator& other) const
             {
-                return m_ptr > other.m_ptr;
+                return m_ptr < other.m_ptr;
             }
             bool operator<=(const reverse_iterator& other) const
             {
-                return m_ptr <= other.m_ptr;
+                return m_ptr >= other.m_ptr;
             }
             bool operator>=(const reverse_iterator& other) const
             {
-                return m_ptr >= other.m_ptr;
+                return m_ptr <= other.m_ptr;
             }
         private:
             pointer m_ptr;
@@ -819,7 +819,7 @@ namespace KT
             }
             bool operator>(const const_reverse_iterator& other) const
             {
-                return m_ptr > other.m_ptr;
+                return m_ptr < other.m_ptr;
             }
             bool operator<=(const const_reverse_iterator& other) const
             {
@@ -827,7 +827,7 @@ namespace KT
             }
             bool operator>=(const const_reverse_iterator& other) const
             {
-                return m_ptr >= other.m_ptr;
+                return m_ptr <= other.m_ptr;
             }
         private:
             pointer m_ptr;

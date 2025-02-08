@@ -40,6 +40,10 @@ namespace KT
 			type data;
 			Node<type>* Next;
 			Node<type>* Previous;
+			void operator=(const Node& other)
+			{
+				data = other.data;
+			}
 			bool operator==(const Node& other) const
 			{
 				return data == other.data;
@@ -251,7 +255,7 @@ namespace KT
 				++it;
 			}
 			return *it;
-
+			
 		}
 		/**
 		 * @brief get an element const 
@@ -901,15 +905,15 @@ namespace KT
 			using reference = KT::Node<type>&;
 			friend IntrusiveList;
 			reverse_iterator(pointer ptr) : m_node(ptr) {}
-			type& operator*()
-			{
-				return m_node->data;
-			}
-			const reference operator*() const
+			reference operator*()
 			{
 				return *m_node;
 			}
-			 pointer operator->()
+			const reference  operator*() const
+			{
+				return *m_node;
+			}
+			pointer operator->()
 			{
 				return m_node;
 			}
@@ -976,7 +980,7 @@ namespace KT
 				auto curent = m_node;
 				while (curent != nullptr)
 				{
-					curent = curent->Next;
+					curent = curent->Previous;
 					if (curent == other.m_node)
 						return true;
 
@@ -988,7 +992,7 @@ namespace KT
 				auto curent = m_node;
 				while (curent != nullptr)
 				{
-					curent = curent->Previous;
+					curent = curent->Next;
 					if (curent == other.m_node)
 						return true;
 
@@ -1002,7 +1006,7 @@ namespace KT
 				{
 					if (curent == other.m_node)
 						return true;
-					curent = curent->Next;
+					curent = curent->Previous;
 				}
 				return false;
 			}
@@ -1013,7 +1017,7 @@ namespace KT
 				{
 					if (curent == other.m_node)
 						return true;
-					curent = curent->Previous;
+					curent = curent->Next;
 				}
 				return false;
 			}
@@ -1033,7 +1037,7 @@ namespace KT
 			{
 				return *m_node;
 			}
-			const reference operator*() const
+			const reference  operator*() const
 			{
 				return *m_node;
 			}
@@ -1041,7 +1045,7 @@ namespace KT
 			{
 				return m_node;
 			}
-			pointer operator->() const
+			const pointer operator->() const
 			{
 				return m_node;
 			}
@@ -1104,7 +1108,7 @@ namespace KT
 				auto curent = m_node;
 				while (curent != nullptr)
 				{
-					curent = curent->Next;
+					curent = curent->Previous;
 					if (curent == other.m_node)
 						return true;
 
@@ -1116,7 +1120,7 @@ namespace KT
 				auto curent = m_node;
 				while (curent != nullptr)
 				{
-					curent = curent->Previous;
+					curent = curent->Next;
 					if (curent == other.m_node)
 						return true;
 
@@ -1130,7 +1134,7 @@ namespace KT
 				{
 					if (curent == other.m_node)
 						return true;
-					curent = curent->Next;
+					curent = curent->Previous;
 				}
 				return false;
 			}
@@ -1141,7 +1145,7 @@ namespace KT
 				{
 					if (curent == other.m_node)
 						return true;
-					curent = curent->Previous;
+					curent = curent->Next;
 				}
 				return false;
 			}

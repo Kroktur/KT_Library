@@ -51,10 +51,12 @@ namespace KT
 		{
 			if (begin == end)
 				return;
+			auto myval = val;
 			size_t i = 0;
 			for (auto it = begin; it != end; ++it)
 			{
-				val[i] = *it;
+				*myval = *it;
+				++myval;
 				++i;
 			}
 		}
@@ -71,6 +73,26 @@ namespace KT
 			auto type = lhs;
 			lhs = rhs;
 			rhs = lhs;
+		}
+
+		/**
+		 * @brief find an iterator by value
+		 * @tparam Iteator 
+		 * @tparam Value_type 
+		 * @param begin 
+		 * @param end 
+		 * @param val 
+		 * @return Iterator
+		 */
+		template<typename Iteator, typename Value_type>
+		Iteator Find(Iteator begin , Iteator end , const Value_type& val)
+		{
+			for (auto it = begin ; it != end ; ++it)
+			{
+				if (*it == val)
+					return it;
+			}
+			return end;
 		}
 	}
 	
