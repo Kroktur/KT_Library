@@ -187,89 +187,65 @@ namespace KT
         /**
          * @brief return an iterator of the first element
          * @return iterator
-         * @throw out_of_range if empty
          */
         iterator begin()
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return iterator(data());
         }
         /**
         * @brief return an iterator of the last element
         * @return iterator
-        * @throw out_of_range if empty
         */
         iterator end()
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return iterator(data() + size);
         }
         /**
         * @brief return an Const_iterator of the first element
         * @return Const_iterator
-        * @throw out_of_range if empty
         */
         const_iterator begin() const
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return const_iterator(data());
         }
         /**
         * @brief return an Const_iterator of the first element
         * @return Const_iterator
-        * @throw out_of_range if empty
         */
         const_iterator end() const
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return const_iterator(data() + size);
         }
         /**
         * @brief return an Reverse_iterator of the first element
         * @return Reverse_iterator
-        * @throw out_of_range if empty
         */
         reverse_iterator rbegin()
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return reverse_iterator(data() + size - 1);
         }
         /**
         * @brief return an Reverse_iterator of the last element
         * @return Reverse_iterator
-        * @throw out_of_range if empty
         */
         reverse_iterator rend()
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return reverse_iterator(data() - 1);
         }
         /**
         * @brief return an Const_Reverse_iterator of the first element
         * @return Const_Reverse_iterator
-        * @throw out_of_range if empty
         */
         const_reverse_iterator rbegin() const
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return const_reverse_iterator(data() + size - 1);
         }
         /**
         * @brief return an Cont_Reverse_iterator of the last element
         * @return Const_Reverse_iterator
-        * @throw out_of_range if empty
         */
         const_reverse_iterator rend() const
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return const_reverse_iterator(data() - 1);
         }
 

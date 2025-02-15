@@ -174,8 +174,6 @@ namespace KT
          */
         iterator begin()
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return iterator(m_data);
         }
 
@@ -185,8 +183,6 @@ namespace KT
          */
         iterator end()
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return iterator(m_data + size);
         }
 
@@ -196,8 +192,6 @@ namespace KT
          */
         const_iterator begin() const
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return const_iterator(m_data);
         }
 
@@ -207,8 +201,6 @@ namespace KT
          */
         const_iterator end() const
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return const_iterator(m_data + size);
         }
 
@@ -218,8 +210,6 @@ namespace KT
          */
         reverse_iterator rbegin()
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return reverse_iterator(m_data + size - 1);
         }
 
@@ -229,8 +219,6 @@ namespace KT
          */
         const_reverse_iterator rbegin() const
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return const_reverse_iterator(m_data + size - 1);
         }
 
@@ -251,8 +239,6 @@ namespace KT
          */
         const_reverse_iterator rend() const
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return const_reverse_iterator(m_data - 1);
         }
 

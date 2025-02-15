@@ -256,96 +256,72 @@ namespace KT
          * @brief get Iterator on the first element
          * 
          * @return Iterator
-         * @throw out_of_range if empty
          */
         iterator begin()
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return iterator(m_data);
         }
         /**
          * @brief get Iterator on the last element
          *
          * @return Iterator
-         * @throw out_of_range if empty
          */
         iterator end()
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return iterator(m_data + size);
         }
         /**
          * @brief get Iterator on the first element const
          *
          * @return Const_Iterator 
-         * @throw out_of_range if empty
          */
         const_iterator begin() const
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return const_iterator(m_data);
         }
         /**
          * @brief get Iterator on the last element const
          *
          * @return Const_Iterator
-         * @throw out_of_range if empty
          */
         const_iterator end() const
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return const_iterator(m_data + size);
         }
         /**
          * @brief get Iterator on the first element upside down
          *
          * @return Reverse_Iterator
-         * @throw out_of_range if empty
          */
         reverse_iterator rbegin()
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return reverse_iterator(m_data + size - 1);
         }
         /**
          * @brief get Iterator on the last element upside down
          *
          * @return Reverse_Iterator
-         * @throw out_of_range if empty
          */
         reverse_iterator rend()
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return reverse_iterator(m_data - 1);
         }
         /**
          * @brief get Iterator on the first element upside down const
          *
          * @return Const_Reverse_Iterator
-         * @throw out_of_range if empty
          */
         const_reverse_iterator rbegin() const
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return const_reverse_iterator(m_data + size - 1);
         }
         /**
         * @brief get Iterator on the last element upside down const
         *
         * @return Const_Reverse_Iterator
-        * @throw out_of_range if empty
         */
         const_reverse_iterator rend() const
         {
-            if (Empty())
-                throw std::out_of_range("Array is empty");
             return const_reverse_iterator(m_data - 1);
         }
         /**

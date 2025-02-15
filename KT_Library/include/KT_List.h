@@ -295,48 +295,36 @@ namespace KT
 		* @brief get Iterator on the first element
 		*
 		* @return Iterator
-		* @throw out_of_range if empty
 		*/
 		iterator begin()
 		{
-			if (Empty())
-				throw std::out_of_range("Array is empty");
 			return iterator(Head.Next);
 		}
 		/**
 		* @brief get Const_Iterator on the first element
 		*
 		* @return Const_Iterator
-		* @throw out_of_range if empty
 		*/
 		const_iterator begin() const
 		{
-			if (Empty())
-				throw std::out_of_range("Array is empty");
 			return const_iterator(Head.Next);
 		}
 		/**
 		* @brief get Iterator on the last element
 		*
 		* @return Iterator
-		* @throw out_of_range if empty
 		*/
 		iterator end()
 		{
-			if (Empty())
-				throw std::out_of_range("Array is empty");
 			return iterator(&Tail);
 		}
 		/**
 		* @brief get Const_Iterator on the last element
 		*
 		* @return Const_Iterator
-		* @throw out_of_range if empty
 		*/
 		const_iterator end() const
 		{
-			if (Empty())
-				throw std::out_of_range("Array is empty");
 			return const_iterator(&Tail);
 		}
 		/**
@@ -457,48 +445,36 @@ namespace KT
 		* @brief get Reverse_Iterator on the first element
 		*
 		* @return Reverse_Iterator
-		* @throw out_of_range if empty
 		*/
 		reverse_iterator rbegin()
 		{
-			if (Empty())
-				throw std::out_of_range("Array is empty");
 			return reverse_iterator(Tail.Previous);
 		}
 		/**
 		* @brief get Const_Reverse_Iterator on the first element
 		*
 		* @return Const_Reverse_Iterator
-		* @throw out_of_range if empty
 		*/
 		const_reverse_iterator rbegin() const
 		{
-			if (Empty())
-				throw std::out_of_range("Array is empty");
 			return const_reverse_iterator(Tail.Previous);
 		}
 		/**
 		* @brief get Reverse_Iterator on the last element
 		*
 		* @return Reverse_Iterator
-		* @throw out_of_range if empty
 		*/
 		reverse_iterator rend()
 		{
-			if (Empty())
-				throw std::out_of_range("Array is empty");
 			return reverse_iterator(&Head);
 		}
 		/**
 		* @brief get Const_Reverse_Iterator on the last element
 		*
 		* @return Const_Reverse_Iterator
-		* @throw out_of_range if empty
 		*/
 		const_reverse_iterator rend() const
 		{
-			if (Empty())
-				throw std::out_of_range("Array is empty");
 			return const_reverse_iterator(&Head);
 		}
 
