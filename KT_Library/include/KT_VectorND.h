@@ -30,10 +30,14 @@ namespace KT
         using const_pointer = const type*;
         using reference = type&;
         using const_reference = const type&;
-        using reverse_iterator = KT::Array<type,size>::reverse_iterator;
-        using const_reverse_iterator = KT::Array<type, size>::const_reverse_iterator;
-        using iterator = KT::Array<type, size>::iterator;
-        using const_iterator = KT::Array<type, size>::const_iterator;
+        struct iterator;
+        struct const_iterator;
+        struct reverse_iterator;
+        struct const_reverse_iterator;
+        using reverse_iterator = reverse_iterator;
+        using const_reverse_iterator = const_reverse_iterator;
+        using iterator = iterator;
+        using const_iterator = const_iterator;
 
         /**
          * @brief Constructor with initializer_list
@@ -375,6 +379,318 @@ namespace KT
             return result;
         }
 	private:
+        struct iterator {
+            //this iterator compatible with stl
+            using iterator_category = std::random_access_iterator_tag;
+            using value_type = type;
+            using difference_type = std::ptrdiff_t;
+            using pointer = type*;
+            using reference = type&;
+            friend Array;
+            iterator(pointer ptr) : m_ptr(ptr) {}
+            reference operator*()
+            {
+                return *m_ptr;
+            }
+            const reference operator*() const
+            {
+                return *m_ptr;
+            }
+            pointer operator->()
+            {
+                return m_ptr;
+            }
+            const pointer operator->() const
+            {
+                return m_ptr;
+            }
+            iterator& operator++()
+            {
+                ++m_ptr;
+                return *this;
+            }
+            iterator& operator--()
+            {
+                --m_ptr;
+                return *this;
+            }
+            iterator operator+(difference_type n) const
+            {
+                return iterator(m_ptr + n);
+            }
+            iterator operator-(difference_type n) const
+            {
+                return iterator(m_ptr - n);
+            }
+            difference_type operator-(const iterator& other) const
+            {
+                return m_ptr - other.m_ptr;
+            }
+            difference_type operator+(const iterator& other) const
+            {
+                return m_ptr + other.m_ptr;
+            }
+            bool operator==(const iterator& other) const
+            {
+                return m_ptr == other.m_ptr;
+            }
+            bool operator!=(const iterator& other) const
+            {
+                return m_ptr != other.m_ptr;
+            }
+            bool operator<(const iterator& other) const
+            {
+                return m_ptr < other.m_ptr;
+            }
+            bool operator>(const iterator& other) const
+            {
+                return m_ptr > other.m_ptr;
+            }
+            bool operator<=(const iterator& other) const
+            {
+                return m_ptr <= other.m_ptr;
+            }
+            bool operator>=(const iterator& other) const
+            {
+                return m_ptr >= other.m_ptr;
+            }
+        private:
+            pointer m_ptr;
+        };
+        struct const_iterator {
+            //this iterator compatible with stl
+            using iterator_category = std::random_access_iterator_tag;
+            using value_type = const type;
+            using difference_type = std::ptrdiff_t;
+            using pointer = const type*;
+            using reference = const type&;
+            friend Array;
+            const_iterator(pointer ptr) : m_ptr(ptr) {}
+            reference operator*()
+            {
+                return *m_ptr;
+            }
+            const reference operator*() const
+            {
+                return *m_ptr;
+            }
+            pointer operator->()
+            {
+                return m_ptr;
+            }
+            const pointer operator->() const
+            {
+                return m_ptr;
+            }
+            const_iterator& operator++()
+            {
+                ++m_ptr;
+                return *this;
+            }
+            const_iterator& operator--()
+            {
+                --m_ptr;
+                return *this;
+            }
+            const_iterator operator+(difference_type n) const
+            {
+                return iterator(m_ptr + n);
+            }
+            const_iterator operator-(difference_type n) const
+            {
+                return const_iterator(m_ptr - n);
+            }
+            difference_type operator-(const const_iterator& other) const
+            {
+                return m_ptr - other.m_ptr;
+            }
+            difference_type operator+(const const_iterator& other) const
+            {
+                return m_ptr + other.m_ptr;
+            }
+            bool operator==(const const_iterator& other) const
+            {
+                return m_ptr == other.m_ptr;
+            }
+            bool operator!=(const const_iterator& other) const
+            {
+                return m_ptr != other.m_ptr;
+            }
+            bool operator<(const const_iterator& other) const
+            {
+                return m_ptr < other.m_ptr;
+            }
+            bool operator>(const const_iterator& other) const
+            {
+                return m_ptr > other.m_ptr;
+            }
+            bool operator<=(const const_iterator& other) const
+            {
+                return m_ptr <= other.m_ptr;
+            }
+            bool operator>=(const const_iterator& other) const
+            {
+                return m_ptr >= other.m_ptr;
+            }
+        private:
+            pointer m_ptr;
+        };
+        struct reverse_iterator {
+            //this iterator compatible with stl
+            using iterator_category = std::random_access_iterator_tag;
+            using value_type = type;
+            using difference_type = std::ptrdiff_t;
+            using pointer = type*;
+            using reference = type&;
+            friend Array;
+            reverse_iterator(pointer ptr) : m_ptr(ptr) {}
+            reference operator*()
+            {
+                return *m_ptr;
+            }
+            const reference operator*() const
+            {
+                return *m_ptr;
+            }
+            pointer operator->()
+            {
+                return m_ptr;
+            }
+            const pointer operator->() const
+            {
+                return m_ptr;
+            }
+            reverse_iterator& operator++()
+            {
+                --m_ptr;
+                return *this;
+            }
+            reverse_iterator& operator--()
+            {
+                ++m_ptr;
+                return *this;
+            }
+            reverse_iterator operator+(difference_type n) const
+            {
+                return reverse_iterator(m_ptr - n);
+            }
+            reverse_iterator operator-(difference_type n) const
+            {
+                return reverse_iterator(m_ptr + n);
+            }
+            difference_type operator-(const reverse_iterator& other) const
+            {
+                return m_ptr + other.m_ptr;
+            }
+            difference_type operator+(const reverse_iterator& other) const
+            {
+                return m_ptr - other.m_ptr;
+            }
+            bool operator==(const reverse_iterator& other) const
+            {
+                return m_ptr == other.m_ptr;
+            }
+            bool operator!=(const reverse_iterator& other) const
+            {
+                return m_ptr != other.m_ptr;
+            }
+            bool operator<(const reverse_iterator& other) const
+            {
+                return m_ptr > other.m_ptr;
+            }
+            bool operator>(const reverse_iterator& other) const
+            {
+                return m_ptr < other.m_ptr;
+            }
+            bool operator<=(const reverse_iterator& other) const
+            {
+                return m_ptr >= other.m_ptr;
+            }
+            bool operator>=(const reverse_iterator& other) const
+            {
+                return m_ptr <= other.m_ptr;
+            }
+        private:
+            pointer m_ptr;
+        };
+        struct const_reverse_iterator {
+            //this iterator compatible with stl
+            using iterator_category = std::random_access_iterator_tag;
+            using value_type = const type;
+            using difference_type = std::ptrdiff_t;
+            using pointer = const type*;
+            using reference = const type&;
+            friend Array;
+            const_reverse_iterator(pointer ptr) : m_ptr(ptr) {}
+            reference operator*()
+            {
+                return *m_ptr;
+            }
+            const reference operator*() const
+            {
+                return *m_ptr;
+            }
+            pointer operator->()
+            {
+                return m_ptr;
+            }
+            const pointer operator->() const
+            {
+                return m_ptr;
+            }
+            const_reverse_iterator& operator++()
+            {
+                --m_ptr;
+                return *this;
+            }
+            const_reverse_iterator& operator--()
+            {
+                ++m_ptr;
+                return *this;
+            }
+            const_reverse_iterator operator+(difference_type n) const
+            {
+                return const_reverse_iterator(m_ptr - n);
+            }
+            const_reverse_iterator operator-(difference_type n) const
+            {
+                return const_reverse_iterator(m_ptr + n);
+            }
+            difference_type operator-(const const_reverse_iterator& other) const
+            {
+                return m_ptr + other.m_ptr;
+            }
+            difference_type operator+(const const_reverse_iterator& other) const
+            {
+                return m_ptr - other.m_ptr;
+            }
+            bool operator==(const const_reverse_iterator& other) const
+            {
+                return m_ptr == other.m_ptr;
+            }
+            bool operator!=(const const_reverse_iterator& other) const
+            {
+                return m_ptr != other.m_ptr;
+            }
+            bool operator<(const const_reverse_iterator& other) const
+            {
+                return m_ptr > other.m_ptr;
+            }
+            bool operator>(const const_reverse_iterator& other) const
+            {
+                return m_ptr < other.m_ptr;
+            }
+            bool operator<=(const const_reverse_iterator& other) const
+            {
+                return m_ptr >= other.m_ptr;
+            }
+            bool operator>=(const const_reverse_iterator& other) const
+            {
+                return m_ptr <= other.m_ptr;
+            }
+        private:
+            pointer m_ptr;
+        };
         KT::Array<type, size> m_data;
 	};
 }
